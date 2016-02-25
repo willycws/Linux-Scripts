@@ -6,7 +6,7 @@ Elasticsearch install
 	b. node.name: "My First Node"
 	c. index.number_of_shards: 1
 	d. index.number_of_replicas: 0
-	e. path.data: /home/osboxes/Documents/elasticsearch-index
+	e. path.data: ~/Documents/elasticsearch-index
 	f. network.bind_host: localhost
 	g. http.cors.enabled: true
 4. Start/Stop Elasticsearch: sudo /etc/init.d/elasticsearch start or stop 
