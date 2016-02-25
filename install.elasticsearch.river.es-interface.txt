@@ -27,3 +27,19 @@ curl -XPUT 'http://localhost:9200/_river/mongodb/_meta' -d '{
   }'
 	d. Access to track the elasticsearch is indexing from mongodb http://localhost:9200/_plugin/river-mongodb/
 	e. A last replicated datetime stamp will be indicated on the page.
+
+Install ElasticSearch interface
+1. Configuration location file
+	$ /etc/nginx/sites-available/default
+
+2. Download sample project
+	https://github.com/royrusso/elasticsearch-HQ
+
+3. Add a location entry into default
+$ nano default
+	location /elasticsearch {
+                alias ~/Documents/elasticsearch-index/resources/royrusso-elasticsearch-HQ-fe18bc4;
+        }
+
+4. Restart the nginx server
+	$ service nginx restart
