@@ -6,7 +6,7 @@ Everything on Linux, installation, database scripts
 - Nginx
 - MongoDB River
 - Java JDK
-- 
-##Links
+
+#Links
 ######Elasticsearc
 - http://www.elasticsearchtutorial.com/elasticsearch-in-5-minutes.html
