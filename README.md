@@ -5,3 +5,4 @@ Everything on Linux, installation, database scripts
 - Sharepoint
 - Nginx
 - MongoDB River
+- Java JDK
