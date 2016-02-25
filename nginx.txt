@@ -1,13 +1,16 @@
 Deploying static content to nginx server
 
--configuration location file
+-Configuration location file
 	$ /etc/nginx/sites-available/default
 
-Add a location entry into default
+-Download sample project
+	https://github.com/royrusso/elasticsearch-HQ
+
+- Add a location entry into default
 $ nano default
 	location /elasticsearch {
-                alias /home/osboxes/Documents/elasticsearch-index/resources/royrusso-elasticsearch-HQ-fe18bc4;
+                alias ~/Documents/elasticsearch-index/resources/royrusso-elasticsearch-HQ-fe18bc4;
         }
 
--restart the nginx server
+-Restart the nginx server
 	$ service nginx restart
