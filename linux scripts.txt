@@ -24,3 +24,12 @@ sudo mv ~/testing /mnt/testing
 Change read/write permission on folders
 ----------------------------------------
 sudo chmod 777 -R foldername
+
+Find pid to kill
+----------------
+ps -ef|grep tomcat
+sudo kill -9 pid
+
+Tail a very long log file
+-------------------------
+tail -500f logging.log
