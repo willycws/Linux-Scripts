@@ -8,5 +8,5 @@ Everything on Linux, installation, database scripts
 - Java JDK
 
 #Links
-######Elasticsearc
+######Elasticsearch
 - http://www.elasticsearchtutorial.com/elasticsearch-in-5-minutes.html
