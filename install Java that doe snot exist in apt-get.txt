@@ -1,0 +1,28 @@
+To add our PPA and install the latest Oracle Java 8 in Ubuntu 15.04, 14.10, 14.04 and 12.04 or Linux Mint 17.1, 17 and 13, use the commands below:
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+
+After the installation finishes, if you wish to see if it was successful, you can run the following command:
+java -version
+
+It should return:
+java version "1.8.0_76"
+Java(TM) SE Runtime Environment (build 1.8.0_76-b13)
+Java HotSpot(TM) 64-Bit Server VM (build 24.76-b04, mixed mode)
+
+If for some reason, the Java version in use is not 1.8.0, you can try to run the following command:
+sudo update-java-alternatives -s java-8-oracle
+
+To automatically set up the Java 8 environment variables, you can install the following package:
+sudo apt-get install oracle-java8-set-default
+
+Removing Oracle Java 8
+sudo apt-get remove oracle-java8-installer
+
+Add Java to envrionment variables
+sudo nano /etc/environment
+- JAVA_HOME=/usr/lib/jvm/java-8-oracle
+- Append to PATH variable: $JAVA_HOME/bin
+Save the file
+source /etc/environment
