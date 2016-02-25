@@ -1,0 +1,179 @@
+Delete an index from elasticsearch
+curl -XDELETE 'http://localhost:9200/xxx/' where xxx is the index name
+
+To modify elasticsearch config file
+sudo nano /etc/elasticsearch/elasticsearch.yml
+add http.cors.enabled: true at the end of the yml file
+
+To start/stop the elasticsearch server in ubuntu
+sudo service elasticsearch start
+sudo service elasticsearch stop
+
+To remove an unused indices from Elasticsearch
+-execute the command in terminal curl -XDELETE 'http://localhost:9200/xxx/' where xxx is the indices name
+
+To run the Elasticsearch UI
+-make sure the nginx server is running
+-browser enter http://localhost/elasticsearch/
+
+Elastic search queries
+
+Full text search on content field with brown, chocolate must exists together
+{
+  "query": {
+    "match": {
+      "content": {
+        "query": "BROWN chocolate!",
+        "operator": "and"
+      }
+    }
+  }
+}
+
+
+The match query supports the minimum_should_match parameter, which allows you to specify the number of terms that must match for a document to be considered relevant. 
+{
+  "query": {
+    "match": {
+      "content": {
+        "query": "BROWN blue!",
+        "minimum_should_match": "100%"
+      }
+    }
+  }
+}
+
+
+The content must contain quick and must not contain lazy. However a document is not required to contain either brown or dog, but if it does, then it should be considered more relevant
+{
+  "query": {
+    "bool": {
+      "must": {
+        "match": {
+          "content": "quick"
+        }
+      },
+      "must_not": {
+        "match": {
+          "content": "lazy"
+        }
+      },
+      "should": [
+        {
+          "match": {
+            "content": "brown"
+          }
+        },
+        {
+          "match": {
+            "content": "dog"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+Because there are only three clauses, the minimum_should_match value of 75% in the match query is rounded down to 2. At least two out of the three should clauses must match.
+{
+  "bool": {
+    "should": [
+      { "term": { "title": "brown" }},
+      { "term": { "title": "fox"   }},
+      { "term": { "title": "quick" }}
+    ],
+    "minimum_should_match": 2 
+  }
+}
+
+
+But what if we want to give more weight to the docs that contain Lucene and even more weight to the docs containing Elasticsearch?
+We can control the relative weight of any query clause by specifying a boost value, which defaults to 1. A boost value greater than 1 increases the relative weight of that clause.
+{
+    "query": {
+        "bool": {
+            "must": {
+                "match": {  
+                    "content": {
+                        "query":    "full text search",
+                        "operator": "and"
+                    }
+                }
+            },
+            "should": [
+                { "match": {
+                    "content": {
+                        "query": "Elasticsearch",
+                        "boost": 3 
+                    }
+                }},
+                { "match": {
+                    "content": {
+                        "query": "Lucene",
+                        "boost": 2 
+                    }
+                }}
+            ]
+        }
+    }
+}
+
++Manually index a document into Elastic index+
+----------------------------------------------
+
+-->create a new index 'recipes' and its properties
+$ curl -XPOST 'http://localhost:9200/recipes/' -d '{    
+    "settings" : {
+        "number_of_shards" : 1
+    },
+    "mappings" : {
+        "recipe" : {
+            "properties" : {
+                "sales_name" : { "type" : "string" },
+                "ingredients" : 
+{"type" : "string", "index" : "not_analyzed"},
+          "craft" : {"type": "string", "index" : "not_analyzed"}
+            }
+        }
+    }
+}'
+
+-->load multiple recipe type to recipes index
+$ curl -XPOST 'http://localhost:9200/recipes/recipe/_bulk' -d '    
+{ "index": {}}
+{"sales_name":"pizza Margherita", "ingredients": ["flour", "water", "tomato", "mozzarella", "yeast", "salt"], "craft":"baker"}
+{ "index": {}}
+{"sales_name":"kaiser roll", "ingredients": ["flour", "yeast", "malt", "water", "salt"], "craft":"baker"}
+{ "index": {}}
+{"sales_name":"focaccia", "ingredients": ["flour", "yeast", "olive oil", "water", "salt"], "craft":"baker"}
+{ "index": {}}
+{"sales_name":"Sacher Torte", "ingredients": ["flour", "water", "sugar", "eggs", "chocolate", "apricot jam"], "craft":"baker"}
+{ "index": {}}
+{"sales_name":"bratwurst", "ingredients": ["pork", "veal", "water", "salt"], "craft":"butcher"}
+{ "index": {}}
+{"sales_name":"hamburger", "ingredients": ["beef", "bread", "pepper", "salt"], "craft":"butcher"}
+{ "index": {}}
+{"sales_name":"salami", "ingredients": ["pork", "pork fat", "pepper", "salt"], "craft":"butcher"}
+'
+
+-->search the recipe index
+curl -XGET 'http://localhost:9200/recipes/_search?search_type=count&pretty=true' -d '
+{
+  "query": {"term": {"craft":"baker"}}, 
+  "aggs": {
+    "bestMatch": {
+      "terms": {
+        "field": "ingredients",
+        "min_doc_count": 2
+      }
+    }
+  }
+}
+'
+
+-->add 
+curl -XPOST 'http://localhost:9200/recipes/recipe/_bulk' -d '
+{name: “Heinz”, craft:”butcher”, language:”de”}
+{name: “Giorgio”, craft:”baker”, language:”it”}
+'
