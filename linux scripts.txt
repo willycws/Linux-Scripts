@@ -1,0 +1,18 @@
+Add a new environment variables
+-------------------------------
+sudo nano /etc/environment
+- JAVA_HOME=/usr/lib/jvm/java-8-oracle
+- Append to PATH variable: $JAVA_HOME/bin
+Save the file
+source /etc/environment
+
+Mount a shared drive to Ubuntu
+------------------------------
+sudo mkdir /mnt/10.22.4.2/
+sudo nano /etc/fstab
+add the this entry //10.22.4.2/RnD /mnt/10.22.4.2/ cifs username=xxxxx.xxx,password=xxxxxx 0 0
+sudo mount -a
+
+Remove the software update notification (GUI) from Ubuntu
+---------------------------------------------------------
+sudo apt-get remove update-notifier
