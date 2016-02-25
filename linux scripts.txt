@@ -8,9 +8,9 @@ source /etc/environment
 
 Mount a shared drive to Ubuntu
 ------------------------------
-sudo mkdir /mnt/10.22.4.2/
+sudo mkdir /mnt/xx.xx.x.x/
 sudo nano /etc/fstab
-add the this entry //10.22.4.2/RnD /mnt/10.22.4.2/ cifs username=xxxxx.xxx,password=xxxxxx 0 0
+add the this entry //xx.xx.x.x/RnD /mnt/xx.xx.x.x/ cifs username=xxxxx.xxx,password=xxxxxx 0 0
 sudo mount -a
 
 Remove the software update notification (GUI) from Ubuntu
