@@ -1,0 +1,228 @@
+db.post.find(
+    {
+      twitter: {
+              id: "585367960081956866"
+            }
+    }
+) 
+
+
+db.post.find({
+    dateTimePosted: {
+        $gte: ISODate("2015-04-07T09:00:00.000Z"),
+        $lt: ISODate("2015-04-07T10:00:00.000Z")
+    }
+})
+
+
+> /mnt/hgfs/WindowsD/Project/Linux/HorizonScannerComparisionStudy/TA_Replacement/cron.log 2>&1
+/usr/lib/jvm/java-7-openjdk-i386/
+
+openjdk-7-jdk
+
+db.post.find(
+    {
+      twitter: {
+              id: "585366401013194752"
+            }
+    }
+).explain("allPlansExecution")
+
+
+db.post.find(
+{
+    "twitter.id": {$in: ["347020986987716608"]}
+    
+}
+
+)
+
+
+
+db.post.find(
+{
+    $and: [
+        {dateTimePosted: {
+            $gte: ISODate("2015-08-05T04:00:00.000Z"),
+            $lt: ISODate("2015-08-05T08:00:00.000Z")
+        }},
+        {events_btm:{$exists:true}}
+    ]
+}
+)
+
+
+
+db.post.update(
+   {
+    $and: [
+        {dateTimePosted: {
+            $gte: ISODate("2015-08-05T04:00:00.000Z"),
+            $lt: ISODate("2015-08-05T08:00:00.000Z")
+        }},
+        {events_btm:{$exists:true}}
+    ]
+},
+   { $unset: { events_btm: "" } }
+)
+
+
+db.event_btm.remove({
+  startDate: ISODate("2015-08-11T08:00:00.000Z")
+})
+
+db.event_ta.find(
+{
+    $and: [
+        {startDate: ISODate("2015-08-12T05:00:00.000Z")},
+        {endDate:ISODate("2015-08-12T06:00:00.000Z")},
+        {engine:"btm"}
+    ]
+}
+)
+
+db.event_ta.find(
+{
+    $and:[
+        {"startDate": ISODate("2015-08-21T07:00:00.000Z")},
+        {"engine": 'btm'}
+    ]  
+}
+).sort( { rank: 1 } )
+
+
+db.post.find(
+{
+    $and: [
+        {"_id": {$in: ['2015-08-24_1331365770_6366670083_a18834638697']}
+        },
+        {"profile.influenceScore":{$exists:true}},
+        {"profile.influenceScore":{$gt:0}}
+    ] 
+}
+)
+
+
+
+db.post.find(
+{
+    $and: [
+        {dateTimePosted: {
+            $gte: ISODate("2015-09-01T00:00:00.000Z"),
+            $lt: ISODate("2015-09-01T02:00:00.000Z")
+        }},
+        {events_btm:{$exists:true}},
+        {events: {$in: ['darren itsshowtime','itsshowtime darren']}}
+    ]
+}
+).forEach(function(thing){
+print(thing.events_btm);
+});
+
+
+db.event_ta.find(
+{
+    $and: [
+        {startDate: {
+            $gte: ISODate("2015-08-31T20:00:00.000Z"),
+            $lte: ISODate("2015-09-01T02:00:00.000Z")
+        }},
+        {engine: 'btm'},
+        {name:{$in: ['itsshowtime darren forget','cheers itsshowtime darren','itsshowtime darren forget','nman darren lang','rich kind itsshowtime','amazing itsshowtime darren','amazing itsshowtime darren','cheers itsshowtime darren','cheers itsshowtime darren','team vibes','team vibes','nman darren lang','itsshowtime darren forget','rich kind itsshowtime','itsshowtime darren forget','itsshowtime darren happy','amazing itsshowtime darren','itsshowtime darren happy','affects eternity influence','itsshowtime darren happy','affects eternity influence','affects eternity influence','team vibes','amazing itsshowtime darren','itsshowtime darren happy','cheers itsshowtime darren','cheers itsshowtime darren','nman darren lang','itsshowtime darren forget','team vibes','cheers itsshowtime darren','team vibes','itsshowtime darren forget']}}
+    ]
+}
+).forEach(function(thing){
+print(thing.rank);
+});
+
+
+//copy from one collection to another
+db.post.aggregate([ {
+    $match: { 
+        dateTimePosted: {
+            $gte: ISODate("2015-04-07T09:00:00.000Z"),
+            $lt: ISODate("2015-04-07T10:00:00.000Z")
+        } 
+    } 
+}, { $out: "presale_post" } ]);
+
+
+db.event_ta.aggregate([ {
+    $match: { 
+        startDate: {
+            $gte: ISODate("2015-04-07T09:00:00.000Z"),
+            $lte: ISODate("2015-04-07T10:00:00.000Z")
+        } 
+    } 
+}, { $out: "presale_event_ta" } ]);
+
+//update the collection with a new element if the element does not exists
+//third argument refers to the upsert argument
+//4th argument refers to the multi update argument
+db.presale_post.update(
+   {dateTimePosted: {
+            $gte: ISODate("2015-04-07T09:00:00.000Z"),
+            $lt: ISODate("2015-04-07T10:00:00.000Z")
+        }}, 
+    {$set: {"channel_ids": ["46229"]}}, false, true);
+
+
+//update the collection with a new element if the element does not exists
+//third argument refers to the upsert argument
+//4th argument refers to the multi update argument
+db.presale_event_ta.update(
+   {startDate: {
+            $gte: ISODate("2015-04-07T09:00:00.000Z"),
+            $lte: ISODate("2015-04-07T10:00:00.000Z")
+        } }, 
+    {$set: {"channel_ids": ["46229"]}}, false, true);
+
+
+db.getCollection('post').find({
+    "twitter.id":{$in: ['678782681035894784','678783150533705728']}
+    
+    })
+
+
+
+db.getCollection('event_ta').find({
+    $and: [
+        {startDate: {
+            $gte: ISODate("2015-11-07T00:00:00.000Z"),
+            $lte: ISODate("2015-11-07T23:59:59.000Z")
+        }},
+        {engine:"btm"},
+        {name: {$in: ['adele actual recording']}}
+    ]    
+    })
+
+
+db.getCollection('ViralityAlert').find({
+    $and: [
+        {alertTime: {
+            $gte: ISODate("2015-11-01T00:00:00.000Z"),
+            $lte: ISODate("2015-11-30T23:59:59.000Z")
+        }},
+        {event: {$in: ['adele actual recording']}}
+    ]    
+    
+    })
+
+
+
+db.getCollection('TrainingEvent').renameCollection("TrainingEvent_actual_backup_2016_01_20");
+db.getCollection('TrainingEvent_backup_2016_01_15').renameCollection("TrainingEvent");
+
+
+    
+db.getCollection('post').find({
+    $and: [
+        {startDate: {
+            $gte: ISODate("2016-01-20T00:00:00.000Z"),
+            $lte: ISODate("2016-01-20T08:00:00.000Z")
+        }},
+        {events_btm:{$exists:true}},
+        {events_btm: {$in: ['suicide squad']}}
+    ]
+    
+    })
