@@ -16,3 +16,11 @@ sudo mount -a
 Remove the software update notification (GUI) from Ubuntu
 ---------------------------------------------------------
 sudo apt-get remove update-notifier
+
+Copy folder from one location to another
+----------------------------------------
+sudo mv ~/testing /mnt/testing
+
+Change read/write permission on folders
+----------------------------------------
+sudo chmod 777 -R foldername
