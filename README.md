@@ -13,3 +13,7 @@ Everything on Linux, installation, database scripts
 
 ######Recommender System
 - http://www.kdd.org/kdd2014/tutorials/KDD%20-%20The%20Recommender%20Problem%20Revisited.pdf
+
+######Neo4J
+- https://github.com/mirkonasato/graphipedia
+
