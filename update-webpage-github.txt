@@ -1,12 +1,12 @@
 // Retrieve a copy of your GitHub repo.  
-git clone https://github.com/user/repository.git
+git clone https://github.com/user/repository.git repository
 // Move into that directory.
 cd repository
 git checkout --orphan gh-pages
 git rm -rf .
 //add the pages to the folder
 git add .
-git commit -a -m "Adding pages"
+git commit -a -m "First Commit"
 git push origin gh-pages
 
 //access the webpage
