@@ -1,0 +1,32 @@
+Remove MongoDB sharding from sharding cluster
+---------------------------------------------
+
+1. Access the mongo shell from the main mongoDb server ./mongo -u xxxx -p 'password'
+2. use admin
+3. try to execute db.adminCommand( { listShards: 1 } ) --> if it states taht not authorized, then have to kill all the mongodb process, including sharding
+4. From the main mongodb server, kill the mongodb processes 
+        ps -ef|grep mongo
+        kill -9 processID
+5. Using the main server, ssh into the sharding servers (if no AWS public address is available)
+        ssh -i ~/key.pem username@sharding-server-ip-address
+6. Kill the mongo process in the sharding server and start the mongo sharding without authentication
+        ps -ef|grep mongo
+        kill -9 processID
+        sh startMongodbConfigServer.sh
+7. Exit the ssh connection and do step 5 and 6 for the rest of the sharding server
+8. In the main mongodb server, start the startMongod.shcd and startMongos.sh without authentication
+
+
+Note:
+Main mongodb server
+-------------------
+startMongod.sh - nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod  --replSet "rs0" --dbpath /mnt/data/db  --port 27018 > /dev/null &
+startMongos.sh - nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --configdb private-ip-address-1:27019,private-ip-address-2:27019,private-ip-address-3:27019  --port 27017 > /dev/null &
+startMongodAuth.sh - nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --keyFile ~/mongodb-keyfile --replSet "rs0" --dbpath /mnt/data/db  --port 27018 > /dev/null &
+startMongosAuth.sh - nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --keyFile ~/mongodb-keyfile --configdb private-ip-address-1:27019,private-ip-address-2:27019,private-ip-address-3:27019 --port 27017 > /dev/null &
+mongodb-keyfile - contain cipherpassword
+
+Sharding server
+---------------
+startMongodbConfigServerAuth.sh - nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --keyFile ~/mongodb-keyfile --configsvr --dbpath /mnt/data/configdb  --port 27019 > /dev/null &
+startMongodbConfigServer.sh - nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --configsvr --dbpath /mnt/data/configdb  --port 27019 > /dev/null &
