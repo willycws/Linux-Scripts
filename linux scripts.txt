@@ -34,3 +34,6 @@ Tail a very long log file
 -------------------------
 tail -500f logging.log
 
+Locate a file containing yml
+----------------------------
+sudo locate *yml
