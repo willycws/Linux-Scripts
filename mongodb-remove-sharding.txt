@@ -14,7 +14,11 @@ Remove MongoDB sharding from sharding cluster
         kill -9 processID
         sh startMongodbConfigServer.sh
 7. Exit the ssh connection and do step 5 and 6 for the rest of the sharding server
-8. In the main mongodb server, start the startMongod.shcd and startMongos.sh without authentication
+8. In the main mongodb server, start the startMongod.sh and startMongos.sh without authentication
+9. cd to ~/mongodb-linux-x86_64-2.6.0/bin/
+10. Launch mongo shell ./mongo -u xxxx -p 'password'
+11. use admin
+12. 
 
 
 Note:
