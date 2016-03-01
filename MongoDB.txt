@@ -231,3 +231,8 @@ db.getCollection('post').find({
     db.getCollection('User').find({
         emailAddress:  /xxx.com/
     })
+    
+//find user that does not contain xxx.com    
+db.getCollection('User').find({
+    emailAddress: {$not: /xxx.com/}
+})
