@@ -1,23 +1,24 @@
 Remove MongoDB sharding from sharding cluster
 ---------------------------------------------
 
-1. Access the mongo shell from the main mongoDb server ./mongo -u xxxx -p 'password'
-2. use admin
-3. try to execute db.adminCommand( { listShards: 1 } ) --> if it states taht not authorized, then have to kill all the mongodb process, including sharding
-4. From the main mongodb server, kill the mongodb processes 
+1. Use Robomongo to backup at least 6 mths worth of data to another collection 
+2. Access the mongo shell from the main mongoDb server ./mongo -u xxxx -p 'password'
+3. use admin
+4. try to execute db.adminCommand( { listShards: 1 } ) --> if it states taht not authorized, then have to kill all the mongodb process, including sharding
+5. From the main mongodb server, kill the mongodb processes 
         ps -ef|grep mongo
         kill -9 processID
-5. Using the main server, ssh into the sharding servers (if no AWS public address is available)
+6. Using the main server, ssh into the sharding servers (if no AWS public address is available)
         ssh -i ~/key.pem username@sharding-server-ip-address
-6. Kill the mongo process in the sharding server and start the mongo sharding without authentication
+7. Kill the mongo process in the sharding server and start the mongo sharding without authentication
         ps -ef|grep mongo
         kill -9 processID
         sh startMongodbConfigServer.sh
-7. Exit the ssh connection and do step 5 and 6 for the rest of the sharding server
-8. In the main mongodb server, start the startMongod.sh and startMongos.sh without authentication
-9. cd to ~/mongodb-linux-x86_64-2.6.0/bin/
-10. Launch mongo shell ./mongo -u xxxx -p 'password'
-11. use admin
+8. Exit the ssh connection and do step 5 and 6 for the rest of the sharding server
+9. In the main mongodb server, start the startMongod.sh and startMongos.sh without authentication
+10. cd to ~/mongodb-linux-x86_64-2.6.0/bin/
+11. Launch mongo shell ./mongo -u xxxx -p 'password'
+12. use admin
 12. 
 
 
