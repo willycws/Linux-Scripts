@@ -226,3 +226,8 @@ db.getCollection('post').find({
     ]
     
     })
+    
+    //find user that contain xxx.com
+    db.getCollection('User').find({
+        emailAddress:  /xxx.com/
+    })
