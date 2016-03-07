@@ -1,0 +1,11 @@
+Excel - To replace cell contain with a :
+1. CTRL + F
+2. Go to Replace tab
+3. String to replace * with :
+4. Click Replace All
+
+Excel - to replace cell contain with a breakline for each comma
+1. CTRL + F
+2. Go to Replace tab
+3. String to replace , with CTRL + SHIFT + J
+4. Click Replace All
