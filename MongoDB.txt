@@ -236,3 +236,17 @@ db.getCollection('post').find({
 db.getCollection('User').find({
     emailAddress: {$not: /xxx.com/}
 })
+
+
+db.getCollection('post').find({    
+    $and: [
+        {dateTimePosted: {
+            $gte: ISODate("2015-07-07T09:00:00.000Z"),
+            $lt: ISODate("2015-07-08T08:59:59.000Z")
+        }},
+        {'source.id': "twitter.com"},
+        {content: /car/},
+        {content: {$in: [/park/,/coupon/]}}
+    ]
+    
+}).count();
