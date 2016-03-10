@@ -8,3 +8,10 @@ Installing MongoDB (using terminal)
           ./mongod --dbpath ~/mongodb/data/db
 6. CTRL+C to exit from mongod      
 
+Create a keyfile
+1. openssl rand -base64 741 > ~/mongodb-linux-x86_64-2.6.0/mongodb-keyfile
+2. cd ~/mongodb-linux-x86_64-2.6.0
+3. chmod 600 mongodb-keyfile
+
+Setting up new replica set with access control
+1. 
