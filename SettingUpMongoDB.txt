@@ -94,12 +94,12 @@ nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --configdb <ip_address>:27019,<ip_
 Start MongoDB config server
 ---------------------------
 startMongodAuthConfig1.sh
-nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config1/bin/mongod --keyFile ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config1/mongodb-keyfile  --dbpath ~/mongodb/data/dbconfig1  --port 27021 > ~/nohup/nohup &
+nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config1/bin/mongod --keyFile ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config1/mongodb-keyfile  --dbpath ~/mongodb/data/dbconfig1  --configsvr --port 27021 > ~/nohup/nohup &
 
 startMongodAuthConfig2.sh
-nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config2/bin/mongod --keyFile ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config2/mongodb-keyfile  --dbpath ~/mongodb/data/dbconfig2  --port 27022 > ~/nohup/nohup &
+nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config2/bin/mongod --keyFile ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config2/mongodb-keyfile  --dbpath ~/mongodb/data/dbconfig2 --configsvr --port 27022 > ~/nohup/nohup &
 
 startMongodAuthConfig3.sh
-nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config3/bin/mongod --keyFile ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config3/mongodb-keyfile  --dbpath ~/mongodb/data/dbconfig3  --port 27023 > ~/nohup/nohup &
+nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config3/bin/mongod --keyFile ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config3/mongodb-keyfile  --dbpath ~/mongodb/data/dbconfig3 --configsvr --port 27023 > ~/nohup/nohup &
 
 
