@@ -1,0 +1,10 @@
+Installing MongoDB (using terminal)
+1. Download the mongodb tgz package mongodb-linux-x86_64-2.6.0.tgz
+2. Untar the package to ~/mongodb-linux-x86_64-2.6.0
+3. create a /data/db directory. You may create it in another location: ~/mongodb/data/db
+4. Change the ~/mongodb permission: sudo chmod 775 -R ~/mongodb
+5. Try running the mongod instance: 
+          cd ~/mongodb-linux-x86_64-2.6.0/bin
+          ./mongod --dbpath ~/mongodb/data/db
+6. CTRL+C to exit from mongod      
+
