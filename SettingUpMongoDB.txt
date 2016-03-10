@@ -47,6 +47,10 @@ Setting up new replica set with access control
                               {
                                         role: "dbOwner",
                                         db: "test"
+                              },
+                              {
+                                        role: "readWrite",
+                                        db: "test"
                               }
                     ]
           }
