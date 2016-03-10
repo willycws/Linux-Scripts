@@ -66,6 +66,14 @@ Create Config Server (is to handle request from user and route the request to wh
           ~/mongodb/data/dbconfig1
           ~/mongodb/data/dbconfig2
           ~/mongodb/data/dbconfig3
+3. chmod 775 -R ~/mongodb-config-servers
+4. chmod 600 ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config1/mongodb-keyfile
+5. chmod 600 ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config2/mongodb-keyfile
+6. chmod 600 ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config3/mongodb-keyfile
+7. startup the config server 
+          ./startMongodAuthConfig1.sh
+          ./startMongodAuthConfig2.sh
+          ./startMongodAuthConfig3.sh
 
 Start main MongoDB server
 -------------------------
