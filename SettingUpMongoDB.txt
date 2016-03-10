@@ -14,7 +14,15 @@ Create a keyfile
 3. chmod 600 mongodb-keyfile
 
 Setting up new replica set with access control
-1. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup &
+1. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
+2. cd ~/mongodb-linux-x86_64-2.6.0/bin
+3. ./mongo
+4. use admin
+5. db.createUser({
+          user: "admin",
+          pwd: "pass****",
+          roles: [{role: "userAdminAnyDatabase", db: "admin"}]
+});
 
 
 
