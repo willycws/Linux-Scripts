@@ -56,9 +56,16 @@ Setting up new replica set with access control
           }
           )
 
-Create Sharding
----------------
-
+Create Config Server (is to handle request from user and route the request to which shards)
+-------------------
+1. Copy 3 sets of mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and label each folder accordingly.
+          mongodb-linux-x86_64-2.6.0-config1
+          mongodb-linux-x86_64-2.6.0-config2
+          mongodb-linux-x86_64-2.6.0-config3
+2. Create a data/db folder for each of the config server
+          ~/mongodb/data/dbconfig1
+          ~/mongodb/data/dbconfig2
+          ~/mongodb/data/dbconfig3
 
 Start main MongoDB server
 -------------------------
@@ -75,5 +82,16 @@ nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --keyFile ~/mongodb-linux-x86_64-2
 
 ~/mongodb-linux-x86_64-2.6.0/startMongos.sh (without authentication)
 nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --configdb <ip_address>:27019,<ip_address>:27019,<ip_address>:27019  --port 27017 > ~/nohup/nohup &
+
+Start MongoDB config server
+---------------------------
+startMongodAuthConfig1.sh
+nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config1/bin/mongod --keyFile ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config1/mongodb-keyfile  --dbpath ~/mongodb/data/dbconfig1  --port 27021 > ~/nohup/nohup &
+
+startMongodAuthConfig2.sh
+nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config2/bin/mongod --keyFile ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config2/mongodb-keyfile  --dbpath ~/mongodb/data/dbconfig2  --port 27022 > ~/nohup/nohup &
+
+startMongodAuthConfig3.sh
+nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config3/bin/mongod --keyFile ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config3/mongodb-keyfile  --dbpath ~/mongodb/data/dbconfig3  --port 27023 > ~/nohup/nohup &
 
 
