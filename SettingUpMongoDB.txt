@@ -14,4 +14,22 @@ Create a keyfile
 3. chmod 600 mongodb-keyfile
 
 Setting up new replica set with access control
-1. 
+1. Startup the mongod 
+
+Start main MongoDB server
+-------------------
+~/mongodb-linux-x86_64-2.6.0/startMongodAuth.sh (with authentication)
+nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --keyFile ~/mongodb-linux-x86_64-2.6.0/mongodb-keyfile --replSet "rs0" --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup &
+
+~/mongodb-linux-x86_64-2.6.0/startMongod.sh (without authentication)
+nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod  --replSet "rs0" --dbpath ~/mongodb/data/db  --port 27017 > ~/nohup &
+
+Start MongoDB sharding
+----------------
+~/mongodb-linux-x86_64-2.6.0/startMongosAuth.sh (with authentication)
+nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --keyFile ~/mongodb-linux-x86_64-2.6.0/mongodb-keyfile --configdb <ip_address>:27019,<ip_address>:27019,<ip_address>:27019  --port 27017 > ~/nohup &
+
+~/mongodb-linux-x86_64-2.6.0/startMongos.sh (without authentication)
+nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --configdb <ip_address>:27019,<ip_address>:27019,<ip_address>:27019  --port 27017 > ~/nohup &
+
+
