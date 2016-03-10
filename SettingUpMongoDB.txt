@@ -23,8 +23,34 @@ Setting up new replica set with access control
           pwd: "pass****",
           roles: [{role: "userAdminAnyDatabase", db: "admin"}]
 });
-
-
+6. db.createUser({
+          user: "rootadmin",
+          pwd: "pass****",
+          roles: [{role: "root", db: "admin"}]
+});
+7. ps -ef|grep mongo
+8. kill the mongodb processid
+9. start the server: nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --keyFile ~/mongodb-linux-x86_64-2.6.0/mongodb-keyfile --replSet "rs0" --dbpath ~/mongodb/data/db  > ~/nohup/nohup &
+10. connect to the member of the replica set: ./mongo
+11. use admin
+12. db.auth("rootAdmin","pass****");
+13. rs.initiate()
+14. display the configuration of the replica set: rs.conf()
+15. Create additional user to test database
+          use test
+          db.createUser(
+          {
+                    user: "testDBAdmin",
+                    pwd: "pass****",
+                    roles:
+                    [
+                              {
+                                        role: "dbOwner",
+                                        db: "test"
+                              }
+                    ]
+          }
+          )
 
 
 
