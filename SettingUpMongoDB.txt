@@ -78,6 +78,46 @@ Linking up with Mongos and config server
 )
 10. verify the account is created - db.getUser("admin")
 11. login into the admin account - db.auth("admin","*********")
+12. Create other user account pointing to test database
+  db.createUser(
+  {
+    user: "h*****admin",
+    pwd: "********",
+    roles:
+    [
+      {
+        role: "readWrite",
+        db: "test"
+      },
+      {
+        role: "dbAdmin",
+        db: "test"
+      },
+	{
+        role: "userAdmin",
+        db: "test"
+      }
+    ]
+  }
+)
+
+db.createUser(
+  {
+    user: "hs****app",
+    pwd: "St******",
+    roles:
+    [
+      {
+        role: "readWrite",
+        db: "test"
+      },
+      {
+        role: "dbAdmin",
+        db: "test"
+      }
+    ]
+  }
+)
 
 -----4. use admin
 -----5. db.createUser({
