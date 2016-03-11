@@ -1,4 +1,5 @@
 Installing MongoDB (using terminal)
+-----------------------------------
 1. Download the mongodb tgz package mongodb-linux-x86_64-2.6.0.tgz
 2. Untar the package to ~/mongodb-linux-x86_64-2.6.0
 3. create a /data/db directory. You may create it in another location: ~/mongodb/data/db
@@ -9,17 +10,41 @@ Installing MongoDB (using terminal)
 6. CTRL+C to exit from mongod      
 
 Create a keyfile
-1. openssl rand -base64 741 > ~/mongodb-linux-x86_64-2.6.0/mongodb-keyfile
-2. cd ~/mongodb-linux-x86_64-2.6.0
+----------------
+1. openssl rand -base64 741 > ~/mongodb/mongodb-keyfile
+2. cd ~/mongodb
 3. chmod 600 mongodb-keyfile
 
 Setting up new replica set with access control
+----------------------------------------------
 1. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
 2. cd ~/mongodb-linux-x86_64-2.6.0/bin
 3. ./mongo --port 27018
 4. rs.initiate()
 5. CTRL+C to exit the shell
 6. ./mongo --port 27018 and u should be able to see rs0:PRIMARY
+
+Linking up with Mongos and config server
+----------------------------------------
+1. Copy 3 sets of mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and label each folder accordingly.
+          mongodb-linux-x86_64-2.6.0-config1
+          mongodb-linux-x86_64-2.6.0-config2
+          mongodb-linux-x86_64-2.6.0-config3
+2. Create a data/db folder for each of the config server
+          ~/mongodb/data/db-config1
+          ~/mongodb/data/db-config2
+          ~/mongodb/data/db-config3
+3. chmod 775 -R ~/mongodb-config-servers
+4. startup the config server 
+          ./startMongodAuthConfig1.sh
+          ./startMongodAuthConfig2.sh
+          ./startMongodAuthConfig3.sh
+5. startup ~/mongodb-linux-x86_64-2.6.0/startMongosAuth.sh
+6. startup ~/mongodb-linux-x86_64-2.6.0/startMongodAuth.sh
+7. go into shell ./bin/mongo
+8. use admin
+9.
+
 -----4. use admin
 -----5. db.createUser({
           user: "admin",
@@ -81,7 +106,7 @@ Create Config Server (is to handle request from user and route the request to wh
 Start main MongoDB server
 -------------------------
 ~/mongodb-linux-x86_64-2.6.0/startMongodAuth.sh (with authentication)
-nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --keyFile ~/mongodb-linux-x86_64-2.6.0/mongodb-keyfile --replSet "rs0" --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
+nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --keyFile ~/mongodb/mongodb-keyfile --replSet "rs0" --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
 
 ~/mongodb-linux-x86_64-2.6.0/startMongod.sh (without authentication)
 nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod  --replSet "rs0" --dbpath ~/mongodb/data/db  --port 27017 > ~/nohup/nohup &
@@ -89,7 +114,7 @@ nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod  --replSet "rs0" --dbpath ~/mongod
 Start MongoDB sharding
 ----------------
 ~/mongodb-linux-x86_64-2.6.0/startMongosAuth.sh (with authentication)
-nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --keyFile ~/mongodb-linux-x86_64-2.6.0/mongodb-keyfile --configdb <ip_address>:27019,<ip_address>:27019,<ip_address>:27019  --port 27017 > ~/nohup/nohup &
+nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --keyFile ~/mongodb/mongodb-keyfile --configdb <ip_address>:27019,<ip_address>:27019,<ip_address>:27019  --port 27017 > ~/nohup/nohup &
 
 ~/mongodb-linux-x86_64-2.6.0/startMongos.sh (without authentication)
 nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --configdb <ip_address>:27019,<ip_address>:27019,<ip_address>:27019  --port 27017 > ~/nohup/nohup &
@@ -97,12 +122,12 @@ nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --configdb <ip_address>:27019,<ip_
 Start MongoDB config server
 ---------------------------
 startMongodAuthConfig1.sh
-nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config1/bin/mongod --keyFile ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config1/mongodb-keyfile  --dbpath ~/mongodb/data/dbconfig1  --configsvr --port 27021 > ~/nohup/nohup &
+nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config1/bin/mongod --keyFile ~/mongodb/mongodb-keyfile  --dbpath ~/mongodb/data/db-config1  --configsvr --port 27021 > ~/nohup/nohup &
 
 startMongodAuthConfig2.sh
-nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config2/bin/mongod --keyFile ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config2/mongodb-keyfile  --dbpath ~/mongodb/data/dbconfig2 --configsvr --port 27022 > ~/nohup/nohup &
+nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config2/bin/mongod --keyFile ~/mongodb/mongodb-keyfile  --dbpath ~/mongodb/data/db-config2 --configsvr --port 27022 > ~/nohup/nohup &
 
 startMongodAuthConfig3.sh
-nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config3/bin/mongod --keyFile ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config3/mongodb-keyfile  --dbpath ~/mongodb/data/dbconfig3 --configsvr --port 27023 > ~/nohup/nohup &
+nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config3/bin/mongod --keyFile ~/mongodb/mongodb-keyfile  --dbpath ~/mongodb/data/db-config3 --configsvr --port 27023 > ~/nohup/nohup &
 
 
