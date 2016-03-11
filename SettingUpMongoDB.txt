@@ -16,24 +16,24 @@ Create a keyfile
 Setting up new replica set with access control
 1. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
 2. cd ~/mongodb-linux-x86_64-2.6.0/bin
-3. ./mongo
-4. use admin
-5. db.createUser({
+3. ./mongo --port 27018
+-----4. use admin
+-----5. db.createUser({
           user: "admin",
           pwd: "pass****",
           roles: [{role: "userAdminAnyDatabase", db: "admin"}]
 });
-6. db.createUser({
+-----6. db.createUser({
           user: "rootadmin",
           pwd: "pass****",
           roles: [{role: "root", db: "admin"}]
 });
-7. ps -ef|grep mongo
-8. kill the mongodb processid
-9. start the server: nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --keyFile ~/mongodb-linux-x86_64-2.6.0/mongodb-keyfile --replSet "rs0" --dbpath ~/mongodb/data/db  > ~/nohup/nohup &
-10. connect to the member of the replica set: ./mongo
-11. use admin
-12. db.auth("rootAdmin","pass****");
+-----7. ps -ef|grep mongo
+-----8. kill the mongodb processid
+-----9. start the server: nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --keyFile ~/mongodb-linux-x86_64-2.6.0/mongodb-keyfile --replSet "rs0" --dbpath ~/mongodb/data/db  > ~/nohup/nohup &
+-----10. connect to the member of the replica set: ./mongo
+-----11. use admin
+-----12. db.auth("rootAdmin","pass****");
 13. rs.initiate()
 14. display the configuration of the replica set: rs.conf()
 15. Create additional user to test database
