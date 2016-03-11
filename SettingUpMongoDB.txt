@@ -118,6 +118,12 @@ db.createUser(
     ]
   }
 )
+13. use test
+14. login into test using one of the account db.auth("hs****app","********")
+
+
+
+
 
 -----4. use admin
 -----5. db.createUser({
