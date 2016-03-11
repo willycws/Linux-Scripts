@@ -17,6 +17,9 @@ Setting up new replica set with access control
 1. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
 2. cd ~/mongodb-linux-x86_64-2.6.0/bin
 3. ./mongo --port 27018
+4. rs.initiate()
+5. CTRL+C to exit the shell
+6. ./mongo --port 27018 and u should be able to see rs0:PRIMARY
 -----4. use admin
 -----5. db.createUser({
           user: "admin",
