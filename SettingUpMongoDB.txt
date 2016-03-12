@@ -31,6 +31,37 @@ Setting up a new shard server without authentication
 2. create the folder ~/mongodb/data/db-shard 
 3. Startup the mongod nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shard/bin/mongod --dbpath ~/mongodb/data/db-shard --shardsvr --port 10001 > ~/nohup/nohup &
 
+Setup mongodb config server(hosted the same server as the main mongodb server)
+------------------------------------------------------------------------------
+1. Copy 3 sets of mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and label each folder accordingly.
+          mongodb-linux-x86_64-2.6.0-config1
+          mongodb-linux-x86_64-2.6.0-config2
+          mongodb-linux-x86_64-2.6.0-config3
+2. Create a data/db folder for each of the config server
+          ~/mongodb/data/db-config1
+          ~/mongodb/data/db-config2
+          ~/mongodb/data/db-config3
+3. chmod 775 -R ~/mongodb-config-servers
+4. startup the config server 
+          ./startMongodConfig1.sh
+          ./startMongodConfig2.sh
+          ./startMongodConfig3.sh
+
+Adding the shard to the main mongodb server
+-------------------------------------------
+1. Startup the mongos (located in the bin folder of the main mongodb server) nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --configdb <localhost_ip_address>:27021,<localhost_ip_address>:27022,<localhost_ip_address>:27023  --port 27017 > ~/nohup/nohup &
+2. use mongo shell ./bin/mongo
+3. use admin
+4. db.runCommand( { addshard : "127.0.0.1:10001" } );
+{ "shardAdded" : "shard0000", "ok" : 1 }
+5. db.runCommand( { enablesharding  : "test" } );
+6. test the shard db.runCommand( { shardcollection : "test.cTest", key : { Name : 1 } } );
+7. In a linux machine, use MongoChef to import the exported collection to test database. No authentication required. 
+8. Activate shard for collection that you want to have sharding i.e. sh.shardCollection("test.post", { _id: 1} )
+9. use the MongoChef to verify your collection have the shared: true
+10. 
+
+
 Linking up with Mongos and config server
 ----------------------------------------
 1. Copy 3 sets of mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and label each folder accordingly.
@@ -43,9 +74,9 @@ Linking up with Mongos and config server
           ~/mongodb/data/db-config3
 3. chmod 775 -R ~/mongodb-config-servers
 4. startup the config server 
-          ./startMongodAuthConfig1.sh
-          ./startMongodAuthConfig2.sh
-          ./startMongodAuthConfig3.sh
+          ./startMongodConfig1.sh
+          ./startMongodConfig2.sh
+          ./startMongodConfig3.sh
 5. startup ~/mongodb-linux-x86_64-2.6.0/startMongosAuth.sh
 6. startup ~/mongodb-linux-x86_64-2.6.0/startMongodAuth.sh
 7. go into shell ./bin/mongo
@@ -230,3 +261,8 @@ nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shard/bin/mongod --key
 startMongodShard.sh
 nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shard/bin/mongod --dbpath ~/mongodb/data/db-shard --shardsvr --port 10001 > ~/nohup/nohup &
 
+Mongodb setup links
+--------------------
+https://docs.mongodb.org/v2.6/tutorial/deploy-shard-cluster/
+https://docs.mongodb.org/v2.6/reference/method/sh.shardCollection/
+http://stackoverflow.com/questions/8552187/mongodb-sharding-example
