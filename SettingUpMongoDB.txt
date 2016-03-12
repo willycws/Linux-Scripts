@@ -28,13 +28,8 @@ Setting up new replica set without authentication
 Setting up a new shard server without authentication
 -----------------------------------------------------
 1. Copy 1 set of mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and rename the folder to mongodb-linux-x86_64-2.6.0-shard
-2.  
-Startup the mongod nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shard/bin/mongod --dbpath ~/mongodb/data/db-shard --shardsvr --port 10001 > ~/nohup/nohup &
-2. cd ~/mongodb-linux-x86_64-2.6.0/bin
-3. ./mongo --port 27018
-4. rs.initiate()
-5. CTRL+C to exit the shell
-6. ./mongo --port 27018 and u should be able to see rs0:PRIMARY
+2. create the folder ~/mongodb/data/db-shard 
+3. Startup the mongod nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shard/bin/mongod --dbpath ~/mongodb/data/db-shard --shardsvr --port 10001 > ~/nohup/nohup &
 
 Linking up with Mongos and config server
 ----------------------------------------
