@@ -15,19 +15,21 @@ Create a keyfile
 2. cd ~/mongodb
 3. chmod 600 mongodb-keyfile
 
-Setting up new replica set without access control
+Setting up new replica set without authentication
 ----------------------------------------------
-1. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
-2. cd ~/mongodb-linux-x86_64-2.6.0/bin
-3. ./mongo --port 27018
-4. rs.initiate()
-5. CTRL+C to exit the shell
-6. ./mongo --port 27018 and u should be able to see rs0:PRIMARY
-
-Setting up a new shard server without access control
-----------------------------------------------
-1. Copy 1 setsof mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and rename the folder to mongodb-linux-x86_64-2.6.0-shard
+1. create the folder ~/mongodb/data/db
 2. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
+3. cd ~/mongodb-linux-x86_64-2.6.0/bin
+4. ./mongo --port 27018
+5. rs.initiate()
+6. CTRL+C to exit the shell
+7. ./mongo --port 27018 and u should be able to see rs0:PRIMARY
+
+Setting up a new shard server without authentication
+-----------------------------------------------------
+1. Copy 1 set of mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and rename the folder to mongodb-linux-x86_64-2.6.0-shard
+2.  
+Startup the mongod nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shard/bin/mongod --dbpath ~/mongodb/data/db-shard --shardsvr --port 10001 > ~/nohup/nohup &
 2. cd ~/mongodb-linux-x86_64-2.6.0/bin
 3. ./mongo --port 27018
 4. rs.initiate()
