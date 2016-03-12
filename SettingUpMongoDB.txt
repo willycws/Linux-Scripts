@@ -15,9 +15,19 @@ Create a keyfile
 2. cd ~/mongodb
 3. chmod 600 mongodb-keyfile
 
-Setting up new replica set with access control
+Setting up new replica set without access control
 ----------------------------------------------
 1. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
+2. cd ~/mongodb-linux-x86_64-2.6.0/bin
+3. ./mongo --port 27018
+4. rs.initiate()
+5. CTRL+C to exit the shell
+6. ./mongo --port 27018 and u should be able to see rs0:PRIMARY
+
+Setting up a new shard server without access control
+----------------------------------------------
+1. Copy 1 setsof mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and rename the folder to mongodb-linux-x86_64-2.6.0-shard
+2. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
 2. cd ~/mongodb-linux-x86_64-2.6.0/bin
 3. ./mongo --port 27018
 4. rs.initiate()
@@ -165,7 +175,7 @@ db.createUser(
           )
 
 Create Config Server (is to handle request from user and route the request to which shards)
--------------------
+-------------------------------------------------------------------------------------------
 1. Copy 3 sets of mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and label each folder accordingly.
           mongodb-linux-x86_64-2.6.0-config1
           mongodb-linux-x86_64-2.6.0-config2
@@ -183,31 +193,37 @@ Create Config Server (is to handle request from user and route the request to wh
           ./startMongodAuthConfig2.sh
           ./startMongodAuthConfig3.sh
 
-Start main MongoDB server
--------------------------
+shell script to Start main MongoDB server
+-----------------------------------------
 ~/mongodb-linux-x86_64-2.6.0/startMongodAuth.sh (with authentication)
 nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --keyFile ~/mongodb/mongodb-keyfile --replSet "rs0" --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
 
 ~/mongodb-linux-x86_64-2.6.0/startMongod.sh (without authentication)
 nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod  --replSet "rs0" --dbpath ~/mongodb/data/db  --port 27017 > ~/nohup/nohup &
 
-Start MongoDB sharding
-----------------
+shell script to Start MongoDB router
+------------------------------------
 ~/mongodb-linux-x86_64-2.6.0/startMongosAuth.sh (with authentication)
-nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --keyFile ~/mongodb/mongodb-keyfile --configdb <ip_address>:27019,<ip_address>:27019,<ip_address>:27019  --port 27017 > ~/nohup/nohup &
+nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --keyFile ~/mongodb/mongodb-keyfile --configdb <config_server_ip_address>:27019,<config_server_ip_address>:27019,<config_server_ip_address>:27019  --port 27017 > ~/nohup/nohup &
+if all the 3 config server is located in the same server, then all 3 config server must have different port number
 
 ~/mongodb-linux-x86_64-2.6.0/startMongos.sh (without authentication)
 nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --configdb <ip_address>:27019,<ip_address>:27019,<ip_address>:27019  --port 27017 > ~/nohup/nohup &
+if all the 3 config server is located in the same server, then all 3 config server must have different port numb
 
-Start MongoDB config server
----------------------------
+shell script to Start MongoDB config server
+-------------------------------------------
 startMongodAuthConfig1.sh
 nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config1/bin/mongod --keyFile ~/mongodb/mongodb-keyfile  --dbpath ~/mongodb/data/db-config1  --configsvr --port 27021 > ~/nohup/nohup &
+if this config server is hosted on the same server as the other 2 config servers, then they must have different port number, otherwise they can have the same port number.
 
 startMongodAuthConfig2.sh
 nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config2/bin/mongod --keyFile ~/mongodb/mongodb-keyfile  --dbpath ~/mongodb/data/db-config2 --configsvr --port 27022 > ~/nohup/nohup &
+if this config server is hosted on the same server as the other 2 config servers, then they must have different port number, otherwise they can have the same port number.
 
 startMongodAuthConfig3.sh
 nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config3/bin/mongod --keyFile ~/mongodb/mongodb-keyfile  --dbpath ~/mongodb/data/db-config3 --configsvr --port 27023 > ~/nohup/nohup &
+if this config server is hosted on the same server as the other 2 config servers, then they must have different port number, otherwise they can have the same port number.
 
-
+shell script to Start MongoDB shard server
+------------------------------------------
