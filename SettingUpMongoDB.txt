@@ -59,29 +59,14 @@ Adding the shard to the main mongodb server
 7. In a linux machine, use MongoChef to import the exported collection to test database. No authentication required. 
 8. Activate shard for collection that you want to have sharding i.e. sh.shardCollection("test.post", { _id: 1} )
 9. use the MongoChef to verify your collection have the shared: true
-10. 
 
-
-Linking up with Mongos and config server
-----------------------------------------
-1. Copy 3 sets of mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and label each folder accordingly.
-          mongodb-linux-x86_64-2.6.0-config1
-          mongodb-linux-x86_64-2.6.0-config2
-          mongodb-linux-x86_64-2.6.0-config3
-2. Create a data/db folder for each of the config server
-          ~/mongodb/data/db-config1
-          ~/mongodb/data/db-config2
-          ~/mongodb/data/db-config3
-3. chmod 775 -R ~/mongodb-config-servers
-4. startup the config server 
-          ./startMongodConfig1.sh
-          ./startMongodConfig2.sh
-          ./startMongodConfig3.sh
-5. startup ~/mongodb-linux-x86_64-2.6.0/startMongosAuth.sh
-6. startup ~/mongodb-linux-x86_64-2.6.0/startMongodAuth.sh
-7. go into shell ./bin/mongo
-8. use admin
-9. db.createUser(
+Add authentication 
+------------------
+1. Kill all any existing mongodb process, config server, sharding, router
+2. Start in the following order config-server-1, config-server-2, config-server-3, shard server, mongod, mongos with authentication (--keyFile ~/mongodb/mongodb-keyfile)
+3. enter mongo shell ./bin/mongo
+4. use admin
+5. db.createUser(
   {
     user: "admin",
     pwd: "***********",
@@ -114,10 +99,8 @@ Linking up with Mongos and config server
     ]
   }
 )
-10. verify the account is created - db.getUser("admin")
-11. login into the admin account - db.auth("admin","*********")
-12. Create other user account pointing to test database
-  db.createUser(
+6. use test
+7. db.createUser(
   {
     user: "h*****admin",
     pwd: "********",
@@ -156,70 +139,9 @@ db.createUser(
     ]
   }
 )
-13. use test
-14. login into test using one of the account db.auth("hs****app","********")
+8. try the newly added account db.auth("username","password")
 
 
-
-
-
------4. use admin
------5. db.createUser({
-          user: "admin",
-          pwd: "pass****",
-          roles: [{role: "userAdminAnyDatabase", db: "admin"}]
-});
------6. db.createUser({
-          user: "rootadmin",
-          pwd: "pass****",
-          roles: [{role: "root", db: "admin"}]
-});
------7. ps -ef|grep mongo
------8. kill the mongodb processid
------9. start the server: nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --keyFile ~/mongodb-linux-x86_64-2.6.0/mongodb-keyfile --replSet "rs0" --dbpath ~/mongodb/data/db  > ~/nohup/nohup &
------10. connect to the member of the replica set: ./mongo
------11. use admin
------12. db.auth("rootAdmin","pass****");
-13. rs.initiate()
-14. display the configuration of the replica set: rs.conf()
-15. Create additional user to test database
-          use test
-          db.createUser(
-          {
-                    user: "testDBAdmin",
-                    pwd: "pass****",
-                    roles:
-                    [
-                              {
-                                        role: "dbOwner",
-                                        db: "test"
-                              },
-                              {
-                                        role: "readWrite",
-                                        db: "test"
-                              }
-                    ]
-          }
-          )
-
-Create Config Server (is to handle request from user and route the request to which shards)
--------------------------------------------------------------------------------------------
-1. Copy 3 sets of mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and label each folder accordingly.
-          mongodb-linux-x86_64-2.6.0-config1
-          mongodb-linux-x86_64-2.6.0-config2
-          mongodb-linux-x86_64-2.6.0-config3
-2. Create a data/db folder for each of the config server
-          ~/mongodb/data/dbconfig1
-          ~/mongodb/data/dbconfig2
-          ~/mongodb/data/dbconfig3
-3. chmod 775 -R ~/mongodb-config-servers
-4. chmod 600 ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config1/mongodb-keyfile
-5. chmod 600 ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config2/mongodb-keyfile
-6. chmod 600 ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config3/mongodb-keyfile
-7. startup the config server 
-          ./startMongodAuthConfig1.sh
-          ./startMongodAuthConfig2.sh
-          ./startMongodAuthConfig3.sh
 
 shell script to Start main MongoDB server
 -----------------------------------------
