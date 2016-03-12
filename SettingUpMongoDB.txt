@@ -227,3 +227,9 @@ if this config server is hosted on the same server as the other 2 config servers
 
 shell script to Start MongoDB shard server
 ------------------------------------------
+startMongodAuthShard.sh
+nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shard/bin/mongod --keyFile ~/mongodb/mongodb-keyfile --dbpath ~/mongodb/data/db-shard --shardsvr --port 10001 > ~/nohup/nohup &
+
+startMongodShard.sh
+nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shard/bin/mongod --dbpath ~/mongodb/data/db-shard --shardsvr --port 10001 > ~/nohup/nohup &
+
