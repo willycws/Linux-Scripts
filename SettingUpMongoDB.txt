@@ -21,9 +21,10 @@ Setting up new replica set without authentication
 2. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
 3. cd ~/mongodb-linux-x86_64-2.6.0/bin
 4. ./mongo --port 27018
-5. rs.initiate()
-6. CTRL+C to exit the shell
-7. ./mongo --port 27018 and u should be able to see rs0:PRIMARY
+5. use admin
+6. rs.initiate()
+7. CTRL+C to exit the shell
+8. ./mongo --port 27018 and u should be able to see rs0:PRIMARY
 
 Setting up a new shard server without authentication
 -----------------------------------------------------
