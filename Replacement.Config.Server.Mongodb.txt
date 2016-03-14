@@ -1,0 +1,12 @@
+Procedure to replace a config server in Mongodb
+1. make sure the mongos is running ps -ef|grep mongo
+2. ./bin/mongo
+3. use admin
+4. db.auth("admin","***********")
+5. Disable the Balancer - sh.stopBalancer()
+6. sh.getBalancerState() should display a false status
+7. 
+
+
+
+enable the balancer - sh.setBalancerState(true)
