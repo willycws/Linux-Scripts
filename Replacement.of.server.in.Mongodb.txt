@@ -20,3 +20,38 @@ Procedure to replace a config server in Mongodb
 15. db.auth("admin", "**************")
 16. enable the balancer - sh.setBalancerState(true)
 15. sh.getBalancerState() should display a true status
+
+Procedure to replace a shard server in Mongodb
+-----------------------------------------------
+1. Prepare a new setup of a shard server. Make sure it has a different set of db path and port number if it is hosted in the same localhost as other shard servers.
+2. start the new shard server (if the mongodb has started with authentication, pls start this new shard server with authentication as well)
+3. 
+2. make sure the mongos is running ps -ef|grep mongo
+3. ./bin/mongo
+4. use admin
+5. db.auth("admin","***********")
+6. Disable the Balancer - sh.stopBalancer()
+7. sh.getBalancerState() should display a false status
+8. Kill the config server that you want to replace - kill process_id
+9. Copy the db data from the old location to the new location
+      localhost: rsync -az ~/mongodb/data/db-config3/ ~/mongodb/data/db-config4 
+      Another server: rsync -az ~/mongodb/data/db-config3/ 127.1.1.1:~/mongodb/data/db-config4 
+10. Kill all the shard, config servers, main mongod and mongos
+11. Modify the startup command for the mongos (update the ip address and port number if necessary)
+      nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --configdb <ip_address>:27019,<ip_address>:27019,<updated _ip_address>:<updated _port_number>  --port 27017 > ~/nohup/nohup &
+12. Start up all the config servers (except the removed config server), shard, main mongodb server mongod, mongos
+13. enter the mongo shell ./bin/mongo
+14. use admin
+15. db.auth("admin", "**************")
+16. enable the balancer - sh.setBalancerState(true)
+15. sh.getBalancerState() should display a true status
+
+
+
+shell script to Start MongoDB shard server
+------------------------------------------
+startMongodAuthShardReplacement.sh
+nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shardreplacement/bin/mongod --keyFile ~/mongodb/mongodb-keyfile --dbpath ~/mongodb/data/db-shard-replacement --shardsvr --port 10002 > ~/nohup/nohup &
+
+startMongodShardReplacement.sh
+nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shardreplacement/bin/mongod --dbpath ~/mongodb/data/db-shard-replacement --shardsvr --port 10002 > ~/nohup/nohup &
