@@ -25,7 +25,19 @@ Procedure to replace a shard server in Mongodb
 -----------------------------------------------
 1. Prepare a new setup of a shard server. Make sure it has a different set of db path and port number if it is hosted in the same localhost as other shard servers.
 2. start the new shard server (if the mongodb has started with authentication, pls start this new shard server with authentication as well)
-3. 
+3. ./bin/mongo
+4. use admin
+5. db.auth("admin","***********")
+6. db.runCommand( { addshard : "127.0.0.1:10002" } );
+7. sh.status() to check the status of the shard, remeber the _id for the shard you are going to remove i.e. shard0000
+8. sh.getBalancerState() ensure that the balancer is activated
+9. Move the database from the primary shard to another shard 
+
+9. db.runCommand( { removeShard: "shard0000" } ) to start draining chunks from the shard you are removing to other shards in the cluster.
+10. db.runCommand( { removeShard: "shard0000" } ) to check the Status of the Migration
+11. 
+
+
 2. make sure the mongos is running ps -ef|grep mongo
 3. ./bin/mongo
 4. use admin
