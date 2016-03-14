@@ -11,7 +11,9 @@ Procedure to replace a config server in Mongodb
 9. Copy the db data from the old location to the new location
       localhost: rsync -az ~/mongodb/data/db-config3/ ~/mongodb/data/db-config4 
       Another server: rsync -az ~/mongodb/data/db-config3/ 127.1.1.1:~/mongodb/data/db-config4 
-10. 
+10. Kill all the shard, config servers, main mongod and mongos
+11. Modify the startup command for the mongos
+      
 
 
 
