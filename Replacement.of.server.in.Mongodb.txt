@@ -31,33 +31,20 @@ Procedure to replace a shard server in Mongodb
 6. db.runCommand( { addshard : "127.0.0.1:10002" } );
 7. sh.status() to check the status of the shard, remeber the _id for the shard you are going to remove i.e. shard0000
 8. sh.getBalancerState() ensure that the balancer is activated
-9. Move the database from the primary shard to another shard 
-
-9. db.runCommand( { removeShard: "shard0000" } ) to start draining chunks from the shard you are removing to other shards in the cluster.
-10. db.runCommand( { removeShard: "shard0000" } ) to check the Status of the Migration
-11. 
-
-
-2. make sure the mongos is running ps -ef|grep mongo
-3. ./bin/mongo
-4. use admin
-5. db.auth("admin","***********")
-6. Disable the Balancer - sh.stopBalancer()
-7. sh.getBalancerState() should display a false status
-8. Kill the config server that you want to replace - kill process_id
-9. Copy the db data from the old location to the new location
-      localhost: rsync -az ~/mongodb/data/db-config3/ ~/mongodb/data/db-config4 
-      Another server: rsync -az ~/mongodb/data/db-config3/ 127.1.1.1:~/mongodb/data/db-config4 
-10. Kill all the shard, config servers, main mongod and mongos
-11. Modify the startup command for the mongos (update the ip address and port number if necessary)
-      nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --configdb <ip_address>:27019,<ip_address>:27019,<updated _ip_address>:<updated _port_number>  --port 27017 > ~/nohup/nohup &
-12. Start up all the config servers (except the removed config server), shard, main mongodb server mongod, mongos
-13. enter the mongo shell ./bin/mongo
-14. use admin
-15. db.auth("admin", "**************")
-16. enable the balancer - sh.setBalancerState(true)
-15. sh.getBalancerState() should display a true status
-
+9. If the shard you going to migrate is a primary shard use by a database, you are required to do the following step:
+      a. sh.status() you should be able to see {  "_id" : "test",  "partitioned" : true,  "primary" : "shard0000" }
+      b. db.runCommand({movePrimary:"test", to:"shard0001"}) to change the primary status to shard0001
+      c. you should be able to see a message { "primary " : "shard0001:<ip_address>:10002", "ok" : 1 }
+10. db.runCommand( { removeShard: "shard0000" } ) to start draining chunks from the shard you are removing to other shards in the cluster. You should see "msg" : "draining started successfully"
+11. db.runCommand( { removeShard: "shard0000" } ) to check the Status of the Migration. if the "chunks" is not 0, which means it is still draining to the new shard.
+12. db.runCommand( { removeShard: "shard0000" } )  and if it show 
+      "msg" : "removeshard completed successfully",
+	"state" : "completed" 
+	it means that the migration has completed.
+13. You can saftely stop the shard server running the "shard0000" or shard that you have migrated successfully. 
+      ps -ef|grep mongo
+      retrieve the process_id running the shard: shard0000
+      kill process_id
 
 
 shell script to Start MongoDB shard server
