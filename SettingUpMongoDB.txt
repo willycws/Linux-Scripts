@@ -18,7 +18,7 @@ Create a keyfile
 Setting up new replica set without authentication
 ----------------------------------------------
 1. create the folder ~/mongodb/data/db
-2. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
+2. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db --replSet "rs0" --port 27018 > ~/nohup/nohup &
 3. cd ~/mongodb-linux-x86_64-2.6.0/bin
 4. ./mongo --port 27018
 5. use admin
