@@ -1,11 +1,17 @@
 Procedure to replace a config server in Mongodb
-1. make sure the mongos is running ps -ef|grep mongo
-2. ./bin/mongo
-3. use admin
-4. db.auth("admin","***********")
-5. Disable the Balancer - sh.stopBalancer()
-6. sh.getBalancerState() should display a false status
-7. 
+-----------------------------------------------
+1. Prepare a new setup of a config server
+2. make sure the mongos is running ps -ef|grep mongo
+3. ./bin/mongo
+4. use admin
+5. db.auth("admin","***********")
+6. Disable the Balancer - sh.stopBalancer()
+7. sh.getBalancerState() should display a false status
+8. Kill the config server that you want to replace - kill process_id
+9. Copy the db data from the old location to the new location
+      localhost: rsync -az ~/mongodb/data/db-config3/ ~/mongodb/data/db-config4 
+      Another server: rsync -az ~/mongodb/data/db-config3/ 127.1.1.1:~/mongodb/data/db-config4 
+10. 
 
 
 
