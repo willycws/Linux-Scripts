@@ -36,7 +36,7 @@ Procedure to replace a shard server in Mongodb
       b. db.runCommand({movePrimary:"test", to:"shard0001"}) to change the primary status to shard0001
       c. you should be able to see a message { "primary " : "shard0001:<ip_address>:10002", "ok" : 1 }
 10. db.runCommand( { removeShard: "shard0000" } ) to start draining chunks from the shard you are removing to other shards in the cluster. You should see "msg" : "draining started successfully"
-11. db.runCommand( { removeShard: "shard0000" } ) to check the Status of the Migration. if the "chunks" is not 0, which means it is still draining to the new shard.
+11. db.runCommand( { removeShard: "shard0000" } ) to check the Status of the Migration. if the "chunks" : NumberLong(11), is not 0, which means it is still draining to the new shard.
 12. db.runCommand( { removeShard: "shard0000" } )  and if it show 
       "msg" : "removeshard completed successfully",
 	"state" : "completed" 
