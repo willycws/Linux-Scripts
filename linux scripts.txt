@@ -62,3 +62,9 @@ sudo chown root:root /usr/share/applications/intellij.desktop
 Split a large JSON file (post.json) based on date time stamp of the record using regular expression
 ---------------------------------------------------------------------------------------------------
 awk '/2015-06-[0-9][0-9]_twitter_/' RS='},?\n' ORS='}\n' post.json > /home/hs/Documents/2015-06-xx.json
+
+Using Notepad++ to replace breakline and empty line with comma
+--------------------------------------------------------------
+Find what: "[\r\n]+"
+Replace with:","
+Select regular expression
