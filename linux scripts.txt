@@ -68,3 +68,7 @@ Using Notepad++ to replace breakline and empty line with comma
 Find what: "[\r\n]+"
 Replace with:","
 Select regular expression
+
+Untar a tar.gz file
+-------------------
+tar -zxvf data.tar.gz
