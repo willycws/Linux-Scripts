@@ -1,3 +1,5 @@
+mongo --username <user> --password <pass> --host <host> --port 28015
+
 db.post.find(
     {
       twitter: {
