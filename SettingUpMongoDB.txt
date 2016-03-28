@@ -140,6 +140,24 @@ db.createUser(
     ]
   }
 )
+
+----create a oplogger account for to read the oplog for the use by the mongo connector to elastic search
+db.createUser({ user: "oplogger",
+  pwd: "St************************2",
+  roles: []
+});
+
+db.runCommand(
+{ 
+	createRole: "oplogger", 
+	privileges: [
+	   { resource: { db: 'local', collection: 'system.replset'}, actions: ['find']} 
+	], 
+	roles: [{role: 'read', db: 'local'}] 
+})
+
+db.runCommand({ grantRolesToUser: 'oplogger', roles: ['oplogger']})
+
 8. try the newly added account db.auth("username","password")
 
 
