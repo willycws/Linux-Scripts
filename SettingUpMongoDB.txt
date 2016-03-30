@@ -1,3 +1,5 @@
+Setup is for a single shard and 3 config server
+
 Installing MongoDB (using terminal)
 -----------------------------------
 1. Download the mongodb tgz package mongodb-linux-x86_64-2.6.0.tgz
@@ -15,6 +17,142 @@ Create a keyfile
 2. cd ~/mongodb
 3. chmod 600 mongodb-keyfile
 
+Setup mongodb config server(hosted the same server as the main mongodb server)
+------------------------------------------------------------------------------
+1. Copy 3 sets of mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and label each folder accordingly.
+          mongodb-linux-x86_64-2.6.0-config1
+          mongodb-linux-x86_64-2.6.0-config2
+          mongodb-linux-x86_64-2.6.0-config3
+2. Create a data/db folder for each of the config server
+          ~/mongodb/data/db-config1
+          ~/mongodb/data/db-config2
+          ~/mongodb/data/db-config3
+3. chmod 775 -R ~/mongodb-config-servers
+4. startup the config server 
+          ./startMongodConfig1.sh
+          ./startMongodConfig2.sh
+          ./startMongodConfig3.sh
+
+Adding a shard to mongos without authentication
+----------------------------------------------
+1. create the folder ~/mongodb/data/db
+2. Startup the mongos (located in the bin folder of the main mongodb server) nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --configdb <localhost_ip_address>:27021,<localhost_ip_address>:27022,<localhost_ip_address>:27023  --port 27017 > ~/nohup/nohup &
+3. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db --replSet "rs0" --port 27018 > ~/nohup/nohup &
+4. use mongo shell ./bin/mongo --port 27017
+5. sh.addShard("127.0.0.1:27018")
+6. Logout of the mongo shell
+7. use mongo shell ./bin/mongo --port 27018
+8. rs.initiate()
+
+Adding shard option to a collection (post) in a db (test)
+-----------------------------------
+1. db.runCommand( { enablesharding  : "test" } );
+2. Activate shard for collection that you want to have sharding i.e. sh.shardCollection("test.post", { _id: 1} )
+3. use the MongoChef to verify your collection have the shared: true
+
+Add authentication 
+------------------
+1. enter mongo shell ./bin/mongo --port 27017
+2. use admin
+3. db.createUser(
+  {
+    user: "admin",
+    pwd: "***********",
+    roles:
+    [
+      {
+        role: "clusterAdmin",
+        db: "admin"
+      },
+      {
+        role: "userAdminAnyDatabase",
+        db: "admin"
+      },
+      {
+        role: "dbAdminAnyDatabase",
+        db: "admin"
+      },
+      {
+        role: "readWrite",
+        db: "admin"
+      },
+      {
+        role: "dbAdmin",
+        db: "admin"
+      },
+	{
+        role: "userAdmin",
+        db: "admin"
+      }
+    ]
+  }
+)
+4. use test
+5. db.createUser(
+  {
+    user: "h*****admin",
+    pwd: "********",
+    roles:
+    [
+      {
+        role: "readWrite",
+        db: "test"
+      },
+      {
+        role: "dbAdmin",
+        db: "test"
+      },
+	{
+        role: "userAdmin",
+        db: "test"
+      }
+    ]
+  }
+)
+
+db.createUser(
+  {
+    user: "hs****app",
+    pwd: "St******",
+    roles:
+    [
+      {
+        role: "readWrite",
+        db: "test"
+      },
+      {
+        role: "dbAdmin",
+        db: "test"
+      }
+    ]
+  }
+)
+
+----create a oplogger account for to read the oplog for the use by the mongo connector to elastic search
+6. use admin
+7. db.createUser({ user: "oplogger",
+  pwd: "St************************2",
+  roles: []
+});
+db.runCommand(
+{ 
+	createRole: "oplogger", 
+	privileges: [
+	   { resource: { db: 'local', collection: 'system.replset'}, actions: ['find']} 
+	], 
+	roles: [{role: 'read', db: 'local'}] 
+})
+db.runCommand({ grantRolesToUser: 'oplogger', roles: ['oplogger']})
+
+8. try the newly added account db.auth("username","password")
+
+
+
+
+
+
+
+
 Setting up new replica set without authentication
 ----------------------------------------------
 1. create the folder ~/mongodb/data/db
@@ -31,22 +169,6 @@ Setting up a new shard server without authentication
 1. Copy 1 set of mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and rename the folder to mongodb-linux-x86_64-2.6.0-shard
 2. create the folder ~/mongodb/data/db-shard 
 3. Startup the mongod nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shard/bin/mongod --dbpath ~/mongodb/data/db-shard --shardsvr --port 10001 > ~/nohup/nohup &
-
-Setup mongodb config server(hosted the same server as the main mongodb server)
-------------------------------------------------------------------------------
-1. Copy 3 sets of mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and label each folder accordingly.
-          mongodb-linux-x86_64-2.6.0-config1
-          mongodb-linux-x86_64-2.6.0-config2
-          mongodb-linux-x86_64-2.6.0-config3
-2. Create a data/db folder for each of the config server
-          ~/mongodb/data/db-config1
-          ~/mongodb/data/db-config2
-          ~/mongodb/data/db-config3
-3. chmod 775 -R ~/mongodb-config-servers
-4. startup the config server 
-          ./startMongodConfig1.sh
-          ./startMongodConfig2.sh
-          ./startMongodConfig3.sh
 
 Adding the shard to the main mongodb server
 -------------------------------------------
