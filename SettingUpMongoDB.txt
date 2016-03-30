@@ -205,3 +205,4 @@ Mongodb setup links
 https://docs.mongodb.org/v2.6/tutorial/deploy-shard-cluster/
 https://docs.mongodb.org/v2.6/reference/method/sh.shardCollection/
 http://stackoverflow.com/questions/8552187/mongodb-sharding-example
+http://sanaulla.info/2015/02/02/setting-up-sharded-mongodb-cluster-in-localhost/
