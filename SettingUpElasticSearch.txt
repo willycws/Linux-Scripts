@@ -1,1 +1,78 @@
 Setting up elasticsearch
+------------------------
+1. Download elasticsearch 1.1.1
+2. untar the tar.gz
+3. modify the config/elasticsearch.yml
+    a. cluster.name: elasticsearch-twin
+    b. node.name: "node"
+    c. path.data: /mnt/es/data
+    d. path.work: /mnt/es/work
+    e. path.logs: /mnt/es/logs
+    f. path.plugins: /mnt/es/plugins
+4. save the config file
+5. modify the config/logging.yml
+    a. rest.action: TRACE
+6. save the config file    
+7. create a mappings folder "mkdir mappings". Thos folder will store all the mapping to tell elasticsearch which part of the json document to index and not to index
+8. create a file mappings.json and indicate which field in the json required to be indexed
+      "profile" : {
+				"type" : "object",
+				"properties" : {
+					"id" : {"type" : "string", "store": "yes", "index" : "not_analyzed"},
+					"className" : {"type" : "string", "store": "yes", "index" : "not_analyzed"},
+					"name" : {"type" : "string", "store": "yes", "analyzer" : "classic"},
+					"userName" : {"type" : "string", "store": "yes", "analyzer" : "classic"},
+					"influenceScore": {"type" : "long", "store": "yes", "index" : "not_analyzed"},
+					"sourceId" : {"type" : "string", "store": "yes", "index" : "not_analyzed"},
+					"url" : {"type" : "string", "store": "yes", "analyzer" : "classic"},
+					"dateTimeAdded": {"type" : "date", "store": "yes", "format" : "dateOptionalTime"},
+					"dateTimeUpdated": {"type" : "date", "store": "yes", "format" : "dateOptionalTime"},
+					"dateTimeTweetUsed": {"type" : "date", "store": "yes", "format" : "dateOptionalTime"},
+					"twitterUser" : {
+				        "type" : "object",
+				        "properties" : {	
+							"friendsCount": {"type" : "long", "store": "yes", "index" : "not_analyzed"},
+							"location": {"type" : "string", "store": "yes", "analyzer" : "classic"},
+							"favouritesCount": {"type" : "long", "store": "yes", "index" : "not_analyzed"},
+							"screenName": {"type" : "string", "store": "yes", "analyzer" : "classic"},
+							"profileImageUrl": {"type" : "string", "store": "yes", "analyzer" : "classic"},
+							"listedCount": {"type" : "long", "store": "yes", "index" : "not_analyzed"},
+							"geoEnabled": {"type" : "boolean", "store": "yes", "index" : "not_analyzed"},
+							"id" : {"type" : "string", "store": "yes", "index" : "not_analyzed"},
+							"timezone" : {"type" : "string", "store": "yes", "index" : "not_analyzed"},
+							"verified": {"type" : "boolean", "store": "yes", "index" : "not_analyzed"},
+							"description": {"type" : "string", "store": "yes", "analyzer" : "classic"},
+							"name": {"type" : "string", "store": "yes", "analyzer" : "classic"},
+							"followersCount": {"type" : "long", "store": "yes", "index" : "not_analyzed"},
+							"language" : {"type" : "string", "store": "yes", "index" : "not_analyzed"},
+							"statusesCount": {"type" : "long", "store": "yes", "index" : "not_analyzed"}
+						}
+					}
+				}
+			}
+9. Save the mapping file
+10. Install the elasticsearch GUI plugin
+    a. cd to installation path of elasticsearch
+    b. bin/plugin --install mobz/elasticsearch-head
+    c. bin/plugin --install lukas-vlcek/bigdesk
+11. Start the elasticsearch "nohup cd bin/elasticsearch .nohup &"
+12. Access http://<ip_address_of_elasticsearch_server>:9200_plugin/head/
+13. Create an index
+      curl -XPUT "localhost:9200/twin/post/_meta" -d'
+      {
+        "settings" : {"index" : { "number_of_shards" : 5, "number_of_replicas" : 1 }},
+        "type": "mongodb",
+        "index": {
+        "name": "twin",
+        "type": "post"
+        }
+      }'
+      
+      curl -XPUT 'http://localhost:9200/twin/post/_mapping' -d @/home/hs/elasticsearch-1.1.1/config/mappings/mappings.json
+14. Index is created and be seen in http://<ip_address_of_elasticsearch_server>:9200_plugin/head/
+
+Install mongo connector and elastic-doc-manager
+-----------------------------------------------
+
+    
+    
