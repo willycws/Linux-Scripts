@@ -73,6 +73,103 @@ Setting up elasticsearch
 
 Install mongo connector and elastic-doc-manager
 -----------------------------------------------
+1. install mongo-connector - pip install mongo-connector
+	if server got no access to internet
+		cd ~/Download
+		git clone https://github.com/mongodb-labs/mongo-connector.git
+		cd mongo-connector
+		python setup.py install
+2. If certain package cannot be installed, use the following steps and download the tar.gz
+	pymongo - https://pypi.python.org/simple/pymongo/ 
+	pysolr - https://pypi.python.org/simple/pymongo/ 
+	elasticsearch - https://pypi.python.org/simple/elasticsearch/
+	urllib3 - https://pypi.python.org/simple/urllib3/
+   (pls take note of the version they recommend in the error display during the installation of mongo-connector)
+3. Use FileZilla to transfer the all the tar.gz to the elasticsearch server
+4. Do the following steps to install the tar.gz packages
+	a. cd /usr/share
+	b. tar -zxvf <filename>.tar.gz
+	c. sudo python setup.py install
+5. mkdir /mnt/es/plugins/mongo-connector
+6. mkdir /mnt/es/plugins/mongo-connector/logs
+7. create a config.json file ("__" means it is commented out)
+{
+    "__comment__": "Configuration options starting with '__' are disabled",
+    "__comment__": "To enable them, remove the preceding '__'",
 
+    "mainAddress": "<ip_address_of_mongodb_server>:27018",
+    "oplogFile": "/mnt/es/plugins/mongo-connector/oplog.timestamp",
+    "noDump": false,
+    "batchSize": 1000,
+    "verbosity": 3,
+    "continueOnError": false,
+
+    "logging": {
+        "type": "file",
+        "filename": "/mnt/es/plugins/mongo-connector/logs/mongo-connector.log",
+        "__format": "%(asctime)s [%(levelname)s] %(name)s:%(lineno)d - %(message)s",
+        "rotationWhen": "D",
+        "__rotationInterval": 1,
+        "rotationBackups": 10,
+
+        "__type": "syslog",
+        "__host": "localhost:514"
+    },
+
+    "authentication": {
+        "adminUsername": "oplogger",
+        "password": "S***************2",
+        "__passwordFile": "/mongodb-keyfile"
+    },
+
+    "__comment__": "For more information about SSL with MongoDB, please see http://docs.mongodb.org/manual/tutorial/configure-ssl-clients/",
+    "__ssl": {
+        "__sslCertfile": "Path to certificate to identify the local connection against MongoDB",
+        "__sslKeyfile": "Path to the private key for sslCertfile. Not necessary if already included in sslCertfile.",
+        "__sslCACerts": "Path to concatenated set of certificate authority certificates to validate the other side of the connection",
+        "__sslCertificatePolicy": "Policy for validating SSL certificates provided from the other end of the connection. Possible values are 'required' (require and validate certificates), 'optional' (validate but don't require a certificate), and 'ignored' (ignore certificates)."
+    },
+
+    "__fields": ["field1", "field2", "field3"],
+
+    "namespaces": {
+        "include": ["test.post"],
+        "mapping": {
+            "test.post": "twin.post"
+        },
+	"__gridfs": ["db.fs"]
+    },
+
+    "docManagers": [
+        {
+            "docManager": "elastic_doc_manager",
+            "targetURL": "localhost:9200",
+            "bulkSize": 1000,
+            "uniqueKey": "_id",
+            "__autoCommitInterval": null
+        }
+    ]
+}
+8. Save the config file
+9. install the elastic-doc-manager "pip install elastic-doc-manager"
+10. if server got no access to internet
+		cd ~/Download
+		git clone https://github.com/mongodb-labs/elastic-doc-manager
+		cd elastic-doc-manager
+		python setup.py install
+11. Follow step 2, 3, 4 if certain python package is missing.
+12. create a shell script to run the mongo-connector
+13. cd ~
+14. ./startMongoConnector.sh to run the mongo-connector
+15. ***if the mongodb instances are running in authentication mode, the adminUsername and password section in the config.json must be uncommented.
+
+shell script to Start Mongo connector (startMongoConnector.sh)
+-------------------------------------------------------------
+#!/bin/bash
+cd /mnt/es/plugins/mongo-connector
+nohup mongo-connector -c config.json > .nohup &
     
-    
+Reference links:
+----------------
+https://github.com/mongodb-labs/mongo-connector/wiki/Installation
+https://github.com/mongodb-labs/elastic-doc-manager
