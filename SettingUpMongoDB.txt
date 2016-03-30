@@ -43,6 +43,7 @@ Adding a shard to mongos without authentication
 6. Logout of the mongo shell
 7. use mongo shell ./bin/mongo --port 27018
 8. rs.initiate()
+9. u should be able to see rs0:PRIMARY
 
 Adding shard option to a collection (post) in a db (test)
 -----------------------------------
@@ -146,143 +147,26 @@ db.runCommand({ grantRolesToUser: 'oplogger', roles: ['oplogger']})
 
 8. try the newly added account db.auth("username","password")
 
+Create index for collection (post)
+----------------------------------
+1. login ./bin/mongo --port 27017
+2. db.post.ensureIndex( { 'source.profile.text': 1 } )
 
+Copy one collection (server A) to another collection (server B) **only for migration
+------------------------------------------------------------------------------------
+1. login ./bin/mongo --port 27017
+2. var db1 = connect('127.0.0.1:27017/test')
+3. db1.post.find({
+	dateTimePosted: {
+		$gte: ISODate("2015-12-01T00:00:00.000Z"),
+		$lt: ISODate("2015-12-31T23:59:59.000Z")
+	}
+  }).forEach(function(p) {db.post.insert(p);});
 
-
-
-
-
-
-Setting up new replica set without authentication
-----------------------------------------------
-1. create the folder ~/mongodb/data/db
-2. Startup the mongod nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --dbpath ~/mongodb/data/db --replSet "rs0" --port 27018 > ~/nohup/nohup &
-3. cd ~/mongodb-linux-x86_64-2.6.0/bin
-4. ./mongo --port 27018
-5. use admin
-6. rs.initiate()
-7. CTRL+C to exit the shell
-8. ./mongo --port 27018 and u should be able to see rs0:PRIMARY
-
-Setting up a new shard server without authentication
------------------------------------------------------
-1. Copy 1 set of mongodb-linux-x86_64-2.6.0 to ~/mongodb-config-servers and rename the folder to mongodb-linux-x86_64-2.6.0-shard
-2. create the folder ~/mongodb/data/db-shard 
-3. Startup the mongod nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shard/bin/mongod --dbpath ~/mongodb/data/db-shard --shardsvr --port 10001 > ~/nohup/nohup &
-
-Adding the shard to the main mongodb server
--------------------------------------------
-1. Startup the mongos (located in the bin folder of the main mongodb server) nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongos --configdb <localhost_ip_address>:27021,<localhost_ip_address>:27022,<localhost_ip_address>:27023  --port 27017 > ~/nohup/nohup &
-2. use mongo shell ./bin/mongo
-3. use admin
-4. db.runCommand( { addshard : "127.0.0.1:10001" } );
-{ "shardAdded" : "shard0000", "ok" : 1 }
-5. db.runCommand( { enablesharding  : "test" } );
-6. test the shard db.runCommand( { shardcollection : "test.cTest", key : { Name : 1 } } );
-7. In a linux machine, use MongoChef to import the exported collection to test database. No authentication required. 
-8. Activate shard for collection that you want to have sharding i.e. sh.shardCollection("test.post", { _id: 1} )
-9. use the MongoChef to verify your collection have the shared: true
-
-Add authentication 
-------------------
-1. Kill all any existing mongodb process, config server, sharding, router
-2. Start in the following order config-server-1, config-server-2, config-server-3, shard server, mongod, mongos with authentication (--keyFile ~/mongodb/mongodb-keyfile)
-3. enter mongo shell ./bin/mongo
-4. use admin
-5. db.createUser(
-  {
-    user: "admin",
-    pwd: "***********",
-    roles:
-    [
-      {
-        role: "clusterAdmin",
-        db: "admin"
-      },
-      {
-        role: "userAdminAnyDatabase",
-        db: "admin"
-      },
-      {
-        role: "dbAdminAnyDatabase",
-        db: "admin"
-      },
-      {
-        role: "readWrite",
-        db: "admin"
-      },
-      {
-        role: "dbAdmin",
-        db: "admin"
-      },
-	{
-        role: "userAdmin",
-        db: "admin"
-      }
-    ]
-  }
-)
-6. use test
-7. db.createUser(
-  {
-    user: "h*****admin",
-    pwd: "********",
-    roles:
-    [
-      {
-        role: "readWrite",
-        db: "test"
-      },
-      {
-        role: "dbAdmin",
-        db: "test"
-      },
-	{
-        role: "userAdmin",
-        db: "test"
-      }
-    ]
-  }
-)
-
-db.createUser(
-  {
-    user: "hs****app",
-    pwd: "St******",
-    roles:
-    [
-      {
-        role: "readWrite",
-        db: "test"
-      },
-      {
-        role: "dbAdmin",
-        db: "test"
-      }
-    ]
-  }
-)
-
-----create a oplogger account for to read the oplog for the use by the mongo connector to elastic search
-db.createUser({ user: "oplogger",
-  pwd: "St************************2",
-  roles: []
-});
-
-db.runCommand(
-{ 
-	createRole: "oplogger", 
-	privileges: [
-	   { resource: { db: 'local', collection: 'system.replset'}, actions: ['find']} 
-	], 
-	roles: [{role: 'read', db: 'local'}] 
-})
-
-db.runCommand({ grantRolesToUser: 'oplogger', roles: ['oplogger']})
-
-8. try the newly added account db.auth("username","password")
-
-
+Run all mongo instance with authentication 
+------------------------------------------
+1. Kill all any existing mongodb process, config server, router
+2. Start in the following order config-server-1, config-server-2, config-server-3, mongos, mongod with authentication (--keyFile ~/mongodb/mongodb-keyfile)
 
 shell script to Start main MongoDB server
 -----------------------------------------
@@ -290,7 +174,7 @@ shell script to Start main MongoDB server
 nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod --keyFile ~/mongodb/mongodb-keyfile --replSet "rs0" --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
 
 ~/mongodb-linux-x86_64-2.6.0/startMongod.sh (without authentication)
-nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod  --replSet "rs0" --dbpath ~/mongodb/data/db  --port 27017 > ~/nohup/nohup &
+nohup ~/mongodb-linux-x86_64-2.6.0/bin/mongod  --replSet "rs0" --dbpath ~/mongodb/data/db  --port 27018 > ~/nohup/nohup &
 
 shell script to Start MongoDB router
 ------------------------------------
@@ -315,14 +199,6 @@ if this config server is hosted on the same server as the other 2 config servers
 startMongodAuthConfig3.sh
 nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-config3/bin/mongod --keyFile ~/mongodb/mongodb-keyfile  --dbpath ~/mongodb/data/db-config3 --configsvr --port 27023 > ~/nohup/nohup &
 if this config server is hosted on the same server as the other 2 config servers, then they must have different port number, otherwise they can have the same port number.
-
-shell script to Start MongoDB shard server
-------------------------------------------
-startMongodAuthShard.sh
-nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shard/bin/mongod --keyFile ~/mongodb/mongodb-keyfile --dbpath ~/mongodb/data/db-shard --shardsvr --port 10001 > ~/nohup/nohup &
-
-startMongodShard.sh
-nohup ~/mongodb-config-servers/mongodb-linux-x86_64-2.6.0-shard/bin/mongod --dbpath ~/mongodb/data/db-shard --shardsvr --port 10001 > ~/nohup/nohup &
 
 Mongodb setup links
 --------------------
