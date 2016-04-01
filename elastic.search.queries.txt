@@ -187,3 +187,6 @@ Delete records from the elastic search index
 --------------------------------------------
  curl -XDELETE 'http://localhost:9200/twitology/post/_query' -d '{"query" : {"range" : {"dateTimePosted" : { "from" : "2016-02-29T16:00:00.000Z", "to" : "2016-03-31T15:59:59.000Z"}}}}'
 
+Count number of records
+-----------------------
+curl -XGET 'http://localhost:9200/twitology/post/_count?pretty=true' -d '{"query" : {"range" : {"dateTimePosted" : { "from" : "2016-02-29T16:00:00.000Z", "to" : "2016-03-31T15:59:59.000Z"}}}}'
