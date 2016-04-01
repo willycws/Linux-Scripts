@@ -179,5 +179,6 @@ curl -XPOST 'http://localhost:9200/recipes/recipe/_bulk' -d '
 '
 
 
+Get records from 2016-03-01T00:00:00 till 2016-03-31T23:59:59 (Singapore time)
+curl -XGET 'http://localhost:9200/twitology/post/_search?pretty=true' -d '{"query" : {"range" : {"dateTimePosted" : { "from" : "2016-02-29T16:00:00.000Z", "to" : "2016-03-31T15:59:59.000Z"}}}}'
 
-curl -XGET 'http://localhost:9200/twitology/post/_search?pretty' -d '{"query" : {"range" : {"dateTimePosted" : { "from" : "2016-03-01T00:00:00.000Z", "to" : "2016-03-31T23:59:59.000Z"}}}}'
