@@ -174,6 +174,10 @@ curl -XGET 'http://localhost:9200/recipes/_search?search_type=count&pretty=true'
 
 -->add 
 curl -XPOST 'http://localhost:9200/recipes/recipe/_bulk' -d '
-{name: “Heinz”, craft:”butcher”, language:”de”}
-{name: “Giorgio”, craft:”baker”, language:”it”}
+{name: â€œHeinzâ€, craft:â€butcherâ€, language:â€deâ€}
+{name: â€œGiorgioâ€, craft:â€bakerâ€, language:â€itâ€}
 '
+
+
+
+curl -XGET 'http://localhost:9200/twitology/post/_search?pretty' -d '{"query" : {"range" : {"dateTimePosted" : { "from" : "2016-03-01T00:00:00.000Z", "to" : "2016-03-31T23:59:59.000Z"}}}}'
