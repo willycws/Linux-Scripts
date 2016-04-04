@@ -72,3 +72,7 @@ Select regular expression
 Untar a tar.gz file
 -------------------
 tar -zxvf data.tar.gz
+
+Delete files in a folder that contains filename "20160312*"
+-----------------------------------------------------------
+find -type f -name "20160312*" -delete
