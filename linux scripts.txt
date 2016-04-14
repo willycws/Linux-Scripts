@@ -76,3 +76,9 @@ tar -zxvf data.tar.gz
 Delete files in a folder that contains filename "20160312*"
 -----------------------------------------------------------
 find -type f -name "20160312*" -delete
+
+Encounter: Error binding to port 8001 : Address already in use (solution kill the process)
+------------------------------------------------------------------------------------------
+sudo netstat -ltnp | grep ':8001'
+display: tcp        0      0 0.0.0.0:8001            0.0.0.0:*               LISTEN      14724/python 
+kill 14724
