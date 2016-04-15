@@ -37,6 +37,16 @@ Install Brat Annotator
     Assign	dashArray:3-3, arrowHead:triangle-5
     Asset	dashArray:3-3, arrowHead:triangle-5
 
+13. Create a new tools.conf in the ~/brat-v1.3_Crunchy_Frog/data folder   
+    [options]
+    Validation	validate:all
+    Tokens	   tokenizer:whitespace
+    Sentences	splitter:regex
+    Annotation-log logfile: "/home/hs/brat-v1.3_Crunchy_Frog/work/annotation.log"
+
+    [search]
+    Google       <URL>:http://www.google.com/search?q=%s
+    Wikipedia    <URL>:http://en.wikipedia.org/wiki/Special:Search?search=%s
 
 Kill the Brat Annotator process
 -------------------------------
