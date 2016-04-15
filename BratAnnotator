@@ -1,0 +1,9 @@
+Install Brat Annotator
+---------------------
+1. Download the Brat Annotator from http://brat.nlplab.org/
+2. tar xzf ~/Downloads/brat-v1.3_Crunchy_Frog.tar.gz
+3. cd brat-v1.3_Crunchy_Frog
+4. ./install.sh -u
+
+
+
