@@ -1,9 +1,40 @@
 Install Brat Annotator
 ---------------------
 1. Download the Brat Annotator from http://brat.nlplab.org/
-2. tar xzf ~/Downloads/brat-v1.3_Crunchy_Frog.tar.gz
-3. cd brat-v1.3_Crunchy_Frog
-4. ./install.sh -u
+2. cd ~
+3. tar xzf ~/Downloads/brat-v1.3_Crunchy_Frog.tar.gz
+4. cd brat-v1.3_Crunchy_Frog
+5. ./install.sh -u
+6. Enter a username, password & admin email address
+7. cd ~
+8. ./startBrat.sh
+9. Use a browser to access: http://127.0.0.1:8001/index.xhtml
+10. Place your text file to be annotated to ~/brat-v1.3_Crunchy_Frog/data (It must be .txt format)
+11. Create a new annotaion.conf in the ~/brat-v1.3_Crunchy_Frog/data folder
+    [entities]
+    Bus_company
+    Bus_type
+    Bus_interchange
+    
+    [relations]
+    Assign Arg1:Bus_company, Arg2:Bus_interchange
+    Asset Arg1:Bus_company, Arg2:Bus_type
+12.    
 
 
+Kill the Brat Annotator process
+-------------------------------
+sudo netstat -ltnp | grep ':8001'
+Display: tcp        0      0 0.0.0.0:8001            0.0.0.0:*               LISTEN      24290/python
+sudo kill 24290
 
+shell script to Brat annotator
+------------------------------
+startBrat.sh
+#!/bin/bash
+cd /home/hs/brat-v1.3_Crunchy_Frog
+nohup python standalone.py &
+
+References
+----------
+http://brat.nlplab.org/configuration.html
