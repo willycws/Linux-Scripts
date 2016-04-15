@@ -50,6 +50,11 @@ Install Brat Annotator
     Google       <URL>:http://www.google.com/search?q=%s
     Wikipedia    <URL>:http://en.wikipedia.org/wiki/Special:Search?search=%s
 
+How to annotate the words
+-------------------------
+1. Highlight the word(s), a popout will enable to select whether the entity type
+2. To establish a relationship between words i.e. (bus_company: SMRT with bus_interchange: Woodlands Bus Interchange), drag the word from SMRT to Woodlands Bus Interchange) assuming you have annotated SMRT as bus_company and Woodlands Bus Interchange as bus_interchange entity.
+
 Kill the Brat Annotator process
 -------------------------------
 sudo netstat -ltnp | grep ':8001'
