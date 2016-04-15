@@ -10,6 +10,7 @@ Install Brat Annotator
 8. ./startBrat.sh
 9. Use a browser to access: http://127.0.0.1:8001/index.xhtml
 10. Place your text file to be annotated to ~/brat-v1.3_Crunchy_Frog/data (It must be .txt format)
+11. Create a .ann file to store all the annotation in ~/brat-v1.3_Crunchy_Frog/data (It must be have the same filename as the .txt file)
 11. Create a new annotaion.conf in the ~/brat-v1.3_Crunchy_Frog/data folder
     [entities]
     Bus_company
