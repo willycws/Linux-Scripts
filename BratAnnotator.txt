@@ -19,7 +19,23 @@ Install Brat Annotator
     [relations]
     Assign Arg1:Bus_company, Arg2:Bus_interchange
     Asset Arg1:Bus_company, Arg2:Bus_type
-12.    
+    
+12. Create a new visual.conf in the ~/brat-v1.3_Crunchy_Frog/data folder   
+    [labels]
+    Bus_company | Bus_Coy
+    Bus_type | Bus_Type
+    Bus_interchange | Bus_Interc
+
+    [drawing]
+    SPAN_DEFAULT	fgColor:black, bgColor:lightgreen, borderColor:darken
+    ARC_DEFAULT	color:black, arrowHead:triangle-5
+
+    Bus_company	bgColor:#ffccaa
+    Bus_type	bgColor:#8fb2ff
+    Bus_interchange	bgColor:#7fe2ff
+
+    Assign	dashArray:3-3, arrowHead:triangle-5
+    Asset	dashArray:3-3, arrowHead:triangle-5
 
 
 Kill the Brat Annotator process
