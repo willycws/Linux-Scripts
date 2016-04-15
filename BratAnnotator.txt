@@ -4,15 +4,16 @@ Install Brat Annotator
 2. cd ~
 3. tar xzf ~/Downloads/brat-v1.3_Crunchy_Frog.tar.gz
 4. cd brat-v1.3_Crunchy_Frog
-5. ./install.sh -u
-6. Enter a username, password & admin email address
-7. cd ~
-8. ./startBrat.sh
-9. Use a browser to access: http://127.0.0.1:8001/index.xhtml
-10. Create a folder (bus) in ~/brat-v1.3_Crunchy_Frog/data
-11. Place your text file to be annotated to ~/brat-v1.3_Crunchy_Frog/data/bus (It must be .txt format)
-12. Create a .ann file to store all the annotation in ~/brat-v1.3_Crunchy_Frog/data/bus (It must be have the same filename as the .txt file)
-13. Create a new annotaion.conf in the ~/brat-v1.3_Crunchy_Frog/data folder
+5. sudo chmod -R 777 data
+6. ./install.sh -u
+7. Enter a username, password & admin email address
+8. cd ~
+9. ./startBrat.sh
+10. Use a browser to access: http://127.0.0.1:8001/index.xhtml
+11. Create a folder (bus) in ~/brat-v1.3_Crunchy_Frog/data
+12. Place your text file to be annotated to ~/brat-v1.3_Crunchy_Frog/data/bus (It must be .txt format)
+13. Create a .ann file to store all the annotation in ~/brat-v1.3_Crunchy_Frog/data/bus (It must be have the same filename as the .txt file)
+14. Create a new annotaion.conf in the ~/brat-v1.3_Crunchy_Frog/data folder
     [entities]
     Bus_company
     Bus_type
@@ -22,7 +23,7 @@ Install Brat Annotator
     Assign Arg1:Bus_company, Arg2:Bus_interchange
     Asset Arg1:Bus_company, Arg2:Bus_type
     
-14. Create a new visual.conf in the ~/brat-v1.3_Crunchy_Frog/data folder   
+15. Create a new visual.conf in the ~/brat-v1.3_Crunchy_Frog/data folder   
     [labels]
     Bus_company | Bus_Coy
     Bus_type | Bus_Type
@@ -39,7 +40,7 @@ Install Brat Annotator
     Assign	dashArray:3-3, arrowHead:triangle-5
     Asset	dashArray:3-3, arrowHead:triangle-5
 
-15. Create a new tools.conf in the ~/brat-v1.3_Crunchy_Frog/data folder   
+16. Create a new tools.conf in the ~/brat-v1.3_Crunchy_Frog/data folder   
     [options]
     Validation	validate:all
     Tokens	   tokenizer:whitespace
