@@ -82,3 +82,12 @@ Encounter: Error binding to port 8001 : Address already in use (solution kill th
 sudo netstat -ltnp | grep ':8001'
 display: tcp        0      0 0.0.0.0:8001            0.0.0.0:*               LISTEN      14724/python 
 kill 14724
+
+Can't login xdp into linux machine
+----------------------------------
+1. Use remote desktop to login to Linux machine and encounter xrdp_mm_process_login_response: login failed (The no. of users login is max)
+2. Use another Linux machine, ssh xx.xx.xx.xxx to the machine you wish to login
+3. ps -ef|grep vnc
+4. kill 1 or more process
+5. Use remote desktop and try again
+5. 
