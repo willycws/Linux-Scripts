@@ -156,7 +156,8 @@ Copy one collection (server A) to another collection (server B) **only for migra
 ------------------------------------------------------------------------------------
 1. login ./bin/mongo --port 27017
 2. var db1 = connect('127.0.0.1:27017/test')
-3. db1.post.find({
+3. db1.auth('username','password')
+4. db1.post.find({
 	dateTimePosted: {
 		$gte: ISODate("2015-12-01T00:00:00.000Z"),
 		$lt: ISODate("2015-12-31T23:59:59.000Z")
