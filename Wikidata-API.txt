@@ -4,6 +4,10 @@ return JSON: http://wdq.wmflabs.org/api?q=CLAIM[31:19723451]
 
 Retrieve the list of links that contain Q19723451 - https://www.wikidata.org/wiki/Special:WhatLinksHere/Q19723451
 
+Example:
+[instance of:business enterprise] - [31:4830453]
+
+
 
 WIKIDATA API Documentation
 --------------------------
