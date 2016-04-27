@@ -1,0 +1,3 @@
+Retrieve all wikidata that has "instance of" (WIKIDATA property code: Q31) "smartphone model" (WIKIDATA Item code: Q19723451)
+-----------------------------------------------------------------------------------------------------------------------------
+http://wdq.wmflabs.org/api?q=CLAIM[31:19723451]
