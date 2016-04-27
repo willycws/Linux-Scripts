@@ -7,9 +7,13 @@ Retrieve the list of links that contain Q19723451 - https://www.wikidata.org/wik
 Example:
 [instance of:business enterprise] - [31:4830453]
 
-
+Example:
+--------
+Get the 500 articles most recently added to Category:Android_(operating_system)_devices
+https://en.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:Android_(operating_system)_devices&cmsort=timestamp&cmdir=desc&cmlimit=500
 
 WIKIDATA API Documentation
 --------------------------
 http://wdq.wmflabs.org/api_documentation.html
 https://www.wikidata.org/wiki/Wikidata:List_of_properties
+https://www.mediawiki.org/wiki/API:Categorymembers
