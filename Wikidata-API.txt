@@ -9,15 +9,15 @@ Example:
 
 Example:
 --------
-Get the 500 articles most recently added to Category:Android_(operating_system)_devices
-https://en.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:Android_(operating_system)_devices&cmsort=timestamp&cmdir=desc&cmlimit=500
+Get the 500 articles most recently added to Category:Android_(operating_system)_devices display in JSON format
+https://en.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:Android_(operating_system)_devices&cmsort=timestamp&cmdir=desc&cmlimit=500&format=json
 The result will contain 
 "continue": {
         "cmcontinue": "2013-04-25 21:54:55|39086408",
         "continue": "-||"
     }
 where you can use the value in cmcontinue to find the next 500 title as shown in the next query
-https://en.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:Android_(operating_system)_devices&cmsort=timestamp&cmdir=desc&cmlimit=500&cmcontinue=2013-04-25%2021:54:55|39086408
+https://en.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:Android_(operating_system)_devices&cmsort=timestamp&cmdir=desc&cmlimit=500&format=json&cmcontinue=2013-04-25%2021:54:55|39086408
 
 WIKIDATA API Documentation
 --------------------------
