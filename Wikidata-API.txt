@@ -25,3 +25,4 @@ http://wdq.wmflabs.org/api_documentation.html
 https://www.wikidata.org/wiki/Wikidata:List_of_properties
 https://www.mediawiki.org/wiki/API:Categorymembers
 https://en.wikipedia.org/wiki/Category:Companies_by_industry - companies by industry
+https://www.mediawiki.org/wiki/API:Lists#embeddedin
