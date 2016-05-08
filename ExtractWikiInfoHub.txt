@@ -100,3 +100,4 @@ References:
 http://blog.modulus.io/build-your-first-http-server-in-nodejs
 https://www.npmjs.com/package/wiki-infobox
 https://nodejs.org/api/url.html
+https://quickleft.com/blog/creating-and-publishing-a-node-js-module/
