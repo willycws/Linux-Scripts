@@ -88,7 +88,13 @@ server.listen(PORT, function(){
 7. Run the file as a client side server web service. node wiki-infobox-api.js
 8. Launch a browser and test the api. http://localhost:8080/wikiinfobox?title=<Wiki page title>&language=en
             http://localhost:8080/wikiinfobox?title=iPhone 6&language=en
-            
+9. If you want to make an API call from your Java application
+	import org.springframework.web.client.RestTemplate;
+	
+	RestTemplate restTemplate = new RestTemplate();
+	String jsonResult = restTemplate.getForObject("http://localhost:8080/wikiinfobox?title=iPhone 6&language=en", String.class);
+	System.out.println(jsonResult); //Print to see the result from the API call
+
 References:
 -----------
 http://blog.modulus.io/build-your-first-http-server-in-nodejs
