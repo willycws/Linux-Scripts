@@ -9,3 +9,17 @@ Login to Heroku via CLI
 1. heroku login
 2. Enter email
 3. Enter password
+
+Publishing a nodeJs to Heroku
+-----------------------------
+1. Check the following applications are installed:
+    a. node -v
+    b. npm -v
+    c. git --version
+2. 
+
+
+
+References:
+-----------
+https://devcenter.heroku.com/articles/getting-started-with-nodejs#set-up
