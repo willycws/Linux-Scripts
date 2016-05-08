@@ -1,0 +1,11 @@
+Setup Heroku CLI in Ubuntu
+--------------------------
+1. Make sure Ruby is installed. Check ruby version: ruby -v
+2. sudo wget -O- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+3. heroku --> will install the Heroku CLI
+
+Login to Heroku via CLI
+-----------------------
+1. heroku login
+2. Enter email
+3. Enter password
