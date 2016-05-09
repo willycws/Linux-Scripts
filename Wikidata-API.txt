@@ -29,6 +29,10 @@ The result will contain
 where you can use the value in eicontinue to find the next 500 title as shown in the next query
 https://en.wikipedia.org/w/api.php?action=query&list=embeddedin&eititle=Template:Android_smartphones&eilimit=500&format=json&eicontinue=0|33203720
 
+Retrieve WikiData ID from Wikipedia pages
+-----------------------------------------
+https://en.wikipedia.org/w/api.php?action=query&prop=pageprops&ppprop=wikibase_item&redirects=1&titles=Samsung
+
 WIKIDATA API Documentation
 --------------------------
 http://wdq.wmflabs.org/api_documentation.html
