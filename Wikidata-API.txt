@@ -7,8 +7,11 @@ Retrieve all the Wikidata Claims (i.e. P373: Commons category, P31: instance of,
 --------------------------------------------------------------------------------------------------------------------------------
 Use case: I want to find out if "Q20716:Samsung" is a instance of company/organization
 https://www.wikidata.org/w/api.php?action=wbgetentities&ids=Q20716&props=claims&languages=en&languagefallback=&sitefilter=azwiki&format=json
-Look under the section "P31" and retrieve all the "numeric-id", example: Q4830453 and use the "numeric-id" to extract the labels or description containing company or organization using the following URL:
-https://www.wikidata.org/w/api.php?action=wbgetentities&ids=Q4830453&props=labels|descriptions&languages=en&languagefallback=&sitefilter=azwiki&format=json
+
+Look under the section "P31" and retrieve all the "numeric-id", example: Q4830453 and use the "numeric-id" to extract the labels or description using the following URL:
+https://www.wikidata.org/w/api.php?action=wbgetentities&ids=Q4830453&props=labels|descriptions|claims&languages=en&languagefallback=&sitefilter=azwiki&format=json
+If the extracted label is not organization/company, then we use the "numeric-id" in "P279: subclass of" example: Q43229 to continue tranverse 3 levels or until it found "organization" whichever come first. Then extract the label again to see if it contains organization
+https://www.wikidata.org/w/api.php?action=wbgetentities&ids=Q43229&props=labels|descriptions|claims&languages=en&languagefallback=&sitefilter=azwiki&format=json
 
 Retrieve all wikidata that has "instance of" (WIKIDATA property code: Q31) "smartphone model" (WIKIDATA Item code: Q19723451)
 -----------------------------------------------------------------------------------------------------------------------------
