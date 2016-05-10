@@ -6,6 +6,7 @@ Setup Nodejs and npm
 4. Install libraries required for extracting Wikipedia Infohub
     a. npm install wiki-infobox
     b. npm install httpdispatcher
+    c. npm install node-rest-client
     
 Script to run the WikiInfoHub as a client web service
 -----------------------------------------------------
