@@ -10,6 +10,22 @@ Login to Heroku via CLI
 2. Enter email
 3. Enter password
 
+Publishing website (first time) to Heroku (PHP)
+----------------------------------
+1. Login to heroku using CLI - heroku login
+2. Check whether the following components are installed:
+    a. php -v
+    b. composer -V (if not installed, use "curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer")
+    c. git --version
+3. cd ~/Documents 
+4. git clone https://github.com/heroku/php-getting-started.git (clone a sample site)
+5. cd php-getting-started
+6. heroku create (create a new site in heroku)
+7. git push heroku master (push the site into heroku)
+8. heroku ps:scale web=1 (ensure that at least one instance of the app is running)
+9. heroku open (launch the website)
+10. 
+
 Publishing a nodeJs to Heroku
 -----------------------------
 1. Check the following applications are installed:
