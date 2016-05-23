@@ -32,8 +32,13 @@ Publishing website (first time) to Heroku (PHP)
 14. git clone https://git.heroku.com/<OWN-SITE-NAME>.git
 15. cd web
 16. Remove the rest of the content in the web folder except index.php and .htaccess
-17. Replace your own site files in the web folder
-18.
+17. Modify the index.php. Remove everything and insert <?php header( 'Location: /index.html' ) ;  ?>
+18. Replace your own site files in the web folder
+19. heroku git:remote -a willycws
+20. git add . (add the new files)
+21. git commit -m "My site ready for deployment."
+22. git push heroku master
+23. heroku open (launch the website)
 
 Publishing a nodeJs to Heroku
 -----------------------------
