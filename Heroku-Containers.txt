@@ -24,7 +24,16 @@ Publishing website (first time) to Heroku (PHP)
 7. git push heroku master (push the site into heroku)
 8. heroku ps:scale web=1 (ensure that at least one instance of the app is running)
 9. heroku open (launch the website)
-10. 
+10. Login to https://dashboard.heroku.com/apps and click on the site that you have created just now
+11. Go to Settings tab --> rename the site name to your own site name, this will be http://<OWN-SITE-NAME>.herokuapp.com
+12. Scroll down the Settings page, and copy the Git URL https://git.heroku.com/<OWN-SITE-NAME>.git
+12. Back to your CLI, remove the whole folder php-getting-started
+13. cd ~/Documents 
+14. git clone https://git.heroku.com/<OWN-SITE-NAME>.git
+15. cd web
+16. Remove the rest of the content in the web folder except index.php and .htaccess
+17. Replace your own site files in the web folder
+18.
 
 Publishing a nodeJs to Heroku
 -----------------------------
