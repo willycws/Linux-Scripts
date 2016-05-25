@@ -39,6 +39,7 @@ Publishing website (first time) to Heroku (PHP)
 21. git commit -m "My site ready for deployment."
 22. git push heroku master
 23. heroku open (launch the website)
+24. heroku logs --tail
 
 Publishing a nodeJs to Heroku
 -----------------------------
