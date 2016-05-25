@@ -42,7 +42,7 @@ Publishing website (first time) to Heroku (PHP)
 24. heroku logs --tail (read logs)
 
 Publishing Node.js (first time) to Heroku (PHP)
-----------------------------------
+-----------------------------------------------
 1. Login to heroku using CLI - heroku login
 2. Check whether the following components are installed:
     a. node -v
@@ -105,16 +105,41 @@ Publishing Node.js (first time) to Heroku (PHP)
 23. heroku open (launch the website)
 24. heroku logs --tail (read logs)
 
-Publishing a nodeJs to Heroku
------------------------------
-1. Check the following applications are installed:
-    a. node -v
-    b. npm -v
-    c. git --version
-2. 
-
-
-
+How to address asynchronous process in Node.js For Loop
+-------------------------------------------------------
+1. You may write a program whereby the program just complete its course without completing the For Loop
+ console.log("Test Loop Started...");
+ for (var i=0;i<5;i++){
+ 	console.log("Test Loop " + i);	
+ }
+ console.log("Test Loop Ended.");
+ 
+ Result output:
+ Test Loop Started...
+ Test Loop 0
+ Test Loop Ended.
+ Test Loop 1
+ Test Loop 2
+ Test Loop 3
+ 
+ 2. To address this problem we write a recursive function to prevent it from completing the course without completing the For Loop
+ console.log("Test Loop Started...");
+ looping(0);
+ function looping(i){
+	if (i < 5){
+		console.log("Test Loop " + i);
+		looping(i+1);
+	}
+ } 
+ console.log("Test Loop Ended.");
+ Result output:
+ Test Loop Started...
+ Test Loop 0
+ Test Loop 1
+ Test Loop 2
+ Test Loop 3
+ Test Loop Ended.
+ 
 References:
 -----------
 https://devcenter.heroku.com/articles/getting-started-with-php#introduction
