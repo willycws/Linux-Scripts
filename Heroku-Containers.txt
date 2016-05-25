@@ -27,19 +27,19 @@ Publishing website (first time) to Heroku (PHP)
 10. Login to https://dashboard.heroku.com/apps and click on the site that you have created just now
 11. Go to Settings tab --> rename the site name to your own site name, this will be http://<OWN-SITE-NAME>.herokuapp.com
 12. Scroll down the Settings page, and copy the Git URL https://git.heroku.com/<OWN-SITE-NAME>.git
-12. Back to your CLI, remove the whole folder php-getting-started
-13. cd ~/Documents 
-14. git clone https://git.heroku.com/<OWN-SITE-NAME>.git
-15. cd web
-16. Remove the rest of the content in the web folder except index.php and .htaccess
-17. Modify the index.php. Remove everything and insert <?php header( 'Location: /index.html' ) ;  ?>
-18. Replace your own site files in the web folder
-19. heroku git:remote -a <OWN-SITE-NAME>
-20. git add . (add the new files)
-21. git commit -m "My site ready for deployment."
-22. git push heroku master
-23. heroku open (launch the website)
-24. heroku logs --tail (read logs)
+13. Back to your CLI, remove the whole folder php-getting-started
+14. cd ~/Documents 
+15. git clone https://git.heroku.com/<OWN-SITE-NAME>.git
+16. cd web
+17. Remove the rest of the content in the web folder except index.php and .htaccess
+18. Modify the index.php. Remove everything and insert <?php header( 'Location: /index.html' ) ;  ?>
+19. Replace your own site files in the web folder
+20. heroku git:remote -a <OWN-SITE-NAME>
+21. git add . (add the new files)
+22. git commit -m "My site ready for deployment."
+23. git push heroku master
+24. heroku open (launch the website)
+25. heroku logs --tail (read logs)
 
 Publishing Node.js (first time) to Heroku (PHP)
 -----------------------------------------------
@@ -58,13 +58,13 @@ Publishing Node.js (first time) to Heroku (PHP)
 10. Login to https://dashboard.heroku.com/apps and click on the site that you have created just now
 11. Go to Settings tab --> rename the site name to your own site name, this will be http://<OWN-SITE-NAME>.herokuapp.com
 12. Scroll down the Settings page, and copy the Git URL https://git.heroku.com/<OWN-SITE-NAME>.git
-12. Back to your CLI, remove the whole folder node-js-getting-started
-13. cd ~/Documents 
-14. git clone https://git.heroku.com/<OWN-SITE-NAME>.git
-15. cd <OWN-SITE-NAME>
-16. Add in your own nodejs file <own_nodejs_file.js>
-17. Modify the Procfile file to make sure it is pointing to <own_nodejs_file.js>
-18. Modify the package.json to make sure all the dependencies required by your nodejs file are added
+13. Back to your CLI, remove the whole folder node-js-getting-started
+14. cd ~/Documents 
+15. git clone https://git.heroku.com/<OWN-SITE-NAME>.git
+16. cd <OWN-SITE-NAME>
+17. Add in your own nodejs file <own_nodejs_file.js>
+18. Modify the Procfile file to make sure it is pointing to <own_nodejs_file.js>
+19. Modify the package.json to make sure all the dependencies required by your nodejs file are added
 {
   "name": "own_nodejs_file",
   "version": "0.0.1",
@@ -98,12 +98,12 @@ Publishing Node.js (first time) to Heroku (PHP)
   ],
   "license": "MIT"
 }
-19. heroku git:remote -a <OWN-SITE-NAME>
-20. git add . (add the new files)
-21. git commit -m "My site ready for deployment."
-22. git push heroku master
-23. heroku open (launch the website)
-24. heroku logs --tail (read logs)
+20. heroku git:remote -a <OWN-SITE-NAME>
+21. git add . (add the new files)
+22. git commit -m "My site ready for deployment."
+23. git push heroku master
+24. heroku open (launch the website)
+25. heroku logs --tail (read logs)
 
 How to address asynchronous process in Node.js For Loop
 -------------------------------------------------------
