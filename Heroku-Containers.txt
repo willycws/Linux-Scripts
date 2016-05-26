@@ -40,6 +40,7 @@ Publishing website (first time) to Heroku (PHP)
 23. git push heroku master
 24. heroku open (launch the website)
 25. heroku logs --tail (read logs)
+26. To restart a Dyno use heroku ps:restart web.1
 
 Publishing Node.js (first time) to Heroku (PHP)
 -----------------------------------------------
@@ -104,6 +105,7 @@ Publishing Node.js (first time) to Heroku (PHP)
 23. git push heroku master
 24. heroku open (launch the website)
 25. heroku logs --tail (read logs)
+26. To restart a Dyno use heroku ps:restart web.1
 
 How to address asynchronous process in Node.js For Loop
 -------------------------------------------------------
