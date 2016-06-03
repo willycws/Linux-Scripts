@@ -1,0 +1,14 @@
+Wiktionary for sentiment analysis
+---------------------------------
+Using Verbs and Adjectives to Automatically Classify Blog Sentiment
+https://www.aaai.org/Papers/Symposia/Spring/2006/SS-06-03/SS06-03-005.pdf
+
+Wiktionary for ontology learning
+--------------------------------
+Web-based Ontology Learning with ISOLDE
+http://www.dfki.de/dfkibib/publications/docs/ISWC06.WebContentMining.pdf
+
+Wiktionary for Information Retrieval
+------------------------------------
+Using Wikipedia and Wiktionary in Domain-Specific Information Retrieval
+http://ceur-ws.org/Vol-1174/CLEF2008wn-DomainSpecific-MullerEt2008.pdf
