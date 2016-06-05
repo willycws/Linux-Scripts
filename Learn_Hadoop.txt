@@ -1,1 +1,12 @@
+List files in Hadoop
+--------------------
+hadoop fs -ls /
+
+Upload files into Hadoop HDFS
+-----------------------------
+1. put all the files into a folder. i.e. ~/documents/shakespeare
+2. cd ~/documents
+3. hadoop fs -put shakespeare /user/training/shakespeare
+4. hadoop fs 
+
 
