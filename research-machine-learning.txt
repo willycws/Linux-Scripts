@@ -12,3 +12,6 @@ Wiktionary for Information Retrieval
 ------------------------------------
 Using Wikipedia and Wiktionary in Domain-Specific Information Retrieval
 http://ceur-ws.org/Vol-1174/CLEF2008wn-DomainSpecific-MullerEt2008.pdf
+
+sources for bigdataset
+https://www.linkedin.com/pulse/ten-sources-free-big-data-internet-alan-brown
