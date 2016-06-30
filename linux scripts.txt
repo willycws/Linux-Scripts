@@ -91,3 +91,7 @@ Can't login xdp into linux machine
 4. kill 1 or more process
 5. Use remote desktop and try again
 5. 
+
+Windows 8 Dell Sound Issue:
+---------------------------
+http://www.josephturley.com/windows-8-failed-play-test-tone/
