@@ -107,6 +107,15 @@ Publishing Node.js (first time) to Heroku (PHP)
 25. heroku logs --tail (read logs)
 26. To restart a Dyno use heroku ps:restart web.1
 
+To view logs of a deployed app in Heroku
+----------------------------------------
+1. Launch a terminal
+2. heroku login
+3. Enter email
+4. Enter password
+5. cd <to the location of the app where it is located in your local disk, it must have been previously clone from Github>
+6. heroku logs --tail
+
 How to address asynchronous process in Node.js For Loop
 -------------------------------------------------------
 1. You may write a program whereby the program just complete its course without completing the For Loop
