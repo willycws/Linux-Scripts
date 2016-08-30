@@ -11,3 +11,10 @@ View the Neo4J browser
 http://localhost:7474/db/data/
 http://localhost:7474/browser
 
+Edit the conf file
+------------------
+su
+<enter password>
+cd /var/lib/neo4j/conf
+gedit neo4j-server.properties
+Change the value of dbms.security.auth_enabled=false
