@@ -18,3 +18,11 @@ su
 cd /var/lib/neo4j/conf
 gedit neo4j-server.properties
 Change the value of dbms.security.auth_enabled=false
+
+Maven a Neo4j java-rest-binding (used for restful call to Neo4J)
+----------------------------------------------------------------
+Download the package from https://github.com/neo4j-contrib/java-rest-binding
+unzip and cd to the folder
+mvn package -Dmaven.test.skip=true
+copy the build jar to project lib
+
