@@ -54,4 +54,5 @@ MATCH (n) DETACH
 DELETE n
 
 
-
+https://m2.neo4j.org/content/groups/everything/org/neo4j/neo4j-rest-graphdb/2.0.1/
+http://thought-bytes.blogspot.sg/2013/07/getting-started-with-neo4j-java-rest-heroku.html
