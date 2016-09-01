@@ -48,3 +48,10 @@ Edit the pom.xml and include the following: (to include dependencies in the jar)
 mvn package -Dmaven.test.skip=true
 copy the build jar to project lib
 
+Delete all nodes in neo4j including relationship
+------------------------------------------------
+MATCH (n) DETACH
+DELETE n
+
+
+
