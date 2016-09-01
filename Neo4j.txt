@@ -22,6 +22,7 @@ Change the value of dbms.security.auth_enabled=false
 Download and add neo4j-rest-graphdb.jar to the project folder
 -------------------------------------------------------------
 https://m2.neo4j.org/content/groups/everything/org/neo4j/neo4j-rest-graphdb/
+include the <property> and all the <dependency> into the project pom.xml
 
 Delete all nodes in neo4j including relationship
 ------------------------------------------------
