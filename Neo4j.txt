@@ -23,6 +23,28 @@ Maven a Neo4j java-rest-binding (used for restful call to Neo4J)
 ----------------------------------------------------------------
 Download the package from https://github.com/neo4j-contrib/java-rest-binding
 unzip and cd to the folder
+Edit the pom.xml and include the following: (to include dependencies in the jar)
+      <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<!-- get all project dependencies -->
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>					
+				</configuration>
+				<executions>
+				  <execution>
+					<id>make-assembly</id>
+                                        <!-- bind to the packaging phase -->
+					<phase>package</phase>
+					<goals>
+						<goal>single</goal>
+					</goals>
+				  </execution>
+				</executions>
+			</plugin>
 mvn package -Dmaven.test.skip=true
 copy the build jar to project lib
 
