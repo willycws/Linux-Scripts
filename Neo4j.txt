@@ -2,9 +2,7 @@ Neo4J in Linux
 
 Stop/Start/Restart Neo4J
 ------------------------
-/var/lib/neo4j/bin/neo4j start
-/var/lib/neo4j/bin/neo4j stop
-/var/lib/neo4j/bin/neo4j restart
+sudo service neo4j (stop|start|restart)
 
 View the Neo4J browser
 ----------------------
