@@ -1,0 +1,54 @@
+1.	Download the elasticsearch 2.4.0 https://www.elastic.co/downloads/past-releases/elasticsearch-2-4-0
+2.	tar -zxf elasticsearch-2.4.0.tar.gz to ~/Documents
+3.	cd ~/Documents/elasticsearch-2.4.0
+4.	sudo ./bin/plugin install mobz/elasticsearch-head (install the GUI for elasticsearch)
+5.	Create the index in the elasticsearch
+curl -XPUT 'http://localhost:9200/commentindex/'
+ -d '{     
+ "settings" : {
+        "number_of_shards" : 2,
+        "number_of_replicas" : 1
+    }
+}'
+6.	Install elastic logstash
+wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+
+echo "deb http://packages.elastic.co/logstash/2.1/debian stable main" | sudo tee -a /etc/apt/sources.list
+
+sudo apt-get update
+
+sudo apt-get install logstash
+
+**location of installation
+•	service configuration /etc/logstash
+•	main binaries: /opt/logstash
+
+7.	cd /opt/logstash
+8.	install the jdbc for logstash     sudo ./bin/plugin install logstash-input-jdbc
+9.	cd ~/Documents/elasticsearch-2.4.0/config/logstash (no restriction on the location to place the configuration file)
+10.	Download the mysql jdbc connector https://dev.mysql.com/downloads/connector/j/ and unzip to the ~/Documents/elasticsearch-2.4.0/config/logstash
+11.	Create a new file, name it as logstash-jdbc.conf with the following contents
+input {
+  jdbc {
+    jdbc_driver_library => "/home/osboxes/Documents/github/solr-integration-strategies/carrot2-3.8.0/elasticsearch-2.4.0/config/logstash/mysql-connector-java-5.1.40-bin.jar"
+    jdbc_driver_class => "com.mysql.jdbc.Driver"
+    jdbc_connection_string => "jdbc:mysql://10.65.3.65:3306/apple_twitter"
+    jdbc_user => "admin"
+    jdbc_password => "p*******************d"
+    parameters => { "articleid" => 5982013341 }
+    schedule => "* * * * *"
+    statement => "select * from comment_elasticsearch where Article_ID = : articleid"
+  }
+}
+output {
+    elasticsearch {
+        index => "commentindex"
+        document_type => "comment"
+        document_id => "%{id}"
+        hosts => "localhost:9200"
+    }
+}
+12.	cd /opt/logstash
+13.	./bin/logstash -f /home/osboxes/Documents/github/solr-integration-strategies/carrot2-3.8.0/elasticsearch-2.4.0/config/logstash/logstash-jdbc.conf
+14.	Settings: Default pipeline workers: 1, Logstash startup completed  (indicate it has started the process of importing documents to elasticsearch index)
+15.	access http://localhost:9200/_plugin/head/ to check that the documents are indexed.
