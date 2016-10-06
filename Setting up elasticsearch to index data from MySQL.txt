@@ -1,8 +1,17 @@
 1.	Download the elasticsearch 2.4.0 https://www.elastic.co/downloads/past-releases/elasticsearch-2-4-0
 2.	tar -zxf elasticsearch-2.4.0.tar.gz to ~/Documents
-3.	cd ~/Documents/elasticsearch-2.4.0
-4.	sudo ./bin/plugin install mobz/elasticsearch-head (install the GUI for elasticsearch)
-5.	Create the index in the elasticsearch
+3. cd ~/Documents/
+4. mkdir elasticsearch/data
+5. mkdir elasticsearch/logs
+6.	cd ~/Documents/elasticsearch-2.4.0
+7. sudo gedit ~/Documents/elasticsearch-2.4.0/config/elasticsearch.yml
+cluster.name: elastic-carrot2
+node.name: node-1
+path.data: ~/Documents/elasticsearch/data
+path.logs: ~/Documents/elasticsearch/logs
+
+8.	sudo ./bin/plugin install mobz/elasticsearch-head (install the GUI for elasticsearch)
+9.	Create the index in the elasticsearch
 curl -XPUT 'http://localhost:9200/commentindex/'
  -d '{     
  "settings" : {
@@ -10,7 +19,8 @@ curl -XPUT 'http://localhost:9200/commentindex/'
         "number_of_replicas" : 1
     }
 }'
-6.	Install elastic logstash
+
+10.	Install elastic logstash
 wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
 
 echo "deb http://packages.elastic.co/logstash/2.1/debian stable main" | sudo tee -a /etc/apt/sources.list
@@ -23,11 +33,11 @@ sudo apt-get install logstash
 •	service configuration /etc/logstash
 •	main binaries: /opt/logstash
 
-7.	cd /opt/logstash
-8.	install the jdbc for logstash     sudo ./bin/plugin install logstash-input-jdbc
-9.	cd ~/Documents/elasticsearch-2.4.0/config/logstash (no restriction on the location to place the configuration file)
-10.	Download the mysql jdbc connector https://dev.mysql.com/downloads/connector/j/ and unzip to the ~/Documents/elasticsearch-2.4.0/config/logstash
-11.	Create a new file, name it as logstash-jdbc.conf with the following contents
+11.	cd /opt/logstash
+12.	install the jdbc for logstash     sudo ./bin/plugin install logstash-input-jdbc
+13.	cd ~/Documents/elasticsearch-2.4.0/config/logstash (no restriction on the location to place the configuration file)
+14.	Download the mysql jdbc connector https://dev.mysql.com/downloads/connector/j/ and unzip to the ~/Documents/elasticsearch-2.4.0/config/logstash
+15.	Create a new file, name it as logstash-jdbc.conf with the following contents
 input {
   jdbc {
     jdbc_driver_library => "/home/osboxes/Documents/github/solr-integration-strategies/carrot2-3.8.0/elasticsearch-2.4.0/config/logstash/mysql-connector-java-5.1.40-bin.jar"
@@ -48,10 +58,11 @@ output {
         hosts => "localhost:9200"
     }
 }
-12.	cd /opt/logstash
-13.	./bin/logstash -f /home/osboxes/Documents/github/solr-integration-strategies/carrot2-3.8.0/elasticsearch-2.4.0/config/logstash/logstash-jdbc.conf
-14.	Settings: Default pipeline workers: 1, Logstash startup completed  (indicate it has started the process of importing documents to elasticsearch index)
-15.	access http://localhost:9200/_plugin/head/ to check that the documents are indexed.
+
+16.	cd /opt/logstash
+17.	./bin/logstash -f /home/osboxes/Documents/github/solr-integration-strategies/carrot2-3.8.0/elasticsearch-2.4.0/config/logstash/logstash-jdbc.conf
+18.	Settings: Default pipeline workers: 1, Logstash startup completed  (indicate it has started the process of importing documents to elasticsearch index)
+19.	access http://localhost:9200/_plugin/head/ to check that the documents are indexed.
 
 
 References:
