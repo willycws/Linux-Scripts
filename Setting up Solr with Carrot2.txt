@@ -6,9 +6,67 @@
 6. tar -zxf solr-*.tgz
 7. cd solr-4.*
 8. cd example
-9. nohup java -Dsolr.solr.home=../../solr-home -jar start.jar &
-cd solr-docs
-java -jar post.jar 20newsgroups
+9. nohup java -Dsolr.solr.home=../../solr-home -jar start.jar &    (start the example repository)
+10. cd solr-docs
+11. java -jar post.jar 20newsgroups (load sample articles to solr index)
+12. Modify solrconfig.xml and add the following
+<lib dir="../../solr-4.6.0/contrib/clustering/lib/" regex=".*\.jar"></lib>
+<lib dir="../../solr-4.6.0/dist/" regex=".*solr-clustering-.*\.jar"></lib>
+
+13. Define a search component
+<searchComponent name="clustering" enable="true" class="solr.clustering.ClusteringComponent">
+  <lst name="engine">
+    <str name="name">default</str>
+    <str name="carrot.algorithm">org.carrot2.clustering.lingo.LingoClusteringAlgorithm</str>
+    <str name="LingoClusteringAlgorithm.desiredClusterCountBase">20</str>
+    <str name="carrot.lexicalResourcesDir">clustering/carrot2</str>
+    <str name="MultilingualClustering.defaultLanguage">ENGLISH</str>
+  </lst>
+</searchComponent>
+
+14. Define a search handler
+<requestHandler name="/config1_1" class="solr.SearchHandler">
+  <lst name="defaults">
+    <str name="defType">edismax</str>
+    <str name="qf">
+      title^1.5 content^1.0
+    </str>
+    <str name="rows">100</str>
+    <str name="fl">*,score</str>
+    <!-- Enable clustering. -->
+    <bool name="clustering">true</bool>          <!-- enable clustering -->
+    <bool name="clustering.results">true</bool>  <!-- cluster search results, not the collection -->
+    <str  name="clustering.engine">default</str> <!-- use the default engine -->
+    <!-- Solr-to-Carrot2 field mapping. -->
+    <str  name="carrot.url">name</str>           <!-- unique ID field, doesn't have to be an URL -->
+    <str  name="carrot.title">title</str>        <!-- document title field. -->
+    <str  name="carrot.snippet">content</str>    <!-- document "contents" field -->
+  </lst>
+  <!-- Attach clustering as the last processing component. -->
+  <arr name="last-components">
+    <str>clustering</str>
+  </arr>
+</requestHandler>
+
+15. http://localhost:8983/solr/#/example
+
+Displaying Solr-clustered results in Carrot2 webapp and Workbench
+1. Install Tomcat http://www.ubuntugeek.com/install-tomcat-8-on-ubuntu-15-04-server.html
+2. Define the web management properties   sudo gedit /etc/tomcat8/tomcat-users.xml
+<role rolename="manager"/>
+<role rolename="manager-gui"/>
+<role rolename="admin"/>
+<user name="admin" password="p*******************d" roles="manager,admin,manager-gui"/>
+
+3. sudo /etc/init.d/tomcat8 restart
+4. access http://localhost:8080 to make sure that tomcat is running
+5. wget http://download.carrot2.org/stable/3.8.0/carrot2-webapp-3.8.0.war
+6. unzip -d carrot2-webapp carrot2-webapp-3.8.0.war
+7. Login into Tomcat manager
+8. Add a new war location:
+Context Path (required): /carrot2-webapp
+WAR or Directory URL: ~/Documents/carrot2-webapp
+9. Access http://localhost:8080/carrot2-webapp/search
 
 references:
 http://carrot2.github.io/solr-integration-strategies/carrot2-3.8.0/index.html
