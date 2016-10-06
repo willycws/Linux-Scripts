@@ -52,3 +52,12 @@ output {
 13.	./bin/logstash -f /home/osboxes/Documents/github/solr-integration-strategies/carrot2-3.8.0/elasticsearch-2.4.0/config/logstash/logstash-jdbc.conf
 14.	Settings: Default pipeline workers: 1, Logstash startup completed  (indicate it has started the process of importing documents to elasticsearch index)
 15.	access http://localhost:9200/_plugin/head/ to check that the documents are indexed.
+
+
+References:
+https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-create-index.html
+http://techieroop.com/how-to-install-logstash-in-linux/
+http://stackoverflow.com/questions/3280006/duplicating-a-mysql-table-indexes-and-data
+https://www.elastic.co/guide/en/logstash/current/plugins-filters-elasticsearch.html#plugins-filters-elasticsearch
+https://www.quora.com/Whats-the-best-way-to-setup-MySQL-to-Elasticsearch-replication
+https://github.com/mobz/elasticsearch-head
