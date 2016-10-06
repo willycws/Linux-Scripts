@@ -1,0 +1,14 @@
+1. cd ~/Downloads
+2. git clone https://github.com/carrot2/solr-integration-strategies.git
+3. cd solr-integration-strategies
+4. cd carrot2-3.8.0/
+5. wget -c -t0 -T30 http://www.us.apache.org/dist/lucene/solr/4.6.0/solr-4.6.0.tgz
+6. tar -zxf solr-*.tgz
+7. cd solr-4.*
+8. cd example
+9. nohup java -Dsolr.solr.home=../../solr-home -jar start.jar &
+cd solr-docs
+java -jar post.jar 20newsgroups
+
+references:
+http://carrot2.github.io/solr-integration-strategies/carrot2-3.8.0/index.html
