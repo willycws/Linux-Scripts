@@ -75,3 +75,4 @@ client.bulk(
 
 Format of log.json file
 -----------------------
+{"took":136,"timed_out":false,"_shards":{"total":5,"successful":5,"failed":0},"hits":{"total":1,"max_score":1.0,"hits":[{"_index":"media1","_type":"logs","_id":"abc","_score":1.0,"_source":{"mediaitemid":205585415204,"summaryid":"235","programid":555,"commentatorid":6988825,"headline":"Regular events","datecreated":"2016-01-13T03:04:10.493Z","airdate":"2016-10-07T16:00:00.000Z","searchabletext":"I love node.js"}}]}}
