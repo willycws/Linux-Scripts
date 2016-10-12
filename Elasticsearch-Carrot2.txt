@@ -8,4 +8,6 @@ Performing Carrot2 Lingo Clustering in Elasticsearch
 ----------------------------------------------------
 1. cd <location of Elasticsearch 2.4.0 installation path>/plugins/elasticsearch-carrot2/_site/curl
 2. There are 3 sample scripts:
-    a. 
+    a. 01-index-data.sh (to upload sample data into elasticsearch index: test, type: test)
+    b. 02-simple-clustering.sh (to perform simple clustering using curl and output results to terminal)
+    c. 03-field-mapping.sh (Issue a search-and-cluster request with a more complex field mapping.)
