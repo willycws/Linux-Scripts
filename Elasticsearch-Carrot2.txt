@@ -1,3 +1,11 @@
+Download the Elasticsearch-Carrot2 plugin for Elasticsearch
+-----------------------------------------------------------
+1. cd <location of Elasticsearch 2.4.0 installation path>
+2. ./bin/plugin install org.carrot2/elasticsearch-carrot2/2.4.1
+Reference: https://github.com/carrot2/elasticsearch-carrot2
+
 Performing Carrot2 Lingo Clustering in Elasticsearch
 ----------------------------------------------------
-1. 
+1. cd <location of Elasticsearch 2.4.0 installation path>/plugins/elasticsearch-carrot2/_site/curl
+2. There are 3 sample scripts:
+    a. 
