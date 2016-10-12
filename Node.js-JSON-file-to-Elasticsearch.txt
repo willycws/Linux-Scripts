@@ -1,6 +1,23 @@
-1. 
+Check whether the node.js is installed
+--------------------------------------
+1. Check whether the following components are installed:
+    a. node -v
+    b. npm -v
+    c. git --version
 
-====================Node.js=======================================================
+2. cd ~/Documents
+
+If libraries not installed:
+---------------------------
+3. npm install elasticsearch
+4. npm install fs
+5. npm install underscore
+
+Run the code below using node.js
+--------------------------------
+6. node json_upload_es.js
+
+====================json_upload_es.js=======================================================
 // Declare required packages
 var _ = require('underscore')
 var es = require('elasticsearch')
@@ -55,3 +72,6 @@ client.bulk(
 }, function (err, resp) {
   console.log(err);
 });
+
+Format of log.json file
+-----------------------
