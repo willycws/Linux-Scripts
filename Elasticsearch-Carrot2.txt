@@ -11,3 +11,36 @@ Performing Carrot2 Lingo Clustering in Elasticsearch
     a. 01-index-data.sh (to upload sample data into elasticsearch index: test, type: test)
     b. 02-simple-clustering.sh (to perform simple clustering using curl and output results to terminal)
     c. 03-field-mapping.sh (Issue a search-and-cluster request with a more complex field mapping.)
+
+Explaination on the curl commands
+----------------------------------
+curl -XPOST 'http://localhost:9200/media1/logs/_search_with_clusters?pretty=true' -d '
+{
+    "search_request": {
+        "fields" : [                        //fields that is found in the index items
+          "url", 
+          "headline", 
+          "searchabletext"
+        ],
+        "highlight" : {
+            "pre_tags" :  ["", ""],
+            "post_tags" : ["", ""],
+            "fields" : {                    //fields that is found in the index items
+                "searchabletext" : { "fragment_size" : 150, "number_of_fragments" : 3 },
+                "headline"   : { "fragment_size" : 150, "number_of_fragments" : 3 }
+            }
+        },
+        "query" : {
+            "match" : {
+              "_all" : "travel" 
+            }
+        },
+        "size": 10000
+    },
+
+    "query_hint": "travel",
+    "field_mapping": {
+        "title"  : ["fields.headline"],     //fields that is found in the fields section, you can also use highlight.searchabletext for the content as well
+        "content": ["fields.searchabletext"]
+    }
+}'
