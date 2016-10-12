@@ -1,0 +1,37 @@
+1. 
+
+====================Node.js=======================================================
+var elasticsearch = require('elasticsearch'),
+    fs = require('fs'),
+    pubs = JSON.parse(fs.readFileSync('/home/osboxes/Downloads/log.json', 'utf8')); // name of my first file to parse
+
+var string_hits = JSON.parse(JSON.stringify(pubs["hits"]));
+var list = string_hits.hits;
+
+var client = new elasticsearch.Client({  // default is fine for me, change as you see fit
+  		host: 'localhost:9200',
+  		log: 'trace',
+		requestTimeout: 60000
+	});
+
+for ( var i = 0; i < list.length; i++ ) {
+	
+	//removes elements from the json record, retain only _source
+	var source_element = list[i]["_source"];
+	
+	client.create({
+    index: "media1", // name your index
+    type: "logs", // describe the data thats getting created
+    id: list[i]["_id"], // increment ID every iteration - I already sorted mine but not a requirement
+    body: source_element // *** THIS ASSUMES YOUR DATA FILE IS FORMATTED LIKE SO: [{prop: val, prop2: val2}, {prop:...}, {prop:...}] - I converted mine from a CSV so pubs[i] is the current object {prop:..., prop2:...}
+  }, function(error, response) {
+    if (error) {
+      console.error(error);
+      return;
+    }
+    else {
+    console.log(response);  //  I don't recommend this but I like having my console flooded with stuff.  It looks cool.  Like I'm compiling a kernel really fast.
+    }
+  });
+	
+}
