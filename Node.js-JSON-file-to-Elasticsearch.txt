@@ -1,37 +1,57 @@
 1. 
 
 ====================Node.js=======================================================
-var elasticsearch = require('elasticsearch'),
-    fs = require('fs'),
-    pubs = JSON.parse(fs.readFileSync('/home/osboxes/Downloads/log.json', 'utf8')); // name of my first file to parse
+// Declare required packages
+var _ = require('underscore')
+var es = require('elasticsearch')
+// Set ElasticSearch location and port
+var client = new es.Client({
+    host : 'localhost:9200'
+});
+
+var fs = require('fs');
+var pubs = readJson('/home/osboxes/Downloads/log.json'); // name of my first file to parse
+
+// Function to convert string to JSON format
+ function readJson (filepath) {
+    var obj = JSON.parse(fs.readFileSync(filepath, 'utf8'));
+    return(obj)
+ };
 
 var string_hits = JSON.parse(JSON.stringify(pubs["hits"]));
 var list = string_hits.hits;
 
-var client = new elasticsearch.Client({  // default is fine for me, change as you see fit
-  		host: 'localhost:9200',
-  		log: 'trace',
-		requestTimeout: 60000
-	});
+// Find number of document of "finaljson"
+var xloop = _.size(list);
 
-for ( var i = 0; i < list.length; i++ ) {
+// Declare variable to contain body of JSON data for loading to ElasticSearch
+var br = [];
+
+// Function to create body for loading to ElasticSearch
+function create_bulk (bulk_request) {
+    var obj;
+ 	var id;
+	var source_element;
 	
-	//removes elements from the json record, retain only _source
-	var source_element = list[i]["_source"];
-	
-	client.create({
-    index: "media1", // name your index
-    type: "logs", // describe the data thats getting created
-    id: list[i]["_id"], // increment ID every iteration - I already sorted mine but not a requirement
-    body: source_element // *** THIS ASSUMES YOUR DATA FILE IS FORMATTED LIKE SO: [{prop: val, prop2: val2}, {prop:...}, {prop:...}] - I converted mine from a CSV so pubs[i] is the current object {prop:..., prop2:...}
-  }, function(error, response) {
-    if (error) {
-      console.error(error);
-      return;
+	for (i = 0; i < xloop; i++) {
+		obj = list[i];
+		//removes elements from the json record, retain only _source
+		source_element = obj["_source"];
+		id = obj["_id"]
+		// Insert header of record
+		bulk_request.push({index: {_index: 'media1', _type: 'logs', _id: id}});
+		bulk_request.push(source_element);    
     }
-    else {
-    console.log(response);  //  I don't recommend this but I like having my console flooded with stuff.  It looks cool.  Like I'm compiling a kernel really fast.
-    }
-  });
-	
-}
+    return bulk_request;
+};
+  
+// Call function to get body for loading
+create_bulk(br); 
+
+// Standard function of ElasticSearch to use bulk command
+client.bulk(
+{
+    body : br
+}, function (err, resp) {
+  console.log(err);
+});
