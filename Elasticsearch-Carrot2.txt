@@ -44,3 +44,6 @@ curl -XPOST 'http://localhost:9200/media1/logs/_search_with_clusters?pretty=true
         "content": ["fields.searchabletext"]
     }
 }'
+
+references:
+http://log.medcl.net/item/2013/06/tutorial-clustering-search-result-with-plugin-tools-carrot2/
