@@ -1,0 +1,12 @@
+Promise by Bluebird is to address the issue of callback from function call.
+1. Use case: Nested for loop to process an array of items before going to the next line of code to be executed.
+Example: Without using Promise
+var cars = ["Saab", "Volvo", "BMW"];
+var index = 0;
+for (index==0;index<cars.length;index++){
+  cars[index] = cars[index] + '_updated';
+}
+console.log('Done');
+
+Reference:
+https://gist.github.com/victorquinn/8030190
