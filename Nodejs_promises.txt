@@ -1,12 +1,114 @@
 Promise by Bluebird is to address the issue of callback from function call.
-1. Use case: Nested for loop to process an array of items before going to the next line of code to be executed.
-Example: Without using Promise
-var cars = ["Saab", "Volvo", "BMW"];
+Promises are a way of controlling flow in your asynchronous code. Promises help you maintain clean, readable and robust code.
+
+
+var Promise = require('bluebird');
+var _ = require('underscore');
+
+var cluster_list = {
+    "clusters": [{ "id": "3","phrases":"abc test", "documents":["AVfRfsyrpI2L3kY8yLO9","AVfRfsyrpI2L3kY8yLPb"] }, { "id": "5","phrases":"abc test","documents":["AVfRfsyrpI2L3kY8yLPA","AVfRfsyrpI2L3kY8yLQQ"] }]
+};
+
+var hits = {"hits":{"total":4,"max_score":5.320911,"hits":[{"_index":"media","_type":"logs","_id":"AVfRfsyrpI2L3kY8yLO9","_score":5.320911,"fields":{"abstract":["\\ petite apartment is a treasure trove"],"searchabletext":["652492207Bold Bolthole\\ petite apartment is a treasure trove of travel souvenirs"],"headline":["Bold Bolthole"],"type":["A"]}},{"_index":"media","_type":"logs","_id":"AVfRfsyrpI2L3kY8yLPA","_score":5.320911,"fields":{"abstract":["Monde beauty Renee Zellweger returns with a new instalment"],"searchabletext":["652492611KEEPING UP WITH THE JONESMonde beauty Renee Zellweger returns with a new instalment of the beloved"],"headline":["KEEPING UP WITH THE JONES"],"type":["A"]}},{"_index":"media","_type":"logs","_id":"AVfRfsyrpI2L3kY8yLPb","_score":5.320911,"fields":{"abstract":["Sweet yet tangy, pineapples"],"searchabletext":["652500172Tropical TemptationsSweet yet tangy, pineapples have a deliciously"],"headline":["Tropical Temptations"],"type":["A"]}},{"_index":"media","_type":"logs","_id":"AVfRfsyrpI2L3kY8yLQQ","_score":5.320911,"fields":{"abstract":["Power up your beauty routine"],"searchabletext":["652697045Shape ShiftersPower up your beauty routine by adding these age-defying"],"headline":["Shape Shifters"],"type":["A"]}}]}};
+
+cluster_list = JSON.parse(JSON.stringify(cluster_list["clusters"])) //convert string to json array object
+hits = JSON.parse(JSON.stringify(hits["hits"]))
+hits = JSON.parse(JSON.stringify(hits["hits"]))//extracting the hits array from the json
+
 var index = 0;
-for (index==0;index<cars.length;index++){
-  cars[index] = cars[index] + '_updated';
-}
-console.log('Done');
+var stopCondition = cluster_list.length;
+var result;
+
+
+var promiseWhile = function(condition, action) {
+    var resolver = Promise.defer();
+
+    var loop = function() {
+        if (!condition()) return resolver.resolve();
+        return Promise.cast(action())
+            .then(loop)
+            .catch(resolver.reject);
+    };
+
+    process.nextTick(loop);
+
+    return resolver.promise;
+};
+
+
+promiseWhile(function() {
+    // Condition for stopping
+    return index < stopCondition;
+}, function() {
+    // The function to run, should return a promise
+    return new Promise(function(resolve, reject) {
+		var clusterObject = cluster_list[index];
+		var document_list = JSON.parse(JSON.stringify(clusterObject["documents"]));
+		var i=0;
+		var headline = null;
+		var abstract = null;
+		var type = 'A';
+		
+		//loop each documents in the cluster
+		for (i==0;i<document_list.length;i++){
+			
+			var id = document_list[i];//select the id
+			
+			//lookup to the hits array to get the full hit object
+    		var selected_hit = _.filter(hits,function(c){
+        		return c._id.indexOf(id) != -1;
+    		});
+			
+			//check whether the hit object is it Type A
+			selected_hit = JSON.parse(JSON.stringify(selected_hit));
+			var selected_hit_with_articletype = _.filter(selected_hit,function(c){
+        		return c.fields.type.indexOf(type) != -1;
+    		});
+			
+			//replace with the hit object
+			console.log("selected_hit: "+JSON.stringify(selected_hit[0]));
+			document_list[i] = selected_hit[0];
+			
+			//update the headline and abstract if headline and abstract is null
+			//headline and abstract to be added as an element to the cluster object
+			if (headline === null){
+				
+				if (selected_hit_with_articletype){
+					//console.log("Enter here");		
+					selected_hit_with_articletype = JSON.parse(JSON.stringify(selected_hit_with_articletype));
+					selected_hit_with_articletype = selected_hit_with_articletype[0];
+					selected_hit_with_articletype = selected_hit_with_articletype['fields']
+					headline = selected_hit_with_articletype['headline'];	
+					abstract = selected_hit_with_articletype['abstract'];					
+				}
+				
+				
+			}
+			
+			
+
+		}
+		//update the document_list to the cluster's document element
+		clusterObject["documents"] = JSON.parse(JSON.stringify(document_list));
+		//add headline and abstract element to the cluster object
+		clusterObject["headline"] = headline[0];
+		clusterObject["abstract"] = abstract[0];
+		
+		//update the cluster object back to the cluster list
+		cluster_list[index] = clusterObject;
+
+		//increase the index to process the next cluster
+		index++;
+		resolve();
+		
+    });
+}).then(function() {
+    // Notice we can chain it because it's a Promise, this will run after completion of the promiseWhile Promise!
+	result = cluster_list;
+	console.log(JSON.stringify(result));
+});
+
 
 Reference:
 https://gist.github.com/victorquinn/8030190
+https://alexperry.io/node/2015/03/25/promises-in-node.html
