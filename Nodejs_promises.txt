@@ -1,7 +1,8 @@
 Promise by Bluebird is to address the issue of callback from function call.
 Promises are a way of controlling flow in your asynchronous code. Promises help you maintain clean, readable and robust code.
 
-
+Case Study 1: To replace the ID in the clusters[documents] array with the full element ffrom hits array
+-------------------------------------------------------------------------------------------------------
 var Promise = require('bluebird');
 var _ = require('underscore');
 
