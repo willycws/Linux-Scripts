@@ -134,6 +134,29 @@ http://bluebirdjs.com/docs/api/deferred-migration.html
 
 Case Study 2: To call 2 HTTP call which requires to be executed in sequence and result from one HTTP call is required by the next HTTP call
 --------------------------------------------------------------------------------------------------------------------------------------
+app.get('/clusterStory/:coyname', function(req, res) {
+	coyname = req.params.coyname;
+	startDateTime = req.query.startdatetime;
+	endDateTime = req.query.enddatetime;
+	var steps = [step1, step2];
+
+	return steps.reduce(function(cur, next) {
+		return cur.then(next).then(res => {
+        	//console.log('2: '+ JSON.stringify(res, null, 2));
+      	});
+	}, Promise.resolve()).then(function(result) {
+		//all executed then we return result
+		if (final_result != null){
+			//console.log(final_result.clusters);
+			res.send(JSON.stringify(final_result, null, 2));
+		}else{
+			res.send('Invalid Status Code Returned:' + error_status_code);
+		}
+		//console.log('All are executed ' + JSON.stringify(final_result, null, 2));
+	});
+});
+
+app.listen(process.env.PORT || 4730);
 
 
 Reference:
