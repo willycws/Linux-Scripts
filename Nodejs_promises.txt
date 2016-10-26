@@ -19,9 +19,21 @@ var index = 0;
 var stopCondition = cluster_list.length;
 var result;
 
+function defer() {
+    var resolve, reject;
+    var promise = new Promise(function() {
+        resolve = arguments[0];
+        reject = arguments[1];
+    });
+    return {
+        resolve: resolve,
+        reject: reject,
+        promise: promise
+    };
+}
 
 var promiseWhile = function(condition, action) {
-    var resolver = Promise.defer();
+    var resolver = defer();
 
     var loop = function() {
         if (!condition()) return resolver.resolve();
@@ -112,3 +124,4 @@ promiseWhile(function() {
 Reference:
 https://gist.github.com/victorquinn/8030190
 https://alexperry.io/node/2015/03/25/promises-in-node.html
+http://bluebirdjs.com/docs/api/deferred-migration.html
