@@ -54,7 +54,7 @@ promiseWhile(function() {
     return index < stopCondition;
 }, function() {
     // The function to run, should return a promise
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(iresolve, ireject) {
 		var clusterObject = cluster_list[index];
 		var document_list = JSON.parse(JSON.stringify(clusterObject["documents"]));
 		var i=0;
@@ -75,8 +75,12 @@ promiseWhile(function() {
 			//check whether the hit object is it Type A
 			selected_hit = JSON.parse(JSON.stringify(selected_hit));
 			var selected_hit_with_articletype = _.filter(selected_hit,function(c){
-        		return c.fields.type.indexOf(type) != -1;
-    		});
+				try{
+					return c.fields.type.indexOf(type) != -1;
+				}catch (e){
+					return -1;
+				}        		
+    			});
 			
 			//replace with the hit object
 			console.log("selected_hit: "+JSON.stringify(selected_hit[0]));
@@ -112,7 +116,7 @@ promiseWhile(function() {
 
 		//increase the index to process the next cluster
 		index++;
-		resolve();
+		iresolve();
 		
     });
 }).then(function() {
