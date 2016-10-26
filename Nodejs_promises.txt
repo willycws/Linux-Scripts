@@ -130,3 +130,11 @@ Reference:
 https://gist.github.com/victorquinn/8030190
 https://alexperry.io/node/2015/03/25/promises-in-node.html
 http://bluebirdjs.com/docs/api/deferred-migration.html
+
+
+Case Study 2: To call 2 HTTP call which requires to be executed in sequence and result from one HTTP call is required by the next HTTP call
+--------------------------------------------------------------------------------------------------------------------------------------
+
+
+Reference:
+http://stackoverflow.com/questions/34538893/why-this-map-reduce-promises-array-does-not-work-but-just-reducing-it-does
