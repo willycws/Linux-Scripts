@@ -134,7 +134,55 @@ http://bluebirdjs.com/docs/api/deferred-migration.html
 
 Case Study 2: To call 2 HTTP call which requires to be executed in sequence and result from one HTTP call is required by the next HTTP call
 --------------------------------------------------------------------------------------------------------------------------------------
+var Promise = require('bluebird');
 
+function step1(item){
+  return new Promise((resolve, reject)=>{
+    setTimeout(()=>{
+      resolve('step 1 fort item ' + item);
+    });
+  });
+}
+
+function step2(item){
+  return new Promise((resolve, reject)=>{
+    setTimeout(()=>{
+      iresolve('step 2 for item ' + item);
+    },1000);
+  });
+}
+
+function step3(item){
+  return new Promise((resolve, reject)=>{
+    setTimeout(()=>{
+      resolve('step 3 for item ' + item);
+    },1000);
+  });
+}
+
+function processItem(item){
+  return function(){
+    var steps = [step1, step2, step3];
+    return steps.reduce((current, next) => {
+      return current.then(res => {
+        console.log(res);
+        return next(item);
+      }).then(res => {
+        console.log(res);
+      });
+    },Promise.resolve());
+  }
+}
+
+items = [1, 2, 3];
+items.map(i => processItem(i)).reduce((p, next) => {
+    return p.then(() => {
+        return next();
+    });
+}, Promise.resolve()).then(() => {
+    // all finished
+    console.log('All items completed in all steps');
+});
 
 
 Reference:
