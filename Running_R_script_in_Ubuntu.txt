@@ -1,6 +1,8 @@
 1. Install R: install.packages("RNeo4j")
 2. Install other R libraries (i.e. RNeo4j)
-    a. sudo R --vanilla
-    b. install.packages("RNeo4j")
-    c. quit()
+    a. sudo apt-get install
+    b. sudo R --vanilla
+    c. install.packages("curl")
+    d. install.packages("RNeo4j")
+    e. quit()
 3.     
