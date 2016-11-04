@@ -1,6 +1,6 @@
 1. Install R: install.packages("RNeo4j")
 2. Install other R libraries (i.e. RNeo4j)
-    a. sudo apt-get install
+    a. sudo apt-get install libcurl4-openssl-dev
     b. sudo R --vanilla
     c. install.packages("curl")
     d. install.packages("RNeo4j")
