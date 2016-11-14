@@ -27,6 +27,11 @@ Delete all nodes in neo4j including relationship
 MATCH (n) DETACH
 DELETE n
 
+Delete all nodes with "ART" label in neo4j including relationship
+------------------------------------------------
+MATCH (n:ART) DETACH
+DELETE n
+
 Display all nodes in Neo4j
 --------------------------
 MATCH (n)
