@@ -37,6 +37,15 @@ Display all nodes in Neo4j
 MATCH (n)
 RETURN n;
 
+Create index on the node with "ART" label (Java)
+------------------------------------------------
+[Uses neo4j-rest-graphdb.jar]
+GraphDatabaseService graphDB = new RestGraphDatabase("http://localhost:7474/db/data");
+IndexDefinition indexDefinition;
+IndexManager index = graphDB.index();
+//create index for art
+Index<Node> art_idx = index.forNodes( "ART" );
+
 https://m2.neo4j.org/content/groups/everything/org/neo4j/neo4j-rest-graphdb/2.0.1/
 http://thought-bytes.blogspot.sg/2013/07/getting-started-with-neo4j-java-rest-heroku.html
 http://thoughts-on-programming.blogspot.sg/2015/06/how-to-use-rest-api-from-java.html
