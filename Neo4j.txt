@@ -53,6 +53,18 @@ Drop unique constraint
 ----------------------
 DROP CONSTRAINT ON (a:<LABEL>) ASSERT a.<property_name> IS UNIQUE
 
+Find the graph where a node exists
+----------------------------------
+MATCH (n:<LABEL>{<property_name>:"<property_value>"})
+ MATCH (n:<LABEL>)<-[r*]->(m:<LABEL>)
+ RETURN r, m;
+ 
+Find the graph where a node exists (path up to 5 hops)
+------------------------------------------------------
+MATCH (n:<LABEL>{<property_name>:"<property_value>"})
+ MATCH (n:<LABEL>)<-[r*1..5]->(m:<LABEL>)
+ RETURN r, m; 
+
 Create index on the node with "ART" label (Java)
 ------------------------------------------------
 [Uses neo4j-rest-graphdb.jar]
