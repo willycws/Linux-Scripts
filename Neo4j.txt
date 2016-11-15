@@ -37,6 +37,22 @@ Display all nodes in Neo4j
 MATCH (n)
 RETURN n;
 
+Create index
+------------
+CREATE INDEX ON :<LABEL>(<property_name>)
+
+Drop Index
+----------
+DROP INDEX ON :<LABEL>(<property_name>)
+
+Create unique constraint
+------------------------
+CREATE CONSTRAINT ON (a:<LABEL>) ASSERT a.<property_name> IS UNIQUE
+
+Drop unique constraint
+----------------------
+DROP CONSTRAINT ON (a:<LABEL>) ASSERT a.<property_name> IS UNIQUE
+
 Create index on the node with "ART" label (Java)
 ------------------------------------------------
 [Uses neo4j-rest-graphdb.jar]
