@@ -1,0 +1,6 @@
+1. Highlight the rows of content
+2. Right-click highlighted rows --> Format Cells... --> Border --> Outside, Inside --> Ok
+3. Copy the highlighted rows and paste into Microsoft Word as a table
+4. In the Microsoft Word --> select all the rows --> CTRL+H --> Under Find What... "^l" or Special --> Manual Line Break --> Replace With "<empty_space>"
+5. Table Tools --> Layout --> Convert To Text
+6. Copy all the Text and paste into Notepad/Notepad++
