@@ -190,3 +190,34 @@ Delete records from the elastic search index
 Count number of records
 -----------------------
 curl -XGET 'http://localhost:9200/twitology/post/_count?pretty=true' -d '{"query" : {"range" : {"dateTimePosted" : { "from" : "2016-02-29T16:00:00.000Z", "to" : "2016-03-31T15:59:59.000Z"}}}}'
+
+Query to filter records from Elasticsearch (via Chrome Sense plugin)
+--------------------------------------------------------------------
+URL: http://xxxxxxxxxxx-1-7uokihlcf7cn2j2r2fscpmsfkq.ap-southeast-2.es.amazonaws.com/
+GET /media_v6/_search
+{
+   "size":10,
+   "fields":[
+            "OutletLogo",
+           "MediaTypeID",
+           "SourceSystem",
+           "ProgramName",
+           "OutletName",
+           "OutletID"
+    ],
+   "query":{
+      "bool":{
+         "must":[            
+            {
+               "query_string":{
+                  "query":"520725",
+                  "fields":[
+                     "OutletID"
+                  ],
+                  "default_operator":"AND"
+               }
+            }
+         ]
+      }
+   }  
+}
