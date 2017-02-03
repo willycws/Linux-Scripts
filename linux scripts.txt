@@ -95,3 +95,7 @@ Can't login xdp into linux machine
 Windows 8 Dell Sound Issue:
 ---------------------------
 http://www.josephturley.com/windows-8-failed-play-test-tone/
+
+Merge all the contents from multiple files in the same folder and add a new line every new file (Windows CMD)
+-------------------------------------------------------------------------------------------------------------
+FOR %f IN (*.txt) DO type %f >> newfile.txt & echo. >> newfile.txt
