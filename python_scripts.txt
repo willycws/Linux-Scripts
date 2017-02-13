@@ -1,4 +1,6 @@
 If error "System Error: Cannot compile 'Python.h'. Perhaps you need to install python-dev|python-devel" when you try to sudo pip install numpy, you will need to install python-dev first
   sudo apt-get install python-dev
 
-
+To install pip install scipy
+  sudo apt-get install gfortran libopenblas-dev liblapack-dev
+  sudo install scipy
