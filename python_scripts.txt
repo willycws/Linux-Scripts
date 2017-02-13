@@ -3,4 +3,5 @@ If error "System Error: Cannot compile 'Python.h'. Perhaps you need to install p
 
 To install pip install scipy
   sudo apt-get install gfortran libopenblas-dev liblapack-dev
-  sudo install scipy
+  sudo pip install scipy
+  sudo pip install scikit-learn
