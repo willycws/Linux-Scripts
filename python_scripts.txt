@@ -5,3 +5,8 @@ To install pip install scipy
   sudo apt-get install gfortran libopenblas-dev liblapack-dev
   sudo pip install scipy
   sudo pip install scikit-learn
+  
+To install pip install matplotlib:
+  sudo apt-get install libfreetype6
+  sudo apt-get install libxft-dev
+  sudo pip install matplotlib
