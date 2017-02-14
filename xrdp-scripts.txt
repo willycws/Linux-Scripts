@@ -1,0 +1,22 @@
+To set xrdp to always logged into the same session and not create a new session
+  sudo vi /etc/xrdp/xrdp.ini
+  
+  [xrdp1]
+  name=sesman-vnc
+  lib=libvnc.so
+  username=ask
+  password=ask
+  ip=127.0.0.1
+  port=-1
+  
+  change port=-1 to any avaliable port number (you can check any avaliable port number using "sudo lsof  -b -w -n -c /^Xvnc$/b -a -iTCP:5900-5999")
+  
+  wq! (write the changes back to the file)
+  
+To kill an existing session 
+  sudo lsof  -b -w -n -c /^Xvnc$/b -a -iTCP:5900-5999
+  kill <PID>
+  
+To access an Ubuntu machine from another Ubuntu machine (via Terminal)
+  ssh username@remote-pcs-ip
+  <enter password>
