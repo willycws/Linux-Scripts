@@ -1,0 +1,14 @@
+Install AWS CLI
+---------------
+1. sudo pip install awscli
+
+Configure AWS CLI
+-----------------
+1. aws configure
+2. AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
+3. AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+4. The rest as default
+
+Download Listed Directory from Bucket in S3
+-------------------------------------------
+aws s3 cp s3://<BUCKET>/<dir> localdir --recursive
