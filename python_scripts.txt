@@ -10,3 +10,18 @@ To install pip install matplotlib:
   sudo apt-get install libfreetype6
   sudo apt-get install libxft-dev
   sudo pip install matplotlib
+  
+To allow Python interpreter to recognize Spark in Ubuntu
+  Download Spark from Spark Website (Spark 2.1.0 Hadoop 2.6)
+  cd <LOCATION_WHERE_YOU_WANT_SPARK_TO_BE_LOCATED>
+  tar xzvf spark-2.1.0-bin-hadoop2.6.tgz
+  sudo vi ~/.bashrc
+  add the following lines:
+    export SPARK_HOME='<LOCATION_WHERE_YOU_WANT_SPARK_TO_BE_LOCATED>/spark-2.1.0-bin-hadoop2.6'
+    export PATH=$SPARK_HOME:$PATH
+    export PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH
+  sudo pip install py4j
+  Launch a new Terminal, and test the installation
+    >>>python
+    >>>from pyspark.sql import SparkSession
+  
