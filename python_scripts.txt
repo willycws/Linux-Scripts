@@ -29,7 +29,7 @@ To allow Python interpreter to recognize Spark in Ubuntu
     sudo pip install nose
     sudo pip install coverage
     Open terminal, nosetests -s
-    It will generate a coverage folder
+    It will generate a cover folder
     To run nose for a single unit test case, append @attr('now') before the function
     Then issue the command: nosetests -s -a now
     
