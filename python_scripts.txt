@@ -25,11 +25,11 @@ To allow Python interpreter to recognize Spark in Ubuntu
     >>>python
     >>>from pyspark.sql import SparkSession
   
-  To perform unit test cases on pyhton scripts
+  To perform unit test cases on Python scripts
     sudo pip install nose
     Open terminal, nosetests -s
     It will generate a coverage folder
-    To run nose for a single unit test case, append @attr(now) before the function
+    To run nose for a single unit test case, append @attr('now') before the function
     Then issue the command: nosetests -s -a now
 
   
