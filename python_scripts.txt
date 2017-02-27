@@ -27,9 +27,18 @@ To allow Python interpreter to recognize Spark in Ubuntu
   
   To perform unit test cases on Python scripts
     sudo pip install nose
+    sudo pip install coverage
     Open terminal, nosetests -s
     It will generate a coverage folder
     To run nose for a single unit test case, append @attr('now') before the function
     Then issue the command: nosetests -s -a now
+    
+    To run nose in Eclipse PyDev
+      Right click the <test-case-file>.py --> Run As --> Run Configuration...
+      Select the <test-case-file>.py
+      Click Arguments tab
+      Under PyUnit section --> check "Override PyUnt preferences for this launch
+      Select Nose test Runner
+      Enter -s -a now in the textbox and click Run button. It will only run test cases with @attr('now') append to it
 
   
