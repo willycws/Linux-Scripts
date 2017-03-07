@@ -52,5 +52,10 @@ To add PySpark to PyCharm IDE
     Create two new variables: 
       PYHTONPATH  <LOCATION_WHERE_YOU_WANT_SPARK_TO_BE_LOCATED>/spark-2.0.2-bin-hadoop2.6/python/
       SPARK_HOME  <LOCATION_WHERE_YOU_WANT_SPARK_TO_BE_LOCATED>/spark-2.0.2-bin-hadoop2.6
+  To run a single test case only:
+    Run --> Edit Configurations
+    Check Params
+    Enter -s -a now
+    In the py script add @ttr('now') to run that specific test case
     
   
