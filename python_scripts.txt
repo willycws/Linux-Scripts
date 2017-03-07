@@ -56,6 +56,6 @@ To add PySpark to PyCharm IDE
     Run --> Edit Configurations
     Check Params
     Enter -s -a now
-    In the py script add @ttr('now') to run that specific test case
+    In the py script add @attr('now') to run that specific test case
     
   
