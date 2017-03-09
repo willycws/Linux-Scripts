@@ -1,0 +1,6 @@
+Install of Django
+-----------------
+sudo pip install Django
+  
+Setup first Django project
+--------------------------
