@@ -200,4 +200,4 @@ True
 >>> c = q.choice_set.filter(choice_text__startswith='Just hacking')
 >>> c.delete()
 
-15.
+Reference: https://docs.djangoproject.com/en/1.10/intro/tutorial02/
