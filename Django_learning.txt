@@ -99,5 +99,19 @@ Setup first Django project
     # objects.all() displays all the questions in the database.
     >>> Question.objects.all()
     <QuerySet [<Question: Question object>]>
-    
+    ****Display is unhelpful***
+
+13. How to make "<QuerySet [<Question: Question object>]>" display more helpful?
+    polls/models.py
+    ---------------
+    import datetime
+
+    from django.db import models
+    from django.utils import timezone
+
+
+    class Question(models.Model):
+        # ...
+        def was_published_recently(self):
+            return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
     
