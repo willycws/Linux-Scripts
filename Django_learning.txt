@@ -4,3 +4,15 @@ sudo pip install Django
   
 Setup first Django project
 --------------------------
+1. Create a site: django-admin startproject mysite
+2. cd to the newly created mysite
+3. Run the site: python manage.py runserver
+4. To run the site on a different port python manage.py runserver 127.0.0.1:9000
+5. Create a new app under mysite: python manage.py startapp polls
+6. Edit the codes:
+      polls/views.py
+      --------------
+      from django.http import HttpResponse
+      def index(request):
+        return HttpResponse("Hello, world. You're at the polls index.")
+        
