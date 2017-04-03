@@ -1,0 +1,19 @@
+Run main tasks
+  Setup new job: Job job = Job.getInstance(conf, "Searching")
+  job.setJarByClass(SearchingMultiOutput.class)
+  job.setMapperClass(TokenizerMapper.class)
+  job.setReducerClass(SearchReducer.class)
+  job.setOutputKeyClass(Text.class)
+  job.setOutputValueClass(Text.class)
+  
+Read annotated files
+Method requires:
+  TokenizerMapper
+    Setup
+    map
+  
+  Reducer
+    setup
+    reduce
+    cleanup
+    
