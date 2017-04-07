@@ -58,4 +58,16 @@ To add PySpark to PyCharm IDE
     Enter -s -a now
     In the py script add @attr('now') to run that specific test case
     
-  
+Pyspark codes:
+---------------
+A. Codes to create a spark context & sqlContext
+    from pyspark.sql import SparkSession
+    from pyspark.sql import SQLContext, Row
+    
+    spark = SparkSession.builder.appName("Python Spark SQL basic example").config("spark.some.config.option", "some-value").getOrCreate()
+    sc = spark.sparkContext
+    sc.addPyFile("/home/Documents/Project/src/WebConnectLocalSpark.py") #this is required if you are running another program calling this script for pyspark process or the caller complain of "ImportError: No module named WebConnectLocalSpark"
+    sqlContext = SQLContext(sc)
+    
+B. Load parquet files from local
+    parquetFileSelected = sqlContext.read.parquet("/home/Documents/Project/resources/selected/*.snappy.parquet");
