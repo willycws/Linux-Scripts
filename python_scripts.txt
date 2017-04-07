@@ -71,3 +71,17 @@ A. Codes to create a spark context & sqlContext
     
 B. Load parquet files from local
     parquetFileSelected = sqlContext.read.parquet("/home/Documents/Project/resources/selected/*.snappy.parquet");
+
+C. Manipulating spark dataframe
+    X = parquetFileSelected.select('features') #select only the feeatures column
+    X = X.rdd.map(lambda x: np.array(x)[0])
+    X = X.collect() #convert to a list
+    
+    total_no_of_clusters = parquetFileSelected.select("storyid").distinct().count() #count the distinct number of items in the storyid column
+    
+    counts_in_a_cluster = parquetFileSelected.groupby('storyid') #group all the records by storyid
+    counts_in_a_cluster = sorted(counts_in_a_cluster.agg({"*": "count"}).collect()) #for each storyid group, count the number of records and sort them in ascending order. Return as a list
+    hashtable_count = dict(counts_in_a_cluster)#convert list into a dictionary (hashtable)
+    
+    
+    
