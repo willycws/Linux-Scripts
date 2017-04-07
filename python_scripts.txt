@@ -83,5 +83,22 @@ C. Manipulating spark dataframe
     counts_in_a_cluster = sorted(counts_in_a_cluster.agg({"*": "count"}).collect()) #for each storyid group, count the number of records and sort them in ascending order. Return as a list
     hashtable_count = dict(counts_in_a_cluster)#convert list into a dictionary (hashtable)
     
-    
+Numpy codes:
+-------------
+import numpy as np
+
+labels_array = np.asarray(labels) #convert list to numpy array
+samples_result_merge = np.column_stack((labels_array, samples_result))#merge labels_array and samples_result to form 2D array
+
+Pandas codes:
+-------------
+import pandas as pd
+
+samples_result_pandas = pd.DataFrame(samples_result_merge) #convert numpy array to pandas
+samples_result_pandas = samples_result_pandas.rename(columns={0: 'label', 1: 'silh'})#rename columns using index
+samples_result_pandas['silh'] = samples_result_pandas['silh'].astype(float) #convert the silhouette column to float
+filter_result_1 = samples_result_pandas[(samples_result_pandas['silh'] > 0.5)]  # filter out those which meet the silh value threshold
+filter_result_1 = samples_result_pandas.groupby('label').size()  # group by label and calculate the size of each group
+hashtable_silh_0_5 = filter_result_1.to_dict()#convert to a dictionary (hashtable)
+
     
