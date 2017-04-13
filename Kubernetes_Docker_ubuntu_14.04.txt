@@ -24,3 +24,71 @@ STEP 2] Install prerequisites needed
   2.2 Install bridge-utils which is needed for container management inside pods.
 
        $ sudo apt-get install bridge-utils
+
+STEP 3] clone git repo  
+
+         $ sudo apt-get install git -y
+
+         $ git clone https://github.com/kubernetes/kubernetes.git
+
+STEP 4] Download and Install necessary binaries
+
+         $ cd kubernetes/cluster/ubuntu
+
+         $ ./download-release.sh
+
+         $ ls binaries/
+
+STEP 5] Configure cluster and define roles of each machine in the cluster. Edit config_default.sh file to have following.
+
+        $ vi config-default.sh
+
+      export nodes=${nodes:-“devops@172.20.75.106 devops@172.20.75.128 devops@172.20.75.196”}
+
+    roles=${roles:-“ai i i”}
+
+    export NUM_NODES=${NUM_NODES:-3}
+
+    export
+
+    SERVICE_CLUSTER_IP_RANGE=${SERVICE_CLUSTER_IP_RANGE:-192.168.3.0/24}
+
+    export FLANNEL_NET=${FLANNEL_NET:-172.16.0.0/16}
+
+Note :- do not touch other parameters of the file.
+ 
+
+STEP 6] generate rsa key . This is needed for kubernete deployment
+
+        $ ssh-keygen -t rsa
+        
+        Enter a name: kubernete
+
+        $ cat /root/.ssh/kubernete.pub >> /root/.ssh/authorized_keys
+
+STEP 7] run the kube-up.sh script to have cluster deployed. It will ask you for the password several times so be there.
+cd cluster
+export KUBE_VERSION=1.5.2
+$ KUBERNETES_PROVIDER=ubuntu ./kube-up.sh
+
+STEP 7a] edit the get-kube-binaries.sh file      sudo gedit get-kube-binaries.sh 
+          DOWNLOAD_URL_PREFIX="${KUBERNETES_RELEASE_URL}/${KUBE_VERSION}" to DOWNLOAD_URL_PREFIX="${KUBERNETES_RELEASE_URL}/v${KUBE_VERSION}"
+
+
+STEP 8] set PATH to have smooth working of binaries.
+
+            $ export PATH=$PATH:/<location of kubernetes>/kubernetes/cluster/ubuntu/binaries/
+
+            $ export PATH=$PATH:/opt/bin/
+
+STEP 9] some helpful commands.
+
+           $ kubectl get nodes
+
+           $ kubectl get pods -o wide
+
+           $ kubectl –help
+
+STEP 10] Access web UI at
+
+          http://172.20.75.106:8080/ui
