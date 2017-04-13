@@ -1,0 +1,26 @@
+https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository
+1. Remove any old version of docker sudo apt-get remove docker docker-engine
+2. sudo apt-get update
+3. sudo apt-get install linux-image-extra-$(uname -r) linux-image-extra-virtual
+4. install community version sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+5. curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+6. For AMD64: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+7. sudo apt-get update
+8. Test whether docker successfully instaled: sudo docker run hello-world 
+
+https://gettech1.wordpress.com/2016/05/26/setting-up-kubernetes-cluster-on-ubuntu-14-04-lts/
+STEP 1] Add your user to sudoers or switch to root user.
+
+STEP 2] Install prerequisites needed
+
+  2.1  Install docker on all hosts.
+       $sudo apt-get update
+       $sudo apt-key adv –keyserver hkp://pgp.mit.edu:80 –recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+       $ echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee /etc/apt/sources.list.d/docker.list  
+       $ sudo apt-get update
+       $ sudo apt-get install docker-engine=1.8.3-0~trusty
+       $ docker -v
+       
+  2.2 Install bridge-utils which is needed for container management inside pods.
+
+       $ sudo apt-get install bridge-utils

@@ -1,9 +1,0 @@
-https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository
-1. Remove any old version of docker sudo apt-get remove docker docker-engine
-2. sudo apt-get update
-3. sudo apt-get install linux-image-extra-$(uname -r) linux-image-extra-virtual
-4. install community version sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
-5. curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-6. For AMD64: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-7. sudo apt-get update
-8. Test whether docker successfully instaled: sudo docker run hello-world 
