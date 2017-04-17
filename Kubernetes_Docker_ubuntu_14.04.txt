@@ -1,94 +1,84 @@
-https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository
-1. Remove any old version of docker sudo apt-get remove docker docker-engine
-2. sudo apt-get update
-3. sudo apt-get install linux-image-extra-$(uname -r) linux-image-extra-virtual
-4. install community version sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
-5. curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-6. For AMD64: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-7. sudo apt-get update
-8. Test whether docker successfully instaled: sudo docker run hello-world 
+http://blog.guthnur.net/kubernetes-ubuntu-installation/
 
-https://gettech1.wordpress.com/2016/05/26/setting-up-kubernetes-cluster-on-ubuntu-14-04-lts/
-STEP 1] Add your user to sudoers or switch to root user.
+1. Lets get the pre-requisite software packages installed
 
-STEP 2] Install prerequisites needed
+sudo apt-get update
+asudo pt-get install ssh
+sudo apt-get install docker.io
+sudo apt-get install curl
+sudo apt-get install git
 
-  2.1  Install docker on all hosts.
-       $sudo apt-get update
-       $sudo apt-key adv –keyserver hkp://pgp.mit.edu:80 –recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-       $ echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" | sudo tee /etc/apt/sources.list.d/docker.list  
-       $ sudo apt-get update
-       $ sudo apt-get install docker-engine=1.8.3-0~trusty
-       $ docker -v
-       
-  2.2 Install bridge-utils which is needed for container management inside pods.
 
-       $ sudo apt-get install bridge-utils
+2. Password-less ssh login setup, accept all the default parameters in the prompt of the below command (required for Kubernetes installation) Assuming your account is root, then the path start with /root/ otherwise is the name of your root account
 
-STEP 3] clone git repo  
+$ ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_rsa.pub.
+The key fingerprint is:
+e1:c9:a5:dd:80:ee:cd:f0:c8:11:6c:a5:d4:ba:ff:cc root@vkohli-Latitude-E7440
+The key's randomart image is:
 
-         $ sudo apt-get install git -y
+3a. Copy the ssh id_rsa key locally
 
-         $ git clone https://github.com/kubernetes/kubernetes.git
+$ ssh-copy-id -i /root/.ssh/id_rsa.pub 127.0.0.1
 
-STEP 4] Download and Install necessary binaries
+3b. In case this fails you can do it by hand. By doing:
 
-         $ cd kubernetes/cluster/ubuntu
+$ cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
 
-         $ ./download-release.sh
 
-         $ ls binaries/
+4. Validate the password-less ssh-login
 
-STEP 5] Configure cluster and define roles of each machine in the cluster. Edit config_default.sh file to have following.
+$ ssh root@127.0.0.1
+$exit
+logout
+Connection to 127.0.0.1 closed
 
-        $ vi config-default.sh
+5. Get the Kubernetes release bundle from the official github repository
+cd ~/Downloads
+$ wget https://github.com/GoogleCloudPlatform/kubernetes/releases/download/v1.0.1/kubernetes.tar.gz
 
-      export nodes=${nodes:-“devops@172.20.75.106 devops@172.20.75.128 devops@172.20.75.196”}
+6. Untar the Kubernetes bundle in the same directory
 
-    roles=${roles:-“ai i i”}
+$ tar -xvf kubernetes.tar.gz
 
-    export NUM_NODES=${NUM_NODES:-3}
+7. We will build the binaries of Kubernetes code specifically for ubuntu cluster
 
-    export
+$ cd kubernetes/cluster/ubuntu
 
-    SERVICE_CLUSTER_IP_RANGE=${SERVICE_CLUSTER_IP_RANGE:-192.168.3.0/24}
+8. Execute the following shell script
 
-    export FLANNEL_NET=${FLANNEL_NET:-172.16.0.0/16}
+$ ./build.sh
+Download flannel release ...
+......
+Done! All your commands locate in ./binaries dir
 
-Note :- do not touch other parameters of the file.
- 
+9. This shell script will download and build the latest version of K8s, etcd and flannel binaries which can be found at following location;
 
-STEP 6] generate rsa key . This is needed for kubernete deployment
+$ cd binaries
+$ ls
+kubectl  master  minion
 
-        $ ssh-keygen -t rsa
-        
-        Enter a name: kubernete
+kubectl binary controls the Kubernetes cluster manager and the folder master & minion contains the binaries built for the purpose of configuring K8s master and node respectively.
 
-        $ cat /root/.ssh/kubernete.pub >> /root/.ssh/authorized_keys
+10. Configure the cluster information by editing only the following parameters of the file cluster/ubuntu/config-default.sh in the editor of your choice.
 
-STEP 7] run the kube-up.sh script to have cluster deployed. It will ask you for the password several times so be there.
-cd cluster
-export KUBE_VERSION=1.5.2
+$ cd ~/Downloads/ubernetes/cluster/ubuntu
+$ sudo vi config-default.sh
+export nodes="root@127.0.0.1"
+export roles="ai"
+export NUM_MINIONS=${NUM_MINIONS:-1}
+
+Only update the above mentioned information in the file, rest of the configuration will remain as it is. The first variable nodes defines all the cluster nodes, in our case same machine will be configured as master and node so it contains only one entry.The role below “ai” specifies that same machine will act as master, “a” stands for master and “i” stands for node.
+
+11. Now, we will be starting the cluster with the following command;
+
+$ cd kubernetes/cluster
 $ KUBERNETES_PROVIDER=ubuntu ./kube-up.sh
-
-STEP 7a] edit the get-kube-binaries.sh file      sudo gedit get-kube-binaries.sh 
-          DOWNLOAD_URL_PREFIX="${KUBERNETES_RELEASE_URL}/${KUBE_VERSION}" to DOWNLOAD_URL_PREFIX="${KUBERNETES_RELEASE_URL}/v${KUBE_VERSION}"
-
-
-STEP 8] set PATH to have smooth working of binaries.
-
-            $ export PATH=$PATH:/<location of kubernetes>/kubernetes/cluster/ubuntu/binaries/
-
-            $ export PATH=$PATH:/opt/bin/
-
-STEP 9] some helpful commands.
-
-           $ kubectl get nodes
-
-           $ kubectl get pods -o wide
-
-           $ kubectl –help
-
-STEP 10] Access web UI at
-
-          http://172.20.75.106:8080/ui
+Starting cluster using provider: ubuntu
+........
+Kubernetes master is running at http://127.0.0.1:8080
