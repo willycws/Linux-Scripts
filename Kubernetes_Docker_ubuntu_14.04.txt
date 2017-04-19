@@ -82,3 +82,116 @@ $ KUBERNETES_PROVIDER=ubuntu ./kube-up.sh
 Starting cluster using provider: ubuntu
 ........
 Kubernetes master is running at http://127.0.0.1:8080
+
+
+Creating Docker image on Ubuntu 14.04
+--------------------------------------
+http://michal.karzynski.pl/blog/2015/04/19/packaging-django-applications-as-docker-container-images/
+1. sudo apt-get install wget
+2. wget -qO- https://get.docker.com/ | sh
+3. sudo usermod -aG docker `whoami` #If you want to be able to run Docker containers as your user, not only as root, you should add yourself to the group called docker using the following command.
+4. mkdir -p dockyard/hello_django_docker
+5. cd dockyard/hello_django_docker
+6. git clone https://github.com/postrational/hello_django.git #download a sample of a django project
+7. Create an entry-point script
+
+A Docker container can use an script as the default command which will be fired when the container is run. In our case we will use the following script as the entry point.
+docker-entrypoint.sh
+
+#!/bin/bash
+python manage.py migrate                  # Apply database migrations
+python manage.py collectstatic --noinput  # Collect static files
+
+# Prepare log files and start outputting logs to stdout
+touch /srv/logs/gunicorn.log
+touch /srv/logs/access.log
+tail -n 0 -f /srv/logs/*.log &
+
+# Start Gunicorn processes
+echo Starting Gunicorn.
+exec gunicorn hello.wsgi:application \
+    --name hello_django \
+    --bind 0.0.0.0:8000 \
+    --workers 3 \
+    --log-level=info \
+    --log-file=/srv/logs/gunicorn.log \
+    --access-logfile=/srv/logs/access.log \
+    "$@"
+8. Create the Dockerfile
+We will now make the container definition file named Dockerfile. Create the file and give it the following content.
+Dockerfile
+
+############################################################
+# Dockerfile to run a Django-based web application
+# Based on an Ubuntu Image
+############################################################
+
+# Set the base image to use to Ubuntu
+FROM ubuntu:14.04
+FROM python:2.7
+
+# Set the file maintainer (your name - the file's author)
+MAINTAINER Michal Karzynski
+
+# Set env variables used in this Dockerfile (add a unique prefix, such as DOCKYARD)
+# Local directory with project source
+ENV DOCKYARD_SRC=hello_django
+# Directory in container for all project files
+ENV DOCKYARD_SRVHOME=/srv
+# Directory in container for project source files
+ENV DOCKYARD_SRVPROJ=/srv/hello_django
+
+# Update the default application repository sources list
+RUN apt-get update && apt-get -y upgrade
+RUN apt-get install -y python python-pip
+
+# Create application subdirectories
+WORKDIR $DOCKYARD_SRVHOME
+RUN mkdir media static logs
+VOLUME ["$DOCKYARD_SRVHOME/media/", "$DOCKYARD_SRVHOME/logs/"]
+
+# Copy application source code to SRCDIR
+COPY $DOCKYARD_SRC $DOCKYARD_SRVPROJ
+
+# Install Python dependencies
+RUN pip install -r $DOCKYARD_SRVPROJ/requirements.txt
+
+# Port to expose
+EXPOSE 8000
+
+# Copy entrypoint script into the image
+WORKDIR $DOCKYARD_SRVPROJ
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+
+**if encounter error Could not resolve 'archive.ubuntu.com'
+a. Uncomment the following line in /etc/default/docker
+    DOCKER_OPTS="--dns 8.8.8.8 --dns 8.8.4.4"
+b. Restart the Docker service sudo service docker restart
+c. Delete any images which have cached the invalid DNS settings.
+d. Build again and the problem should be solved.
+
+9. Place both "docker-entrypoint.sh" and "Dockerfile" into ~/dockyard/hello_django_docker
+10. docker build -t michal/hello_django ~/dockyard/hello_django_docker # build the image
+11. docker images #list all the docker images
+12. docker run --publish=8001:8000 michal/hello_django:latest #to test your image
+13. http://127.0.0.1:8001 # to display the django web app
+14. Running the container in detached mode, use --detach=true
+
+docker run --name=hello_django \
+    --detach=true \
+    --restart=always \
+    --publish=8001:8000 \
+    michal/hello_django:latest
+
+15. docker ps #list all running docker images
+16. docker logs -f hello_django #follow the logs which are being output by the processes running in the container
+17. docker stop hello_django
+18. docker start hello_django
+19. docker restart hello_django
+20. Delete a container
+  docker stop hello_django
+  docker rm hello_django
+
+
