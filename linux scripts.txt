@@ -98,6 +98,11 @@ Set up xrdp session that reuses an existing session
 2. Use another Linux machine, ssh xx.xx.xx.xxx to the machine you wish to login
 3. sudo vi /etc/xrdp/xrdp.ini
 4. Change the value of [xrdp1] port=5912
+5. If still show "error connecting", then use another Linux machine, terminal and execute the following command:
+      netstat -an |grep "LISTEN"
+6. Then find 127.0.0.1:59**, that will be the port that is currently running the xrdp.
+7. Place the port no. value to the one shown in point 4.
+8. wq!
 
 Windows 8 Dell Sound Issue:
 ---------------------------
