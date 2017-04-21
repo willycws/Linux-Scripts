@@ -88,6 +88,13 @@ To stop a docker image from running
 1. docker ps #to check the id for the image you are running
 2. docker stop <id>
 
+To generate the requirements.txt for each app (contains all the python packages required to be installed in the docker image)
+-----------------------------------------------------------------------------------------------------------------------------
+1. pip install pipreqs
+2. cd <to_project_location>
+3. pipreqs .
+
+
 Creating Docker image on Ubuntu 14.04
 --------------------------------------
 http://michal.karzynski.pl/blog/2015/04/19/packaging-django-applications-as-docker-container-images/
