@@ -83,6 +83,10 @@ Starting cluster using provider: ubuntu
 ........
 Kubernetes master is running at http://127.0.0.1:8080
 
+To stop a docker image from running
+-----------------------------------
+1. docker ps #to check the id for the image you are running
+2. docker stop <id>
 
 Creating Docker image on Ubuntu 14.04
 --------------------------------------
