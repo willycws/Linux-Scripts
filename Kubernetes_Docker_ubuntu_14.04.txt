@@ -211,3 +211,6 @@ docker run --name=hello_django \
   docker rm hello_django
 
 
+Run docker without Gunicorn with Java, Pyspark and Python packages installed
+----------------------------------------------------------------------------
+DockerFile
