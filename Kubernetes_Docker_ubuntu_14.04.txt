@@ -298,3 +298,5 @@ WORKDIR $DOCKYARD_SRVPROJ_MANAGE
 CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 **remember to add 0.0.0.0 to the settings.py (ALLOWED_HOSTS) in the Django project 
+To build the Django Docker image: $docker build -t view/manage .
+To run the Django docker image: $docker run -ti --rm --net host view/manage
