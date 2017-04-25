@@ -214,3 +214,87 @@ docker run --name=hello_django \
 Run docker without Gunicorn with Java, Pyspark and Python packages installed
 ----------------------------------------------------------------------------
 DockerFile
+############################################################
+# Dockerfile to run a Django-based web application
+# Based on an Ubuntu Image
+############################################################
+
+# Set the base image to use to Ubuntu
+FROM ubuntu:14.04
+FROM python:2.7
+
+# Set the file maintainer (your name - the file's author)
+MAINTAINER Willy
+
+# Set env variables used in this Dockerfile (add a unique prefix, such as DOCKYARD)
+# Local directory with project source
+ENV DOCKYARD_SRC_MANAGE=manage
+ENV DOCKYARD_SRC_VISUALIZATION=visualization
+# Directory in container for all project files
+ENV DOCKYARD_SRVHOME=/srv
+# Directory in container for project source files
+ENV DOCKYARD_SRVPROJ_MANAGE=/srv/manage
+ENV DOCKYARD_SRVPROJ_VISUALIZATION=/srv/visualization
+
+ENV SPARK_HOME=/usr/local/spark 
+ENV PATH=$SPARK_HOME:$PATH
+ENV PYTHONPATH=$SPARK_HOME/python:$PYTHONPATH
+ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
+ENV LANG C.UTF-8
+
+# Install Java. 
+RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee -a /etc/apt/sources.list
+RUN echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | tee -a /etc/apt/sources.list
+RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && apt-get update && apt-get install -y curl dnsutils oracle-java8-installer ca-certificates
+# Update the default application repository sources list
+RUN apt-get update && apt-get -y upgrade
+RUN apt-get install -y python python-pip python-yaml
+RUN apt-get -yqq update
+RUN apt-get install -yqq vim screen tmux
+RUN apt-get clean
+RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /tmp/*
+RUN wget -qO - http://d3kbcqa49mib13.cloudfront.net/spark-2.1.0-bin-hadoop2.6.tgz | tar -xz -C /usr/local/
+RUN ln -s /usr/local/spark-2.1.0-bin-hadoop2.6 /usr/local/spark
+RUN cp /usr/local/spark/conf/log4j.properties.template /usr/local/spark/conf/log4j.properties
+RUN sed -i -e s/WARN/ERROR/g /usr/local/spark/conf/log4j.properties
+RUN sed -i -e s/INFO/ERROR/g /usr/local/spark/conf/log4j.properties
+
+
+
+# We will be running our Spark jobs as `root` user. 
+USER root 
+# Working directory is set to the home folder of `root` user. 
+WORKDIR /root 
+# Expose ports for monitoring. 
+# SparkContext web UI on 4040 -- only available for the duration of the application. 
+# Spark master’s web UI on 8080. 
+# Spark worker web UI on 8081. 
+#EXPOSE 4040 8080 8081
+
+# Create application subdirectories
+WORKDIR $DOCKYARD_SRVHOME
+RUN mkdir logs
+VOLUME ["$DOCKYARD_SRVPROJ_VISUALIZATION/resources/", "$DOCKYARD_SRVPROJ_MANAGE/output/", "$DOCKYARD_SRVHOME/logs/"]
+
+# Copy Django and python application source code to SRCDIR
+COPY $DOCKYARD_SRC_MANAGE $DOCKYARD_SRVPROJ_MANAGE
+COPY $DOCKYARD_SRC_VISUALIZATION $DOCKYARD_SRVPROJ_VISUALIZATION
+
+# Install Python dependencies
+RUN pip install -r $DOCKYARD_SRVPROJ_MANAGE/requirements.txt
+RUN pip install -r $DOCKYARD_SRVPROJ_VISUALIZATION/requirements.txt
+
+# Port to expose
+EXPOSE 8000
+
+# Copy entrypoint script into the image
+WORKDIR $DOCKYARD_SRVPROJ_MANAGE
+#COPY ./docker-entrypoint.sh /
+#ENTRYPOINT ["/docker-entrypoint.sh"]
+
+#CMD ["/bin/bash"]
+CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+**remember to add 0.0.0.0 to the settings.py (ALLOWED_HOSTS) in the Django project 
