@@ -201,3 +201,8 @@ True
 >>> c.delete()
 
 Reference: https://docs.djangoproject.com/en/1.10/intro/tutorial02/
+
+
+Delete all objects in the Reporter model
+---------------------------------------
+Reporter.objects.all().delete()
