@@ -300,3 +300,8 @@ CMD [ "python", "manage.py", "runserver", "0.0.0.0:8000"]
 **remember to add 0.0.0.0 to the settings.py (ALLOWED_HOSTS) in the Django project 
 To build the Django Docker image: $docker build -t view/manage .
 To run the Django docker image: $docker run -ti --rm --net host view/manage
+
+If require bash access to an existing running docker image
+----------------------------------------------------------
+sudo docker exec -i -t <running_docker_image_id> /bin/bash
+where you can use docker ps to find out the image id for the running docker image
