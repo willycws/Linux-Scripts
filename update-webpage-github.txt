@@ -15,7 +15,10 @@ http://user.github.io/repository/
 To include other project from another repository:
 -------------------------------------------------
 1. Create a .gitmodules in your current project
-2. 
+[submodule "visualization"]
+	path = visualization
+	url = git@bitbucket.org:company_name/visualization.git
+
 git fetch
 git checkout develop
 git pull origin develop
