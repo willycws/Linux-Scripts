@@ -12,10 +12,14 @@ git push origin gh-pages
 //access the webpage
 http://user.github.io/repository/
 
-
+To include other project from another repository:
+-------------------------------------------------
+1. Create a .gitmodules in your current project
+2. 
 git fetch
 git checkout develop
 git pull origin develop
 git checkout -b your_branch_name
 git submodule update --init --recursive (# then visualisation will be in your current directory)
 ## you can run in docker or locally
+
