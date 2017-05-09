@@ -1,0 +1,10 @@
+Create a new folder in SVN repository
+-------------------------------------
+1. Open Eclipse
+2. Help --> Install New Software...
+3. On the dialog that appears, select a pre-configured simultaneous release update site in the Work with combo-box. For example, for the Juno release, select the "Juno - http://download.eclipse.org/releases/juno" update site.
+4. Expand the Collaboration group and select the Subversive features that you would like to install. Certain Subversive features are required if you want to work with SVN, others are optional and offer some additional functionality. You can skip the optional features, if you wish.
+5. Follow the next steps to install the selected Subversive features using the standard plug-in installation procedure. Reboot Eclipse after installation is complete.
+6. Open/Import Eclipse project
+7. Right click the project --> Team --> Share Projects...
+8. Follow the instructions to create a folder and store all the codes in the newly created folder
