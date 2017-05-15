@@ -26,3 +26,6 @@ git checkout -b your_branch_name
 git submodule update --init --recursive (# then visualisation will be in your current directory)
 ## you can run in docker or locally
 
+To pull the latest commit of the submodule to the current repository
+--------------------------------------------------------------------
+git submodule foreach git pull origin master
