@@ -306,6 +306,11 @@ If require bash access to an existing running docker image
 sudo docker exec -i -t <running_docker_image_id> /bin/bash
 where you can use docker ps to find out the image id for the running docker image
 
+To run docker with AWS user pass and key
+--------------------------
+docker run -e AWS_ACCESS_KEY_ID=<Key_id> -e AWS_SECRET_ACCESS_KEY=<Secret_key> -ti --rm --net host <docker_image_name>
+
+
 Useful articles:
 -----------------
 https://www.toadworld.com/platforms/oracle/w/wiki/11707.using-mysql-database-with-a-multi-node-kubernetes-cluster
