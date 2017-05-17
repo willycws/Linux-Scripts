@@ -206,3 +206,10 @@ Reference: https://docs.djangoproject.com/en/1.10/intro/tutorial02/
 Delete all objects in the Reporter model
 ---------------------------------------
 Reporter.objects.all().delete()
+
+Add os environment values to decide the type of DynamoDb to use or other things
+-------------------------------------------------------------------------------
+ENV=dev python manage.py runserver 0.0.0.0:10701
+inside your python code:
+import os
+ENV = os.environ.get('ENV')
