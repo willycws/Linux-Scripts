@@ -11,6 +11,13 @@ Setting up Kubernetes to run locally via minikube (Windows based OS)
     .\minikube get-k8s-versions
 8. Start the cluster
     .\minikube.exe start --kubernetes-version="v1.4.0" --vm-driver="virtualbox" --show-libmachine-logs --alsologtostderr
-
+9. Check cluster status
+    .\minikube.exe status
+    .\kubectl.exe cluster-info
+    .\kubectl version #check Kubernetes Client and Server version
+    .\minikube.exe ip #check cluster IP
+    .\minikube.exe dashboard --url=true http://192.168.99.100:30000 #run the dashboard and then copy and paste the url to the browser
+    
+    
 
 reference: https://rominirani.com/tutorial-getting-started-with-kubernetes-on-your-windows-laptop-with-minikube-3269b54a226
