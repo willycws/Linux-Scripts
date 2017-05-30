@@ -1,7 +1,7 @@
 Setting up Kubernetes to run locally via minikube (Windows based OS)
 --------------------------------------------------------------------
 1. Install VirtualBox (for Windows) https://www.virtualbox.org/wiki/Downloads
-2. Download docker-toolbox https://www.docker.com/products/docker-toolbox and kubectl http://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/windows/amd64/kubectl.exe
+2. Download docker-toolbox https://www.docker.com/products/docker-toolbox and kubectl http://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/windows/amd64/kubectl.exe and minikube-windows-amd64.exe https://github.com/kubernetes/minikube/releases
 3. Rename minikube-windows-amd64.exe to minikube.exe
 4. Copy minikube.exe & kubectl.exe to C: drive
 5. Launch Powershell with (Ctrl-Shift-Enter) to launch in administrative mode
