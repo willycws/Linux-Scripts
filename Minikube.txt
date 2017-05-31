@@ -1,17 +1,16 @@
 Setting up Kubernetes to run locally via minikube (Windows based OS)
 --------------------------------------------------------------------
-1. Install VirtualBox (for Windows) https://www.virtualbox.org/wiki/Downloads
-2. Download docker-toolbox https://www.docker.com/products/docker-toolbox and kubectl http://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/windows/amd64/kubectl.exe and minikube-windows-amd64.exe https://github.com/kubernetes/minikube/releases
-3. Rename minikube-windows-amd64.exe to minikube.exe
-4. Copy minikube.exe & kubectl.exe to C: drive
-5. Launch Powershell with (Ctrl-Shift-Enter) to launch in administrative mode
-6. cd to C:
-7. Perform some validation on the installation:
+1. Download docker-toolbox https://www.docker.com/products/docker-toolbox and kubectl http://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/windows/amd64/kubectl.exe and minikube-windows-amd64.exe https://github.com/kubernetes/minikube/releases
+2. Rename minikube-windows-amd64.exe to minikube.exe
+3. Copy minikube.exe & kubectl.exe to C: drive
+4. Launch Powershell with (Ctrl-Shift-Enter) to launch in administrative mode
+5. cd to C:
+6. Perform some validation on the installation:
     .\minikube --help
     .\minikube get-k8s-versions
-8. Start the cluster
+7. Start the cluster
     .\minikube.exe start --kubernetes-version="v1.4.0" --vm-driver="virtualbox" --show-libmachine-logs --alsologtostderr
-9. Check cluster status
+8. Check cluster status
     .\minikube.exe status
     .\kubectl.exe cluster-info
     .\kubectl version #check Kubernetes Client and Server version
