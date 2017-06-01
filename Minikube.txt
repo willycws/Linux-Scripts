@@ -16,6 +16,7 @@ Setting up Kubernetes to run locally via minikube (Windows based OS)
     .\kubectl version #check Kubernetes Client and Server version
     .\minikube.exe ip #check cluster IP
     .\minikube.exe dashboard --url=true http://192.168.99.100:30000 #run the dashboard and then copy and paste the url to the browser
+9. Install docker-toolbox.exe (make sure the option to install virtualbox is selected)
     
     
 
