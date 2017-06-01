@@ -1,3 +1,7 @@
+Some key terms:
+---------------
+A pod (as in a pod of whales or pea pod) is a group of one or more containers (such as Docker containers), the shared storage for those containers, and options about how to run the containers.
+
 Setting up Kubernetes to run locally via minikube (Windows based OS)
 --------------------------------------------------------------------
 1. Download docker-toolbox https://www.docker.com/products/docker-toolbox and kubectl http://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/windows/amd64/kubectl.exe and minikube-windows-amd64.exe https://github.com/kubernetes/minikube/releases
@@ -16,8 +20,16 @@ Setting up Kubernetes to run locally via minikube (Windows based OS)
     .\kubectl version #check Kubernetes Client and Server version
     .\minikube.exe ip #check cluster IP
     .\minikube.exe dashboard --url=true http://192.168.99.100:30000 #run the dashboard and then copy and paste the url to the browser
-9. Install docker-toolbox.exe (make sure the option to install virtualbox is selected)
-    
+9. .\kubectl.exe get nodes #to display a list of nodes    
+10. Install docker-toolbox.exe (make sure the option to install virtualbox is selected)
+
+Running an docker service/ Running a Workload Example 1 (https://hub.docker.com/_/nginx/)
+-------------------------------------------------------
+1. .\kubectl.exe run hello-nginx --image=nginx --port=80   #creates a deployment and we can investigate into the Pod that gets created, which will run the container
+2. .\kubectl.exe get pods #view status of the pods creation or use the minikube dashboard Workloads --> Deployments
+3. After a while, it will become "Running". You may also use minikube dashboard Workloads --> Deployments to view the latest status
+4. Minikube dashboard --> Workloads --> Replica Sets --> Click on the Replica Set name and it will show the Pod details
+5. 
     
 
 reference: https://rominirani.com/tutorial-getting-started-with-kubernetes-on-your-windows-laptop-with-minikube-3269b54a226
