@@ -39,7 +39,15 @@ Running an docker service/ Running a Workload Example 1 (https://hub.docker.com/
         b. .\kubectl.exe get services
         c. .\kubectl.exe describe service hello-nginx
 6. .\minikube.exe service --url=true hello-nginx #use the minikube service to understand the URL for the service 
-7. 
+7. View logs of pods
+    a. Minikube dashboard --> Services and discovery --> Services --> hello-nginx --> Show a list of pods. Click on the icon for Logs.
+    b. .\kubectl logs hello-nginx-2471083592-4vfz8
+8. Scaling the Service
+    .\kubectl scale --replicas=3 deployment/hello-nginx #scale it to 3 pods
+    .\kubectl.exe get deployment OR Minikube dashboard --> Workloads --> Deployments #check status of pods
+    Minikube dashboard --> Services and discovery --> Services --> hello-nginx #view the pods under this service
+    Minikube dashboard --> Workloads --> Pods --> also give you Pod details
+    
     
 
 reference: https://rominirani.com/tutorial-getting-started-with-kubernetes-on-your-windows-laptop-with-minikube-3269b54a226
