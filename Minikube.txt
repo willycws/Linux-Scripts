@@ -28,8 +28,18 @@ Running an docker service/ Running a Workload Example 1 (https://hub.docker.com/
 1. .\kubectl.exe run hello-nginx --image=nginx --port=80   #creates a deployment and we can investigate into the Pod that gets created, which will run the container
 2. .\kubectl.exe get pods #view status of the pods creation or use the minikube dashboard Workloads --> Deployments
 3. After a while, it will become "Running". You may also use minikube dashboard Workloads --> Deployments to view the latest status
-4. Minikube dashboard --> Workloads --> Replica Sets --> Click on the Replica Set name and it will show the Pod details
-5. 
+4. View node/pod details
+    a. .\kubectl.exe describe pod hello-nginx-xxxxxxxx-xxxxxx
+    b. Minikube dashboard --> Workloads --> Replica Sets --> Click on the Replica Set name and it will show the Pod details
+    c. Minikube dashboard --> Workloads --> Pods --> also give you Pod details
+5. Expose a service
+    .\kubectl.exe expose deployment hello-nginx --type=NodePort
+    View the service information
+        a. Minikube dashboard --> Services and discovery --> Services --> you can see the hello-nginx service entry
+        b. .\kubectl.exe get services
+        c. .\kubectl.exe describe service hello-nginx
+6. .\minikube.exe service --url=true hello-nginx #use the minikube service to understand the URL for the service 
+7. 
     
 
 reference: https://rominirani.com/tutorial-getting-started-with-kubernetes-on-your-windows-laptop-with-minikube-3269b54a226
