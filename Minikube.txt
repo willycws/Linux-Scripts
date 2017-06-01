@@ -47,7 +47,9 @@ Running an docker service/ Running a Workload Example 1 (https://hub.docker.com/
     .\kubectl.exe get deployment OR Minikube dashboard --> Workloads --> Deployments #check status of pods
     Minikube dashboard --> Services and discovery --> Services --> hello-nginx #view the pods under this service
     Minikube dashboard --> Workloads --> Pods --> also give you Pod details
-    
+9. Stopping and Deleting the Cluster    
+    stop: .\minikube stop
+    delete: .\minikube delete
     
 
 reference: https://rominirani.com/tutorial-getting-started-with-kubernetes-on-your-windows-laptop-with-minikube-3269b54a226
