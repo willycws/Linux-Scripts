@@ -53,3 +53,4 @@ Running an docker service/ Running a Workload Example 1 (https://hub.docker.com/
     
 
 reference: https://rominirani.com/tutorial-getting-started-with-kubernetes-on-your-windows-laptop-with-minikube-3269b54a226
+https://github.com/docker/toolbox/issues/473
