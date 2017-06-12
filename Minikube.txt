@@ -4,7 +4,21 @@ A pod (as in a pod of whales or pea pod) is a group of one or more containers (s
 
 Setting up Kubernetes to run locally via minikube (Windows based OS)
 --------------------------------------------------------------------
-1. Download docker-toolbox https://www.docker.com/products/docker-toolbox and kubectl http://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/windows/amd64/kubectl.exe and minikube-windows-amd64.exe https://github.com/kubernetes/minikube/releases
+1. Download 
+    Non Windows 10: docker-toolbox https://www.docker.com/products/docker-toolbox
+    Windows 10: https://download.docker.com/win/stable/InstallDocker.msi
+    
+    For InstallDocker.msi
+        a. open Turn Windows Features on or off
+        b. Select Hyper-V and restart
+        c. Install InstallDocker.msi
+        d. Open the Hyper-V manager
+        e. Select the Virtual Switch Manager on the left-side Actions panel
+        f. Set up a new external network switch to use instead of Docker NAT network switch (for Moby), which is set up by default when you install Docker for Windows.
+        g. For this example, we created a virtual switch called "My Virtual Switch" --> Select External network --> checked "Allow management operating system to share this network adapter"
+        h. docker-machine create --driver hyperv willy #create a docker machine
+                
+2. Download kubectl http://storage.googleapis.com/kubernetes-release/release/v1.4.0/bin/windows/amd64/kubectl.exe and minikube-windows-amd64.exe https://github.com/kubernetes/minikube/releases
 2. Rename minikube-windows-amd64.exe to minikube.exe
 3. Copy minikube.exe & kubectl.exe to C: drive
 4. Launch Powershell with (Ctrl-Shift-Enter) to launch in administrative mode
@@ -13,7 +27,8 @@ Setting up Kubernetes to run locally via minikube (Windows based OS)
     .\minikube --help
     .\minikube get-k8s-versions
 7. Start the cluster
-    .\minikube.exe start --kubernetes-version="v1.4.0" --vm-driver="virtualbox" --show-libmachine-logs --alsologtostderr
+    .\minikube.exe start --kubernetes-version="v1.5.2" --vm-driver="hyperv" --memory=1024 --hyperv-virtual-switch="My Virtual Switch" --v=7 --alsologtostderr --show-libmachine-logs
+    
 8. Check cluster status
     .\minikube.exe status
     .\kubectl.exe cluster-info
@@ -52,5 +67,7 @@ Running an docker service/ Running a Workload Example 1 (https://hub.docker.com/
     delete: .\minikube delete
     
 
-reference: https://rominirani.com/tutorial-getting-started-with-kubernetes-on-your-windows-laptop-with-minikube-3269b54a226
+reference: 
+https://rominirani.com/tutorial-getting-started-with-kubernetes-on-your-windows-laptop-with-minikube-3269b54a226
 https://github.com/docker/toolbox/issues/473
+https://blogs.msdn.microsoft.com/wasimbloch/2017/01/23/setting-up-kubernetes-on-windows10-laptop-with-minikube/
