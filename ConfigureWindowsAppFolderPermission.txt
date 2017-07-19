@@ -1,0 +1,3 @@
+https://www.howtogeek.com/howto/8739/restrict-users-to-run-only-specified-programs-in-windows-7/
+
+https://www.reich-consulting.net/2010/10/28/fix-error-this-operation-has-been-cancelled-due-to-restrictions-in-effect-on-this-computer/
