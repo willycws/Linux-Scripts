@@ -1,3 +1,11 @@
 https://www.howtogeek.com/howto/8739/restrict-users-to-run-only-specified-programs-in-windows-7/
 
 https://www.reich-consulting.net/2010/10/28/fix-error-this-operation-has-been-cancelled-due-to-restrictions-in-effect-on-this-computer/
+
+
+If after making changes to the regedit and none of the programs can be launched (including Notepad), reboot the PC in "Safe Mode with a Command Prompt. " by pressing F8 while in booting stage.
+Log on to your computer with an administrator account or with an account that has administrator credentials. 
+Enter regedit in the cmd
+Removed the RestrictRun keys and folder
+in the cmd enter shutdown /s
+Reboot to normal Windows and login
