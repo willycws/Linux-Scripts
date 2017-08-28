@@ -5,4 +5,4 @@ Use an EC2 instance with a mysql cli installed
 mysql -u [your_master_username] -p -h YOURRDSENDPOINT.rds.amazonaws.com
 
 CREATE USER 'jeffrey'@'%' IDENTIFIED BY 'somepassword';
-GRANT SELECT ON [your_database].[some_table] TO 'jeffrey'@'%';
+GRANT ALL PRIVILEGES ON [your_database] . * TO 'jeffrey'@'%';
