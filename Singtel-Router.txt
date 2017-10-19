@@ -1,0 +1,42 @@
+Convert old Singtel Router to become AP (tested on DSL7002GRV)
+--------------------------------------------------------------
+1. On your old Singtel Router, do not plug your router to any LAN connection.
+2. By default Singtel admin page IP 192.168.1.254/singtel username: admin, password: H3ll0t3ch
+3. Go to Management --> Restore Default (to restore the router to its default settings)
+4. After restore --> Home Network --> WLAN --> 
+    Under 2.5GHz
+      a. rename SSID
+      b. enter a new SSID key under the "WPA Pre-Shared Key"
+      c. Click Save/Apply
+    Under 5.0GHz
+      a. rename SSID with (5G)
+      b. enter a new SSID key under the "WPA Pre-Shared Key"
+      c. Click Save/Apply
+5. Under Home Network --> Settings --> Select "Disable DHCP Server" --> Click Save/Reboot
+
+For mobile devices that cannot connect automatically to the AP
+--------------------------------------------------------------
+1. iOS
+  a. Tap on the Settings app. --> Tap on the Wi-Fi settings 
+  b. Identify the SSID that you wish to connect
+  c. Select the "info" or "arrow" icon
+  d. Select Static
+  e. Enter the following details
+        IP Address: 192.168.1.x (where x can be any number between 1 to 253)
+        Subnet mask: 255.255.255.0
+        Router: 192.168.1.1
+        DNS: 8.8.8.8
+  f. Enter the pass key to the SSID
+  
+2. Android
+  a. Tap on the Settings icon --> Tap on the Wi-Fi 
+  b. Identify the SSID that you wish to connect
+  c. Enter the pass key to the SSID
+  d. Check "Show Advanced options" & scroll to see more inputs
+  e. Enter the following details
+        IP settings: Static
+        IP Address: 192.168.1.x (where x can be any number between 1 to 253)
+        Gateway: 192.168.1.1
+        Network prefix length: 24
+        DNS: 8.8.8.8    
+  f. Click Connect      
